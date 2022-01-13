@@ -134,40 +134,6 @@ function draw() {
     }
   }
 
-  function drawMusic() {
-    colorHue = color(`rgb(${r}%, ${g}%,${b}%)`);
-    irregularity = freqValue;
-
-    fill(255, 255, 255, 10);
-    noStroke();
-    rect(0, 0, width, height);
-
-    // shift shape to middle of canvas
-    translate(width / 2, height / 2);
-    //rotate(gyroscopeX[note])
-
-    noFill();
-    strokeWeight(2);
-    stroke(colorHue);
-    // create irregular circle
-    for (let j = 0; j < 4; j++) {
-      beginShape();
-
-      for (let i = 0; i < 50; i += TWO_PI / irregularity) {
-        let x = cos(i);
-        let y = sin(i);
-        let randomNoise = noise(
-          (x + 5) * noiseScale,
-          y * noiseScale,
-          frameCount / (400 - freqValue) //speed
-        );
-        let radius = baseRadius * randomNoise;
-        curveVertex(radius * x, radius * y + 10 * j);
-      }
-      endShape();
-    }
-  }
-
   function defineColor() {
     //Get temperature highest and lowest values
     let lowest;
