@@ -32,7 +32,7 @@ let accelX = "accel_x (m/s^2)";
 let motor, temperature, force, seconds, gyroscopeX;
 const AMinorScale = ["A", "B", "C", "D", "E", "F", "G"];
 let FChord, IChord, IIChord, IIIChord, IVChord, VChord;
-let synthF, synthT, forcePart, temperaturePart;
+let synthF, synthT, majorPart, melodyPart;
 let highOctaveChords;
 let mainChords = [];
 let mainMelody = [];
@@ -43,9 +43,6 @@ async function preload() {
 
 function setup() {
   createCanvas(400, 400);
-  playButton = createButton("play");
-  playButton.position(275, height / 2);
-  playButton.mousePressed(playMelody);
 
   // Define data
   motor = data.getColumn(mtr);
@@ -65,10 +62,11 @@ function setup() {
 
   // Set the BPM (beats per minute)
   Tone.Transport.bpm.value = 1;
+  Tone.Transport.start();
 
   // FORCE - The main chords
   // Use a synth as an instrument to play chords
-  synthF = new Tone.PolySynth(4, Tone.Synth, {
+  synthMajor = new Tone.PolySynth(4, Tone.Synth, {
     volume: -6,
     oscillator: {
       type: "sawtooth",
@@ -78,9 +76,9 @@ function setup() {
   // Progression or sequence
   constructForceChords();
 
-  // Use part to encapsulate chords into single unit
-  forcePart = new Tone.Part(function (time, note) {
-    synthF.triggerAttackRelease(note.note, note.duration, time);
+  //Use part to encapsulate chords into single unit
+  majorPart = new Tone.Part(function (time, note) {
+    synthMajor.triggerAttackRelease(note.note, note.duration, time);
   }, mainChords).start(0);
 
   //TEMPERATURE - The main melody
@@ -98,7 +96,7 @@ function setup() {
   //   },
   // }).toMaster();
 
-  // temperaturePart = new Tone.Part(function (time, note) {
+  // melodyPart = new Tone.Part(function (time, note) {
   //   synthT.triggerAttackRelease(note.note, note.duration, time);
   // }, mainMelody).start(0);
 }
@@ -225,15 +223,5 @@ function draw() {
   if (Tone.Transport.state === "started") {
     defineColor();
     drawMusic();
-  }
-}
-
-function playMelody() {
-  if (Tone.Transport.state == "started") {
-    Tone.Transport.stop();
-    playButton.html("play");
-  } else {
-    Tone.Transport.start();
-    playButton.html("stop");
   }
 }

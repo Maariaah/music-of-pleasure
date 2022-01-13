@@ -14,7 +14,9 @@ function drawMusic() {
   let irregularity = 50;
   let baseRadius = 200;
   let noiseScale = 1;
+
   colorHue = color(`rgb(${r}%, ${g}%,${b}%)`);
+
   midiVal = force[noteIndex % force.length];
   freqValue = midiToFreq(midiVal);
   noteIndex++;
