@@ -120,7 +120,6 @@ function setup() {
 function draw() {
   background(0);
   drawWaveform(wave, fft);
-  defineColor();
 }
 
 function drawWaveform(wave, fft) {
