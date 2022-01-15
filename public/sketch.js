@@ -102,7 +102,7 @@ function setup() {
     .toMaster();
 
   // Set the BPM (beats per minute)
-  Tone.Transport.bpm.value = 0.5;
+  Tone.Transport.bpm.value = 0.6;
 
   // Progression or sequence
   constructForceChords();
@@ -132,19 +132,31 @@ function drawWaveform(wave, fft) {
   // text("Frequency: " + frequency, 20, 20);
   //text("Wave: " + waveform.length, 20, 40);
   // text("Envelope: " + envelope.attack, 20, 60);
-
   // translate(width / 2, height / 2);
-  stroke(255);
-  noFill();
 
-  let r = 300;
+  let r = 400;
   let add = 300;
-  let splitCircle = 0.001;
-  let curveBase = (2 * Math.PI) / splitCircle;
+  let splitCircle = 0.003;
+  let curveBase = (5 * Math.PI) / splitCircle;
+  let lowest = temperature.sort((a, b) => a - b)[0];
+  let highest = temperature.sort((a, b) => b - a)[0];
+
   for (j = 0; j < splitCircle; j++) {
     beginShape();
-
     for (i = 0; i < waveform.length; i++) {
+      noFill();
+      stroke(
+        map(
+          parseInt(temperature[i] * 10),
+          parseInt(lowest * 10),
+          parseInt(highest * 10),
+          0,
+          225
+        ),
+        110,
+        110
+      );
+
       let x = map(i, 0, waveform.length - 1, 0, curveBase);
       let y = map(waveform[i], 0, 255, 0, add);
       let y_r = map(waveform[waveform.length - i - 1], 0, 255, 0, add);
