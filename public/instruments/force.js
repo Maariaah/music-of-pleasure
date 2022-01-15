@@ -1,3 +1,72 @@
+// FORCE - The major
+let frequency;
+var env;
+let envelope;
+let wave;
+let prevNote;
+let volume = -6;
+let fft;
+var resolution = 128;
+var progress = 0;
+let lfo;
+let mainChords = [];
+let mainMelody = [];
+let IChord, IIChord, IIIChord, IVChord, VChord;
+
+function initializeForce() {
+  // Define chords
+  IChord = constructMajorChord(AMinorScale, 3, "A3");
+  IIChord = constructMajorChord(AMinorScale, 3, "E4");
+  IIIChord = constructMajorChord(AMinorScale, 4, "F3");
+  IVChord = constructMajorChord(AMinorScale, 4, "D4");
+  VChord = constructMajorChord(AMinorScale, 3, "G4");
+
+  // Set the BPM (beats per minute)
+  Tone.Transport.bpm.value = 0.6;
+
+  // // Set volume
+  vol = new Tone.Volume();
+
+  // Set Low frequency oscilator
+  lfo = new Tone.LFO("4n", 100, 2000);
+
+  // Analyse frequency/amplitude of signal
+  fft = new Tone.FFT();
+
+  // Get waveform data of signal
+  wave = new Tone.Waveform(resolution);
+
+  // Create Envelope for visualisation
+  env = new Tone.AmplitudeEnvelope();
+
+  Tone.Transport.start();
+
+  // Use a synth as an instrument to play chords
+  synthMajor = new Tone.PolySynth(4, Tone.Synth, {
+    volume: -10,
+    oscillator: {
+      type: "sawtooth",
+    },
+  })
+    .connect(wave)
+    .connect(fft)
+    .connect(env)
+    .toMaster();
+
+  // Progression or sequence
+  constructForceChords();
+
+  //Use part to encapsulate chords into single unit
+  majorPart = new Tone.Part(function (time, note) {
+    // Prevent playing a note if it is same as previous one
+    if (prevNote != note.note) {
+      synthMajor.triggerAttackRelease(note.note, note.duration, time);
+    }
+
+    prevNote = note.note;
+  }, mainChords).start(0);
+}
+
 function constructForceChords() {
   for (let i = 0; i < seconds.length; i++) {
     defineForceChords(force[i], seconds[i]);
@@ -85,71 +154,4 @@ function defineForceChords(value, seconds) {
   }
 
   return mainChords;
-}
-
-function constructTemperatureChords() {
-  for (let i = 0; i < seconds.length; i++) {
-    defineTempChords(temperature[i] * 10), seconds[i];
-  }
-}
-
-function defineTempChords(value, seconds) {
-  // ['A4', 'B4', 'C4', 'D4', 'E4', 'F4', 'G4'];
-
-  if (value <= 40) {
-    mainMelody.push({
-      time: seconds,
-      note: "G4",
-      duration: "4n",
-    });
-  }
-  if (value > 40 && value <= 50) {
-    mainMelody.push({
-      time: seconds,
-      note: "F4",
-      duration: "4n",
-    });
-  }
-  if (value > 50 && value <= 60) {
-    mainMelody.push({
-      time: seconds,
-      note: "D4",
-      duration: "4n.",
-    });
-  }
-  if (value > 60 && value <= 70) {
-    mainMelody.push({
-      time: seconds,
-      note: "D4",
-      duration: "4n",
-    });
-  }
-  if (value > 70 && value <= 80) {
-    mainMelody.push({
-      time: seconds,
-      note: "F4",
-      duration: "4n.",
-    });
-  }
-  if (value > 80 && value <= 90) {
-    mainMelody.push({
-      time: seconds,
-      note: "A4",
-      duration: "2n",
-    });
-  }
-  if (value > 100 && value <= 110) {
-    mainMelody.push({
-      time: seconds,
-      note: "A4",
-      duration: "4n",
-    });
-  } else {
-    mainMelody.push({
-      time: seconds,
-      note: "A4",
-      duration: "2n",
-    });
-  }
-  return tChordsObject;
 }
