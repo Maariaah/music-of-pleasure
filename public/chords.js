@@ -6,7 +6,6 @@ function constructForceChords() {
 
 function defineForceChords(value, seconds) {
   // ['A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4'];
-  // console.log(value)
 
   if (value <= 20) {
     mainChords.push({
