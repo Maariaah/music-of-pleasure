@@ -23,7 +23,6 @@ class Particle {
   }
 }
 
-
   // for (let i = 0; i < 360; i++) {
   //   let r = 5;
   //   let x = r * cos(i);
