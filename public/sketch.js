@@ -32,6 +32,8 @@ let accelX = "accel_x (m/s^2)";
 let motor, temperature, force, seconds, gyroscopeX;
 const AMinorScale = ["A", "B", "C", "D", "E", "F", "G"];
 let synthF, synthT, majorPart, melodyPart;
+let note = 0;
+let speed;
 
 async function preload() {
   data = await loadTable("./data/1483243201.csv", "csv", "header");
@@ -48,15 +50,25 @@ function setup() {
   seconds = data.getColumn(s);
   gyroscopeX = data.getColumn(gyroX);
 
-  initializeForce();
-  // initializeTemperature();
-  //initializeAccel()
-  //initializeGyro()
-  //initializeBass()
-  // initializeKicks()
+  // Set the BPM (beats per minute)
+  Tone.Transport.bpm.value = 2;
+
+  // initializeForce();
+  // initializeAccelerator();
+  initializeDrums();
+  //initializeGyro();
+  //initializeBass();
+
+  Tone.Transport.start();
 }
 
 function draw() {
-  background(0);
-  drawWaveform(wave, fft);
+  speed = Math.round(seconds[note] * 1000);
+
+  if (frameCount % speed === 0 || frameCount === 1) {
+    note = (note + 1) % seconds.length;
+  }
+
+  defineColor();
+  drawWaveform(wave, fft, temperature);
 }

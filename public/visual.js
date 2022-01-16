@@ -1,20 +1,11 @@
-function calculateColor(current, l, h) {
-  let green = 110;
-  let blue = 110;
+let red;
+let green;
+let blue;
 
-  return stroke(
-    map(parseInt(current * 10), parseInt(l * 10), parseInt(h * 10), 0, 225),
-    green,
-    blue
-  );
-}
-
-function drawWaveform(wave, fft) {
+function drawWaveform(wave, fft, tmp) {
   frequency = synthMajor.get().oscillator.frequency;
   waveform = fft.getValue();
   envelope = synthMajor.get().envelope;
-  let lowest = temperature.sort((a, b) => a - b)[0];
-  let highest = temperature.sort((a, b) => b - a)[0];
 
   // fill("yellow");
   // text("Frequency: " + frequency, 20, 20);
@@ -30,8 +21,9 @@ function drawWaveform(wave, fft) {
     beginShape();
     for (i = 0; i < waveform.length; i++) {
       noFill();
-      calculateColor(temperature[i], lowest, highest);
 
+      stroke(`rgb(${red}%, ${green}%,${blue}%)`);
+      text(temperature[note], 20, 20)
       let x = map(i, 0, waveform.length - 1, 0, curveBase);
       let y = map(waveform[i], 0, 255, 0, add);
       let y_r = map(waveform[waveform.length - i - 1], 0, 255, 0, add);
@@ -42,4 +34,34 @@ function drawWaveform(wave, fft) {
     }
     endShape();
   }
+}
+
+function defineColor() {
+  //Get temperature highest and lowest values
+  let lowest;
+  let highest;
+  let colorLowest = 0;
+  let colorHighest = 100;
+  let newRange;
+
+  function getRange(arr) {
+    highest = arr.sort((a, b) => b - a)[0];
+    lowest = arr.sort((a, b) => a - b)[0];
+  }
+
+  // Resrict values within the range
+  function convertRange() {
+    let tempLowest = parseInt(lowest * 10);
+    let tempHighest = parseInt(highest * 10);
+    let currentDegree = parseInt(temperature[note] * 10);
+
+    let percent = (currentDegree - tempLowest) / (tempHighest - tempLowest);
+    newRange = percent * (colorHighest - colorLowest) + colorLowest;
+  }
+
+  getRange(temperature);
+  convertRange();
+  red = newRange * 6;
+  green = 30;
+  blue = 30;
 }

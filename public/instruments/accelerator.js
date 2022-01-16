@@ -1,18 +1,25 @@
-//TEMPERATURE - The main melody
+//ACCELERATOR - The main melody
 
-function initializeTemperature() {
+let mainMelody = [];
+
+function initializeAccelerator() {
   // Uses single notes instead of chords
-  constructTemperatureChords(mainMelody);
+  constructAcceleratorChords(mainMelody);
+
+  // Get waveform data of signal
+  let wave = new Tone.Waveform();
 
   // Use a simple Synth as the instrument
   const synthMelody = new Tone.Synth({
     oscillator: {
-      volume: 5,
+      volume: 2,
       count: 3,
       spread: 40,
       type: "sine",
     },
-  }).toMaster();
+  })
+    .connect(wave)
+    .toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {
     synthMelody.triggerAttackRelease(note.note, note.duration, time);
@@ -27,9 +34,9 @@ function initializeTemperature() {
   }).toMaster();
 }
 
-function constructTemperatureChords() {
+function constructAcceleratorChords() {
   for (let i = 0; i < seconds.length; i++) {
-    defineTempChords(temperature[i] * 10), seconds[i];
+    defineTempChords(Accelerator[i] * 10, seconds[i]);
   }
 }
 

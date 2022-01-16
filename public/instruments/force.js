@@ -1,16 +1,12 @@
 // FORCE - The major
 let frequency;
-var env;
 let envelope;
 let wave;
 let prevNote;
 let volume = -6;
 let fft;
-var resolution = 128;
-var progress = 0;
 let lfo;
 let mainChords = [];
-let mainMelody = [];
 let IChord, IIChord, IIIChord, IVChord, VChord;
 
 function initializeForce() {
@@ -21,36 +17,23 @@ function initializeForce() {
   IVChord = constructMajorChord(AMinorScale, 4, "D4");
   VChord = constructMajorChord(AMinorScale, 3, "G4");
 
-  // Set the BPM (beats per minute)
-  Tone.Transport.bpm.value = 0.6;
-
-  // // Set volume
-  vol = new Tone.Volume();
-
   // Set Low frequency oscilator
   lfo = new Tone.LFO("4n", 100, 2000);
 
   // Analyse frequency/amplitude of signal
   fft = new Tone.FFT();
 
-  // Get waveform data of signal
-  wave = new Tone.Waveform(resolution);
-
   // Create Envelope for visualisation
   env = new Tone.AmplitudeEnvelope();
-
-  Tone.Transport.start();
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(4, Tone.Synth, {
     volume: -10,
     oscillator: {
       type: "sawtooth",
-    },
+    }
   })
-    .connect(wave)
     .connect(fft)
-    .connect(env)
     .toMaster();
 
   // Progression or sequence
@@ -59,11 +42,11 @@ function initializeForce() {
   //Use part to encapsulate chords into single unit
   majorPart = new Tone.Part(function (time, note) {
     // Prevent playing a note if it is same as previous one
-    if (prevNote != note.note) {
-      synthMajor.triggerAttackRelease(note.note, note.duration, time);
+    if (prevNote !== note.note) {
+       synthMajor.triggerAttackRelease(note.note, note.duration, time);
+       prevNote = note.note;
     }
-
-    prevNote = note.note;
+    
   }, mainChords).start(0);
 }
 
