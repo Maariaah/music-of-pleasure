@@ -4,7 +4,7 @@ let mainMelody = [];
 
 function initializeAccelerator() {
   // Uses single notes instead of chords
-  constructAcceleratorChords(mainMelody);
+  constructAcceleratorXChords(mainMelody);
 
   // Get waveform data of signal
   let wave = new Tone.Waveform();
@@ -24,23 +24,15 @@ function initializeAccelerator() {
   melodyPart = new Tone.Part(function (time, note) {
     synthMelody.triggerAttackRelease(note.note, note.duration, time);
   }, mainMelody).start(0);
-
-  const mainChordPart = new Tone.PolySynth(5, Tone.Synth, {
-    oscillator: {
-      count: 6,
-      spread: 80,
-      type: "fatsawtooth",
-    },
-  }).toMaster();
 }
 
-function constructAcceleratorChords() {
+function constructAcceleratorXChords() {
   for (let i = 0; i < seconds.length; i++) {
-    defineTempChords(Accelerator[i] * 10, seconds[i]);
+    defineAccXChords(accelerator[i] * 10, seconds[i]);
   }
 }
 
-function defineTempChords(value, seconds) {
+function defineAccXChords(value, seconds) {
   // ['A4', 'B4', 'C4', 'D4', 'E4', 'F4', 'G4'];
 
   if (value <= 40) {

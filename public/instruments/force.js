@@ -1,4 +1,5 @@
 // FORCE - The major
+
 let frequency;
 let envelope;
 let wave;
@@ -30,8 +31,10 @@ function initializeForce() {
   synthMajor = new Tone.PolySynth(4, Tone.Synth, {
     volume: -10,
     oscillator: {
+      count: 6,
+      spread: 80,
       type: "sawtooth",
-    }
+    },
   })
     .connect(fft)
     .toMaster();
@@ -43,10 +46,9 @@ function initializeForce() {
   majorPart = new Tone.Part(function (time, note) {
     // Prevent playing a note if it is same as previous one
     if (prevNote !== note.note) {
-       synthMajor.triggerAttackRelease(note.note, note.duration, time);
-       prevNote = note.note;
+      synthMajor.triggerAttackRelease(note.note, note.duration, time);
+      prevNote = note.note;
     }
-    
   }, mainChords).start(0);
 }
 

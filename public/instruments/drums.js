@@ -23,15 +23,15 @@ function initializeDrums() {
   }).toMaster();
 
   const snareDrum = new Tone.NoiseSynth({
-    volume: 5,
+    volume: 2,
     noise: {
-      type: "white",
-      playbackRate: 3,
+      type: "brown",
+      playbackRate: 1,
     },
     envelope: {
       attack: 0.001,
       decay: 0.2,
-      sustain: 0.15,
+      sustain: 0.05,
       release: 0.03,
     },
   }).connect(lowPass);
@@ -46,7 +46,7 @@ function initializeDrums() {
 
       if (prevTemp !== beat) {
         kicks.push(seconds[i]);
-        snares.push(seconds[i] + 2);
+        snares.push(Number(seconds[i]) + 0.5);
       }
       prevTemp = beat;
     }

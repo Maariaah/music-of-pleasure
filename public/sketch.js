@@ -27,8 +27,8 @@ let mtr = "motor (%)";
 let gyroX = "gyro_thx (deg/sec)";
 let gyroY = "gyro_thy (deg/sec)";
 let gyroZ = "gyro_thz (deg/sec)";
-let accelY = "accel_y (m/s^2)";
-let accelX = "accel_x (m/s^2)";
+let accY = "accel_y (m/s^2)";
+let accX = "accel_x (m/s^2)";
 let motor, temperature, force, seconds, gyroscopeX;
 const AMinorScale = ["A", "B", "C", "D", "E", "F", "G"];
 let synthF, synthT, majorPart, melodyPart;
@@ -49,15 +49,17 @@ function setup() {
   force = data.getColumn(fc);
   seconds = data.getColumn(s);
   gyroscopeX = data.getColumn(gyroX);
+  acceleratorX = data.getColumn(accX);
+  acceleratorY = data.getColumn(accY);
 
   // Set the BPM (beats per minute)
-  Tone.Transport.bpm.value = 2;
+  Tone.Transport.bpm.value = 150;
 
   // initializeForce();
   // initializeAccelerator();
-  initializeDrums();
+  //initializeDrums();
   //initializeGyro();
-  //initializeBass();
+  initializeBass();
 
   Tone.Transport.start();
 }
