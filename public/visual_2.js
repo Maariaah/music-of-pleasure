@@ -3,44 +3,55 @@
 let red;
 let green;
 let blue;
-var beatThreshold = 0.02;
-var defaultBPM = 120;
-var startColor = 256;
-var fqSmoothLevel = 2;
-var source;
+var fqSmoothLevel = 3;
 var x;
 var y;
-
+var c = 256;
+var b = 0;
+var oldFrequency;
+var k = 90;
 
 function drawWaveform() {
-  var k = 90;
-	background(0, 0, 0, 5);
+  colorMode(HSB);
   noFill();
-  stroke(`rgb(${red}%, ${green}%,${blue}%)`);
+  // stroke(`rgb(${red}%, ${green}%,${blue}%)`);
 
-  let spectrum = fft.getValue();
+  if (c > 359) c = 0;
+  if (b > 15) b = 0;
+
   let frequency = synthMajor.get().oscillator.frequency;
-  // let w = wave.getValue(0);
+  let spectrum = fft.getValue(); 
 
-  var energy = frequency * 10;
+  if (frequency !== oldFrequency) {
+    oldFrequency = frequency;
+    c = map(b++, 0, 15, 0, 360);
+  }
+
+  var energy = (frequency * 120 / Math.PI); // Irregularities
 
   // Draw vertex
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
+  // text(scaledSpectrum, 20, 20);
+
   var len = scaledSpectrum.length;
-  var N = len - 20;
+  var N = parseInt(len / Math.PI);
 
   translate(width / 2, height / 2);
-  rotate(radians(red));
+  rotate(radians(c / Math.PI));
   translate(-width / 2, -height / 2);
 
   beginShape();
+  fill(c, frequency * 0.2, 255, 0.01);
+  stroke(c, frequency, 128 - frequency / 2, 0.4);
+  strokeWeight(scaledSpectrum[len/2]/16);
+
   curveVertex(x, y);
 
   for (var i = 0; i < N; i++) {
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    var R = point * 1.4;
-    x = width / 2 + R * cos(radians((i * 180) / N + k + 180));
-    y = height / 2 + R * sin(radians((i * 180) / N + k));
+    var R = point * 3; // size
+    x = width / 2 + R * cos(radians((i * 360) / N + k + 360));
+    y = height / 2 + R * sin(radians((i * 360) / N + k));
     if (i === 0)
       var x1 = x,
         y1 = y;
@@ -50,9 +61,8 @@ function drawWaveform() {
   for (var i = N; i > 0; i--) {
     point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
     R = point * 1.5;
-    x = width / 2 + R * cos(radians((i * 180) / N + k + 180));
-    y = height / 2 + R * sin(radians((i * 180) / N + k));
-
+    x = width / 2 + R * cos(radians((i * 360) / N + k + 180));
+    y = height / 2 + R * sin(radians((i * 360) / N + k));
     curveVertex(x, y);
   }
 

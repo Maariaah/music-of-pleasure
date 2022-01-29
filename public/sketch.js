@@ -31,19 +31,34 @@ let accY = "accel_y (m/s^2)";
 let accX = "accel_x (m/s^2)";
 let motor, temperature, force, seconds, gyroscopeX;
 const AMinorScale = ["A", "B", "C", "D", "E", "F", "G"];
-let synthF, synthT, majorPart, melodyPart;
+let majorPart, melodyPart, kickPart, bassPart;
 let note = 0;
 let speed;
+
+// Vusual
+// let beatThreshold = 0.02
+// let defaultBPM = 120
+// let fqSmoothLevel = 2
+// let source, fft_1;
+// let k = 90;
+// let c = 256
+// let b = 0
 
 async function preload() {
   data = await loadTable("./data/old/1483243201.csv", "csv", "header");
 }
 
 function setup() {
-  //createCanvas(400, 400);
   createCanvas(windowWidth, windowHeight)
 
-  //  angleMode(DEGREES);
+  colorMode(HSB)
+
+  // Use p5js for visualisation
+  // source = new p5.AudioIn();
+  // source.start();
+  // fft_1 = new p5.FFT(0.92, 512);
+  // fft_1.setInput(source);
+  // beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60/(defaultBPM/60))
 
   // Define data
   motor = data.getColumn(mtr);
@@ -55,7 +70,7 @@ function setup() {
   acceleratorY = data.getColumn(accY);
 
   // Set the BPM (beats per minute)
-  Tone.Transport.bpm.value = 1;
+  Tone.Transport.bpm.value = 0.6;
 
   initializeForce();
   initializeAccelerator();
@@ -67,8 +82,8 @@ function setup() {
 }
 
 function draw() {
-  speed = Math.round(seconds[note] * 1000);
-  // background(0);
+  // background('red')
+  speed = Math.round(seconds[note]) * 100;
 
   if (frameCount % speed === 0 || frameCount === 1) {
     note = (note + 1) % seconds.length;

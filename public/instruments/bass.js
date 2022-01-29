@@ -11,10 +11,12 @@ function initializeBass() {
     oscillator: {
       type: "triangle",
     },
-  }).connect(fft)
-  .toMaster();
+  })
+    .connect(fft)
+    .connect(env)
+    .toMaster();
 
-  const bassPart = new Tone.Part(function (time, note) {
+  bassPart = new Tone.Part(function (time, note) {
     if (note.note !== prevBassNote) {
       bass.triggerAttackRelease(note.note, note.duration, time);
     }

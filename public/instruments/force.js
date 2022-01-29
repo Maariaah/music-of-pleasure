@@ -21,12 +21,16 @@ function initializeForce() {
   // Set Low frequency oscilator
   lfo = new Tone.LFO("4n", 100, 2000);
 
+
   // Analyse frequency/amplitude of signal
-  fft = new Tone.FFT();
+  fft = new Tone.Analyser({
+    size: 1024,
+    type: fft,
+    smoothing: 5,
+  });
 
   // Create Envelope for visualisation
   env = new Tone.AmplitudeEnvelope();
-
   vol = new Tone.Volume();
 
   // wave = new Tone.Waveform(128);
@@ -37,9 +41,9 @@ function initializeForce() {
   synthMajor = new Tone.PolySynth(4, Tone.Synth, {
     volume: -8,
     oscillator: {
-      count: 6,
-      spread: 80,
-      type: "sine",
+      count: 10,
+      spread: 200,
+      type: "sawtooth",
     },
   })
     .connect(fft)

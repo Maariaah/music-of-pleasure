@@ -11,7 +11,7 @@ function initializeAccelerator() {
   let wave = new Tone.Waveform();
 
   // Use a simple Synth as the instrument
-  const synthMelody = new Tone.Synth({
+  synthMelody = new Tone.Synth({
     oscillator: {
       volume: 6,
       count: 3,
@@ -20,6 +20,7 @@ function initializeAccelerator() {
     },
   })
     .connect(wave)
+    .connect(env)
     .toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {

@@ -10,11 +10,11 @@ function initializeDrums() {
 
   constructKicksAndSnares();
 
-  const kickDrum = new Tone.MembraneSynth({
+  kickDrum = new Tone.MembraneSynth({
     volume: -10,
   }).toMaster();
 
-  const kickPart = new Tone.Part(function (time) {
+  kickPart = new Tone.Part(function (time) {
     kickDrum.triggerAttackRelease("C2", "8n.", time);
   }, kicks).start(0);
 
@@ -37,7 +37,7 @@ function initializeDrums() {
   }).connect(lowPass) .connect(fft)
 
 
-  const snarePart = new Tone.Part(function (time) {
+  snarePart = new Tone.Part(function (time) {
     snareDrum.triggerAttackRelease("4n", time);
   }, snares).start(0);
 
