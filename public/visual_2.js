@@ -11,10 +11,10 @@ var source;
 var x;
 var y;
 
-//  let beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60/(defaultBPM/60))
 
 function drawWaveform() {
   var k = 90;
+	background(0, 0, 0, 5);
   noFill();
   stroke(`rgb(${red}%, ${green}%,${blue}%)`);
 

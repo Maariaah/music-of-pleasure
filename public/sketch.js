@@ -42,7 +42,6 @@ async function preload() {
 function setup() {
   //createCanvas(400, 400);
   createCanvas(windowWidth, windowHeight)
-  background(0);
 
   //  angleMode(DEGREES);
 
@@ -69,6 +68,7 @@ function setup() {
 
 function draw() {
   speed = Math.round(seconds[note] * 1000);
+  // background(0);
 
   if (frameCount % speed === 0 || frameCount === 1) {
     note = (note + 1) % seconds.length;
