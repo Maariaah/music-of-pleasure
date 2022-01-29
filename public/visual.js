@@ -1,29 +1,24 @@
+// https://openprocessing.org/sketch/1311114
+
 let red;
 let green;
 let blue;
 
-function drawWaveform(wave, fft, tmp) {
+function drawWaveform() {
   frequency = synthMajor.get().oscillator.frequency;
   waveform = fft.getValue();
   envelope = synthMajor.get().envelope;
 
-  // fill("yellow");
-  // text("Frequency: " + frequency, 20, 20);
-  //text("Wave: " + waveform.length, 20, 40);
-  // text("Envelope: " + envelope.attack, 20, 60);
-
-  let r = 400;
-  let add = 300;
-  let splitCircle = 0.003;
-  let curveBase = (5 * Math.PI) / splitCircle;
+  let r = frequency / Math.PI * 2;
+  let add = 160;
+  let splitCircle = 3;
+  let curveBase = (20 * Math.PI) / splitCircle;
 
   for (j = 0; j < splitCircle; j++) {
     beginShape();
     for (i = 0; i < waveform.length; i++) {
-      noFill();
-
       stroke(`rgb(${red}%, ${green}%,${blue}%)`);
-      text(temperature[note], 20, 20)
+      noFill();
       let x = map(i, 0, waveform.length - 1, 0, curveBase);
       let y = map(waveform[i], 0, 255, 0, add);
       let y_r = map(waveform[waveform.length - i - 1], 0, 255, 0, add);
@@ -32,6 +27,7 @@ function drawWaveform(wave, fft, tmp) {
         (y + y_r + r) * sin(x + curveBase * j) + windowHeight / 2
       );
     }
+
     endShape();
   }
 }

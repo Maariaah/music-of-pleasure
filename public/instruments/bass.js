@@ -1,4 +1,5 @@
 //ACCELERATOR Y - Bass
+
 let bassline = [];
 let prevBassNote;
 
@@ -6,11 +7,12 @@ function initializeBass() {
   constructAcceleratorYChords();
 
   const bass = new Tone.Synth({
-    volume: 6,
+    volume: 7,
     oscillator: {
       type: "triangle",
     },
-  }).toMaster();
+  }).connect(fft)
+  .toMaster();
 
   const bassPart = new Tone.Part(function (time, note) {
     if (note.note !== prevBassNote) {

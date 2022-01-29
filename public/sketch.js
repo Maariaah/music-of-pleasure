@@ -36,12 +36,15 @@ let note = 0;
 let speed;
 
 async function preload() {
-  data = await loadTable("./data/1483243201.csv", "csv", "header");
+  data = await loadTable("./data/old/1483243201.csv", "csv", "header");
 }
 
 function setup() {
-  createCanvas(500, 600);
-  angleMode(DEGREES);
+  //createCanvas(400, 400);
+  createCanvas(windowWidth, windowHeight)
+  background(0);
+
+  //  angleMode(DEGREES);
 
   // Define data
   motor = data.getColumn(mtr);
@@ -53,11 +56,11 @@ function setup() {
   acceleratorY = data.getColumn(accY);
 
   // Set the BPM (beats per minute)
-  Tone.Transport.bpm.value = 150;
+  Tone.Transport.bpm.value = 1;
 
-  // initializeForce();
-  // initializeAccelerator();
-  //initializeDrums();
+  initializeForce();
+  initializeAccelerator();
+  initializeDrums();
   //initializeGyro();
   initializeBass();
 
@@ -72,5 +75,5 @@ function draw() {
   }
 
   defineColor();
-  drawWaveform(wave, fft, temperature);
+  drawWaveform();
 }

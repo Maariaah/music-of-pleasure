@@ -1,6 +1,7 @@
 //ACCELERATOR - The main melody
 
 let mainMelody = [];
+let prevMelodyNote;
 
 function initializeAccelerator() {
   // Uses single notes instead of chords
@@ -12,7 +13,7 @@ function initializeAccelerator() {
   // Use a simple Synth as the instrument
   const synthMelody = new Tone.Synth({
     oscillator: {
-      volume: 2,
+      volume: 6,
       count: 3,
       spread: 40,
       type: "sine",
@@ -22,13 +23,16 @@ function initializeAccelerator() {
     .toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {
-    synthMelody.triggerAttackRelease(note.note, note.duration, time);
+    if (note.note !== prevMelodyNote) {
+      synthMelody.triggerAttackRelease(note.note, note.duration, time);
+    }
+    prevMelodyNote = note.note;
   }, mainMelody).start(0);
 }
 
 function constructAcceleratorXChords() {
   for (let i = 0; i < seconds.length; i++) {
-    defineAccXChords(accelerator[i] * 10, seconds[i]);
+    defineAccXChords(acceleratorX[i] * 10, seconds[i]);
   }
 }
 

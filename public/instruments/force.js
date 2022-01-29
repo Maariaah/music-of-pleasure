@@ -5,10 +5,10 @@ let envelope;
 let wave;
 let prevNote;
 let volume = -6;
-let fft;
 let lfo;
 let mainChords = [];
 let IChord, IIChord, IIIChord, IVChord, VChord;
+let fft;
 
 function initializeForce() {
   // Define chords
@@ -27,16 +27,24 @@ function initializeForce() {
   // Create Envelope for visualisation
   env = new Tone.AmplitudeEnvelope();
 
+  vol = new Tone.Volume();
+
+  // wave = new Tone.Waveform(128);
+
+  // const signal = new Tone.Signal();
+
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(4, Tone.Synth, {
-    volume: -10,
+    volume: -8,
     oscillator: {
       count: 6,
       spread: 80,
-      type: "sawtooth",
+      type: "sine",
     },
   })
     .connect(fft)
+    .connect(env)
+    .connect(vol)
     .toMaster();
 
   // Progression or sequence
@@ -47,8 +55,8 @@ function initializeForce() {
     // Prevent playing a note if it is same as previous one
     if (prevNote !== note.note) {
       synthMajor.triggerAttackRelease(note.note, note.duration, time);
-      prevNote = note.note;
     }
+    prevNote = note.note;
   }, mainChords).start(0);
 }
 

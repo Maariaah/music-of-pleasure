@@ -11,11 +11,11 @@ function initializeDrums() {
   constructKicksAndSnares();
 
   const kickDrum = new Tone.MembraneSynth({
-    volume: 6,
+    volume: -10,
   }).toMaster();
 
   const kickPart = new Tone.Part(function (time) {
-    kickDrum.triggerAttackRelease("C1", "8n", time);
+    kickDrum.triggerAttackRelease("C2", "8n.", time);
   }, kicks).start(0);
 
   const lowPass = new Tone.Filter({
@@ -23,18 +23,19 @@ function initializeDrums() {
   }).toMaster();
 
   const snareDrum = new Tone.NoiseSynth({
-    volume: 2,
+    volume: -35,
     noise: {
-      type: "brown",
-      playbackRate: 1,
+      type: "white",
+      playbackRate: 5,
     },
     envelope: {
       attack: 0.001,
       decay: 0.2,
-      sustain: 0.05,
+      sustain: 0.005,
       release: 0.03,
     },
-  }).connect(lowPass);
+  }).connect(lowPass) .connect(fft)
+
 
   const snarePart = new Tone.Part(function (time) {
     snareDrum.triggerAttackRelease("4n", time);
@@ -46,7 +47,7 @@ function initializeDrums() {
 
       if (prevTemp !== beat) {
         kicks.push(seconds[i]);
-        snares.push(Number(seconds[i]) + 0.5);
+        snares.push(Number(seconds[i]) + 0.6);
       }
       prevTemp = beat;
     }
