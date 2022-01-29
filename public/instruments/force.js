@@ -12,10 +12,10 @@ let fft;
 
 function initializeForce() {
   // Define chords
-  IChord = constructMajorChord(AMinorScale, 3, "A3");
+  IChord = constructMajorChord(AMinorScale, 3, "A1");
   IIChord = constructMajorChord(AMinorScale, 3, "E4");
   IIIChord = constructMajorChord(AMinorScale, 4, "F3");
-  IVChord = constructMajorChord(AMinorScale, 4, "D4");
+  IVChord = constructMajorChord(AMinorScale, 4, "D1");
   VChord = constructMajorChord(AMinorScale, 3, "G4");
 
   // Set Low frequency oscilator
@@ -31,20 +31,19 @@ function initializeForce() {
 
   // Create Envelope for visualisation
   env = new Tone.AmplitudeEnvelope();
-  vol = new Tone.Volume();
-   wave = new Tone.Waveform(1024);
+  // vol = new Tone.Volume();
+  //  wave = new Tone.Waveform(1024);
 
 //  const signal = new Tone.Signal(220, 5);
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(7, Tone.Synth, {
-    volume: -8,
-    detune: 2,
+    volume: -6,
     oscillator: {
-      frequency : 440,
-      count: 50,
-      spread: 200,
-      type: "sawtooth",
+      frequency: 12,
+      count: 10,
+      spread: 100,
+      type: "triangle",
     },
     // envelope: {
     //   attack: 0.01,
@@ -55,8 +54,6 @@ function initializeForce() {
   })
     .connect(fft)
     .connect(env)
-    .connect(vol)
-    .connect(wave)
     .toMaster();
 
   // Progression or sequence
@@ -84,7 +81,7 @@ function defineForceChords(value, seconds) {
   if (value <= 20) {
     mainChords.push({
       time: seconds,
-      note: IChord,
+      note: IIChord,
       duration: "4n",
     });
   }
@@ -98,7 +95,7 @@ function defineForceChords(value, seconds) {
   if (value > 30 && value <= 40) {
     mainChords.push({
       time: seconds,
-      note: IIChord,
+      note: IChord,
       duration: "4n",
     });
   }
@@ -112,7 +109,7 @@ function defineForceChords(value, seconds) {
   if (value > 50 && value <= 60) {
     mainChords.push({
       time: seconds,
-      note: IIIChord,
+      note: IVChord,
       duration: "4n",
     });
   }
@@ -126,7 +123,7 @@ function defineForceChords(value, seconds) {
   if (value > 70 && value <= 80) {
     mainChords.push({
       time: seconds,
-      note: IVChord,
+      note: IIIChord,
       duration: "4n",
     });
   }

@@ -31,7 +31,7 @@ function drawWaveform() {
 
   // Draw vertex
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
-   text(spectrum, 20, 20);
+  //  text(spectrum, 20, 20);
 
   var len = scaledSpectrum.length;
   var N = parseInt(len / Math.PI);
@@ -42,7 +42,7 @@ function drawWaveform() {
 
   beginShape();
   fill(c, frequency * 0.2, 255, 0.01);
-  stroke(c, frequency, 128 - frequency, 0.1);
+  stroke(c, frequency, 128 - frequency, 0.5);
   strokeWeight(scaledSpectrum[len/4]/16);
 
   curveVertex(x, y);

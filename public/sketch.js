@@ -36,8 +36,11 @@ let note = 0;
 let speed;
 
 async function preload() {
-  data = await loadTable("./data/old/1483243201.csv", "csv", "header");
+  data = await loadTable("./data/old/1560888523.csv", "csv", "header");
 }
+
+//interesting samples:
+// 1560888523
 
 function setup() {
   createCanvas(windowWidth, windowHeight)
@@ -56,17 +59,17 @@ function setup() {
   Tone.Transport.bpm.value = 0.6;
 
   initializeForce();
-  initializeAccelerator();
-  initializeDrums();
+  // initializeAccelerator();
+   initializeDrums();
   //initializeGyro();
-  initializeBass();
+   initializeBass();
 
   Tone.Transport.start();
 }
 
 function draw() {
   // background('red')
-  speed = Math.round(seconds[note]) * 100;
+  speed = Math.round(seconds[note]) * 150;
 
   if (frameCount % speed === 0 || frameCount === 1) {
     note = (note + 1) % seconds.length;

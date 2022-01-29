@@ -26,7 +26,7 @@ function initializeDrums() {
     volume: -35,
     noise: {
       type: "white",
-      playbackRate: 5,
+      playbackRate: 3,
     },
     envelope: {
       attack: 0.001,
@@ -34,7 +34,7 @@ function initializeDrums() {
       sustain: 0.005,
       release: 0.03,
     },
-  }).connect(lowPass) .connect(fft)
+  }).connect(lowPass).connect(fft)
 
 
   snarePart = new Tone.Part(function (time) {
