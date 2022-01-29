@@ -35,30 +35,13 @@ let majorPart, melodyPart, kickPart, bassPart;
 let note = 0;
 let speed;
 
-// Vusual
-// let beatThreshold = 0.02
-// let defaultBPM = 120
-// let fqSmoothLevel = 2
-// let source, fft_1;
-// let k = 90;
-// let c = 256
-// let b = 0
-
 async function preload() {
   data = await loadTable("./data/old/1483243201.csv", "csv", "header");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight)
-
   colorMode(HSB)
-
-  // Use p5js for visualisation
-  // source = new p5.AudioIn();
-  // source.start();
-  // fft_1 = new p5.FFT(0.92, 512);
-  // fft_1.setInput(source);
-  // beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60/(defaultBPM/60))
 
   // Define data
   motor = data.getColumn(mtr);
