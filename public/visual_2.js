@@ -27,29 +27,29 @@ function drawWaveform() {
     c = map(b++, 0, 15, 0, 360);
   }
 
-  var energy = (frequency * 120 / Math.PI); // Irregularities
+  var energy = (frequency * 250); // Irregularities
 
   // Draw vertex
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
-  // text(scaledSpectrum, 20, 20);
+   text(spectrum, 20, 20);
 
   var len = scaledSpectrum.length;
   var N = parseInt(len / Math.PI);
 
-  translate(width / 2, height / 2);
-  rotate(radians(c / Math.PI));
-  translate(-width / 2, -height / 2);
+  translate(width / 2 , height / 2);
+  rotate(radians(c));
+  translate(-width / 2, -height / 2 - len / 20);
 
   beginShape();
   fill(c, frequency * 0.2, 255, 0.01);
-  stroke(c, frequency, 128 - frequency / 2, 0.4);
-  strokeWeight(scaledSpectrum[len/2]/16);
+  stroke(c, frequency, 128 - frequency, 0.1);
+  strokeWeight(scaledSpectrum[len/4]/16);
 
   curveVertex(x, y);
 
   for (var i = 0; i < N; i++) {
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    var R = point * 3; // size
+    var R = point * 1.2; // size
     x = width / 2 + R * cos(radians((i * 360) / N + k + 360));
     y = height / 2 + R * sin(radians((i * 360) / N + k));
     if (i === 0)
@@ -75,11 +75,11 @@ function drawWaveform() {
 
 function splitOctaves(spectrum, slicesPerOctave) {
   var scaledSpectrum = [];
-  var len = spectrum.length;
+  var len = spectrum.length / 2;
 
   // default to thirds
   var n = slicesPerOctave || 3;
-  var nthRootOfTwo = Math.pow(2, 1 / n);
+  var nthRootOfTwo = Math.pow(4, 1 / n);
 
   // the last N bins get their own
   var lowestBin = slicesPerOctave;
@@ -124,7 +124,7 @@ function splitOctaves(spectrum, slicesPerOctave) {
 function smoothPoint(spectrum, index, numberOfNeighbors) {
   // default to 2 neighbors on either side
   var neighbors = numberOfNeighbors || 2;
-  var len = spectrum.length;
+  var len = spectrum.length / 2;
 
   var val = 0;
 

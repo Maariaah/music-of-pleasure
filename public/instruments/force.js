@@ -32,23 +32,31 @@ function initializeForce() {
   // Create Envelope for visualisation
   env = new Tone.AmplitudeEnvelope();
   vol = new Tone.Volume();
+   wave = new Tone.Waveform(1024);
 
-  // wave = new Tone.Waveform(128);
-
-  // const signal = new Tone.Signal();
+//  const signal = new Tone.Signal(220, 5);
 
   // Use a synth as an instrument to play chords
-  synthMajor = new Tone.PolySynth(4, Tone.Synth, {
+  synthMajor = new Tone.PolySynth(7, Tone.Synth, {
     volume: -8,
+    detune: 2,
     oscillator: {
-      count: 10,
+      frequency : 440,
+      count: 50,
       spread: 200,
       type: "sawtooth",
     },
+    // envelope: {
+    //   attack: 0.01,
+    //   decay: 0.1,
+    //   sustain: 0.05,
+    //   release: 0.5,
+    // },
   })
     .connect(fft)
     .connect(env)
     .connect(vol)
+    .connect(wave)
     .toMaster();
 
   // Progression or sequence
