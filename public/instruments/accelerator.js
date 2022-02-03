@@ -5,26 +5,24 @@ let prevMelodyNote;
 
 function initializeAccelerator() {
   // Uses single notes instead of chords
-  constructAcceleratorXChords(mainMelody);
+  constructAcceleratorXChords();
 
   // Get waveform data of signal
-  let wave = new Tone.Waveform();
+   let wave = new Tone.Waveform();
 
   // Use a simple Synth as the instrument
   synthMelody = new Tone.Synth({
     oscillator: {
       volume: 6,
-      count: 3,
-      spread: 40,
-      type: "sine",
+      count: 10,
+      spread: 100,
+      type: "triangle",
     },
   })
-    .connect(wave)
-    .connect(env)
     .toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {
-    if (note.note !== prevMelodyNote) {
+    if (prevMelodyNote !== note.note  ) {
       synthMelody.triggerAttackRelease(note.note, note.duration, time);
     }
     prevMelodyNote = note.note;

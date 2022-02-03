@@ -12,7 +12,6 @@ function initializeBass() {
       type: "triangle",
     },
   })
-    .connect(fft)
     .connect(env)
     .toMaster();
 

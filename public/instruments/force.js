@@ -9,18 +9,18 @@ let lfo;
 let mainChords = [];
 let IChord, IIChord, IIIChord, IVChord, VChord;
 let fft;
+let env;
 
 function initializeForce() {
   // Define chords
-  IChord = constructMajorChord(AMinorScale, 3, "A1");
-  IIChord = constructMajorChord(AMinorScale, 3, "E4");
-  IIIChord = constructMajorChord(AMinorScale, 4, "F3");
-  IVChord = constructMajorChord(AMinorScale, 4, "D1");
-  VChord = constructMajorChord(AMinorScale, 3, "G4");
+  IChord = constructMajorChord(Cmajor, 3, "A4");
+  IIChord = constructMajorChord(Cmajor, 3, "E4");
+  IIIChord = constructMajorChord(Cmajor, 4, "F4");
+  IVChord = constructMajorChord(Cmajor, 4, "D4");
+  VChord = constructMajorChord(Cmajor, 3, "G4");
 
   // Set Low frequency oscilator
-  lfo = new Tone.LFO("4n", 100, 2000);
-
+  lfo = new Tone.LFO("4n", 100, 1000);
 
   // Analyse frequency/amplitude of signal
   fft = new Tone.Analyser({
@@ -31,19 +31,15 @@ function initializeForce() {
 
   // Create Envelope for visualisation
   env = new Tone.AmplitudeEnvelope();
-  // vol = new Tone.Volume();
-  //  wave = new Tone.Waveform(1024);
-
-//  const signal = new Tone.Signal(220, 5);
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(7, Tone.Synth, {
-    volume: -6,
+    volume: -8,
     oscillator: {
       frequency: 12,
       count: 10,
       spread: 100,
-      type: "triangle",
+      type: "sine",
     },
     // envelope: {
     //   attack: 0.01,
@@ -63,7 +59,7 @@ function initializeForce() {
   majorPart = new Tone.Part(function (time, note) {
     // Prevent playing a note if it is same as previous one
     if (prevNote !== note.note) {
-      synthMajor.triggerAttackRelease(note.note, note.duration, time);
+     synthMajor.triggerAttackRelease(note.note, note.duration, time);
     }
     prevNote = note.note;
   }, mainChords).start(0);
@@ -146,6 +142,13 @@ function defineForceChords(value, seconds) {
       time: seconds,
       note: VChord,
       duration: "2n",
+    });
+  }
+  if (value > 100 && value <= 120) {
+    mainChords.push({
+      time: seconds,
+      note: IVChord,
+      duration: "4n",
     });
   } else {
     mainChords.push({

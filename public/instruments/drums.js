@@ -1,6 +1,6 @@
 //TEMPERATURE - Drums and snares
 
-let prevTemp = 0;
+let prevBeat = 0;
 let beat = 0;
 let snare = 0;
 
@@ -34,7 +34,7 @@ function initializeDrums() {
       sustain: 0.005,
       release: 0.03,
     },
-  }).connect(lowPass).connect(fft)
+  }).connect(lowPass)
 
 
   snarePart = new Tone.Part(function (time) {
@@ -45,11 +45,11 @@ function initializeDrums() {
     for (let i = 0; i < seconds.length; i++) {
       beat = parseFloat(temperature[i]).toFixed(2);
 
-      if (prevTemp !== beat) {
+      if (prevBeat !== beat) {
         kicks.push(seconds[i]);
         snares.push(Number(seconds[i]) + 0.6);
       }
-      prevTemp = beat;
+      prevBeat = beat;
     }
   }
 }
