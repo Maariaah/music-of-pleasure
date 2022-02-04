@@ -1,72 +1,70 @@
 // https://openprocessing.org/sketch/615374
-var fqSmoothLevel = 10;
+var fqSmoothLevel = 2
 var x;
 var y;
-var c = 256;
 var b = 0;
 var oldFrequency;
 var k = 90;
-var angle = 180;
+const angle = 360;
+let c = 256;
 
 function drawWaveform() {
   colorMode(HSB);
   noFill();
   // stroke(`rgb(${red}%, ${green}%,${blue}%)`);
 
-  if (c > 359) c = 359;
-  if (b > 15) b = 15;
+  if (c > 359) {c = 1};
+  if (b > 15) {b = 1};
 
   let frequency = synthMajor.get().oscillator.frequency;
   let spectrum = fft.getValue();
 
   if (frequency !== oldFrequency) {
-    c = map(b++, 0, 15, 0, 360);
+    c = map(b++, 0,15, 0,360)
     oldFrequency = frequency;
   }
 
-  var energy = map(frequency, 0, 128, 0, 100); // Irregularities
-
+  var energy = map(frequency, 0, 100, 0, 128); // Irregularities
   // Draw vertex
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
   var len = scaledSpectrum.length;
   var N = len - 20; 
-  var vol = frequency * 0.2;
+  var vol = frequency * 0.02;
 
   translate(width / 2, height / 2);
   rotate(radians(c));
   //translate(-width / 2, -height / 2);
-  translate(-width / 2, -height / 2 - len / 20);
+  translate(-width / 2, -height / 2 - len / 30);
 
   beginShape();
   fill(c + red, frequency * 0.2, 255, 0.01);
-  stroke(c + red, vol, 128 - vol, 0.5);
-  strokeWeight(scaledSpectrum[len / 3] / 16);
+  stroke(c, vol, 128 - vol, 0.5);
 
   curveVertex(x, y);
 
   //Left side
   for (var i = 0; i < N; i++) {
-    let size = force[i] / 5;
+    let size = force[i] / 8;
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    var R = point * 1.5 + size; //size
+    var R = point * 1.5; //size
     var x = width / 2 + R * cos(radians((i * angle) / N + k));
-    var y = height / 2 + R * sin(radians((i * angle) / N + k + 360));
+    var y = height / 2 + R * sin(radians((i * angle) / N + k));
     if (i === 0) {
       var x1=x, y1=y
+
     }
     curveVertex(x, y);
   }
 
   //Right side
   for (var i = N; i > 0; i--) {
-    let size = force[i] / 2;
     point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    R = point * 1.5 + size; //size
-    x = width / 2 + R * cos(radians((i * angle) / N + k + angle));
+    R = point * 1.5; //size
+    x = width / 2 + R * cos(radians((i * angle) / N + k + 180));
     y = height / 2 + R * sin(radians((i * angle) / N + k));
     if (i === 0) {
-      var x1=x, y1=y
-        }
+       var x1=x, y1=y
+    }
     curveVertex(x, y);
   }
 

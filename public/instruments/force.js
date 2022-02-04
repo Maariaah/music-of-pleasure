@@ -24,9 +24,9 @@ function initializeForce() {
 
   // Analyse frequency/amplitude of signal
   fft = new Tone.Analyser({
-    size: 1024,
+    size: 512,
     type: fft,
-    smoothing: 5,
+    smoothing: 10,
   });
 
   // Create Envelope for visualisation
@@ -34,11 +34,11 @@ function initializeForce() {
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(7, Tone.Synth, {
-    volume: -8,
+    volume: -15,
     oscillator: {
-      frequency: 12,
-      count: 10,
-      spread: 100,
+      // frequency: 14,
+      count: 20,
+      spread: 10,
       type: "sine",
     },
     // envelope: {
@@ -49,7 +49,7 @@ function initializeForce() {
     // },
   })
     .connect(fft)
-    .connect(env)
+    // .connect(env)
     .toMaster();
 
   // Progression or sequence

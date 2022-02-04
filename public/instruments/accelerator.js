@@ -7,18 +7,16 @@ function initializeAccelerator() {
   // Uses single notes instead of chords
   constructAcceleratorXChords();
 
-  // Get waveform data of signal
-   let wave = new Tone.Waveform();
-
   // Use a simple Synth as the instrument
   synthMelody = new Tone.Synth({
     oscillator: {
-      volume: 6,
+      volume: 4,
       count: 10,
-      spread: 100,
+      spread: 10,
       type: "triangle",
     },
   })
+    .connect(fft)
     .toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {

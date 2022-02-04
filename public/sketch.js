@@ -65,7 +65,7 @@ function setup() {
 
    initializeForce();
    initializeAccelerator();
-  // initializeDrums();
+    initializeDrums();
   // initializeGyro();
   // initializeBass();
 
