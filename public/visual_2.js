@@ -37,10 +37,8 @@ function drawWaveform() {
   translate(-width / 2, -height / 2 - len / 30);
 
   beginShape();
-  fill(c + red, frequency * 0.2, 255, 0.01);
+  fill(c + newRed, frequency * 0.2, 255, 0.01);
   stroke(c, vol, 128 - 50, 0.2);
-
-  curveVertex(x, y);
 
   //Left side
   for (var i = 0; i < N; i++) {
@@ -174,7 +172,7 @@ function defineColor() {
 
   getRange(temperature);
   convertRange();
-  red = newRange * 6;
+  newRed = newRange * 6;
   green = 30;
   blue = 30;
 }

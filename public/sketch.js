@@ -34,7 +34,7 @@ const Cmajor = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"];
 let majorPart, melodyPart, kickPart, bassPart;
 let note = 0;
 let speed;
-var red;
+var newRed;
 let green;
 let blue;
 
@@ -73,6 +73,8 @@ function setup() {
   Tone.Transport.bpm.value = 40;
 
   Tone.Transport.start();
+  getAudioContext().resume();
+
 }
 
 function draw() {
