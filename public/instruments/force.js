@@ -13,10 +13,10 @@ let env;
 
 function initializeForce() {
   // Define chords
-  IChord = constructMajorChord(Cmajor, 3, "A4");
+  IChord = constructMajorChord(Cmajor, 3, "A1");
   IIChord = constructMajorChord(Cmajor, 3, "E4");
-  IIIChord = constructMajorChord(Cmajor, 4, "F4");
-  IVChord = constructMajorChord(Cmajor, 4, "D4");
+  IIIChord = constructMajorChord(Cmajor, 4, "F3");
+  IVChord = constructMajorChord(Cmajor, 4, "D1");
   VChord = constructMajorChord(Cmajor, 3, "G4");
 
   // Set Low frequency oscilator
@@ -36,7 +36,7 @@ function initializeForce() {
   synthMajor = new Tone.PolySynth(7, Tone.Synth, {
     volume: -15,
     oscillator: {
-      // frequency: 14,
+      frequency: 100,
       count: 20,
       spread: 10,
       type: "sine",
@@ -49,7 +49,7 @@ function initializeForce() {
     // },
   })
     .connect(fft)
-    // .connect(env)
+   .connect(env)
     .toMaster();
 
   // Progression or sequence
@@ -59,7 +59,7 @@ function initializeForce() {
   majorPart = new Tone.Part(function (time, note) {
     // Prevent playing a note if it is same as previous one
     if (prevNote !== note.note) {
-     synthMajor.triggerAttackRelease(note.note, note.duration, time);
+    synthMajor.triggerAttackRelease(note.note, note.duration, time);
     }
     prevNote = note.note;
   }, mainChords).start(0);

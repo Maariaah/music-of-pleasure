@@ -34,12 +34,12 @@ const Cmajor = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"];
 let majorPart, melodyPart, kickPart, bassPart;
 let note = 0;
 let speed;
-let red;
+var red;
 let green;
 let blue;
 
 async function preload() {
-  data = await loadTable("./data/User 05/1601942638.csv", "csv", "header");
+  data = await loadTable("./data/User 05/1602286534.csv", "csv", "header");
 }
 
 //interesting samples:
@@ -63,14 +63,14 @@ function setup() {
   defineColor();
   // background(red, green, blue);
 
-   initializeForce();
-   initializeAccelerator();
-    initializeDrums();
+    initializeForce();
+    initializeAccelerator();
+     initializeDrums();
   // initializeGyro();
-  // initializeBass();
+   initializeBass();
 
   // Set the BPM (beats per minute)
-  Tone.Transport.bpm.value = 60;
+  Tone.Transport.bpm.value = 40;
 
   Tone.Transport.start();
 }

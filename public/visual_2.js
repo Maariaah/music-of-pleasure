@@ -1,11 +1,11 @@
 // https://openprocessing.org/sketch/615374
-var fqSmoothLevel = 2
+var fqSmoothLevel = 1
 var x;
 var y;
 var b = 0;
 var oldFrequency;
 var k = 90;
-const angle = 360;
+const angle = 310;
 let c = 256;
 
 function drawWaveform() {
@@ -16,7 +16,7 @@ function drawWaveform() {
   if (c > 359) {c = 1};
   if (b > 15) {b = 1};
 
-  let frequency = synthMajor.get().oscillator.frequency;
+  let frequency = synthMelody.get().oscillator.frequency;
   let spectrum = fft.getValue();
 
   if (frequency !== oldFrequency) {
@@ -28,7 +28,7 @@ function drawWaveform() {
   // Draw vertex
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
   var len = scaledSpectrum.length;
-  var N = len - 20; 
+  var N = len - 2; 
   var vol = frequency * 0.02;
 
   translate(width / 2, height / 2);
@@ -38,15 +38,15 @@ function drawWaveform() {
 
   beginShape();
   fill(c + red, frequency * 0.2, 255, 0.01);
-  stroke(c, vol, 128 - vol, 0.5);
+  stroke(c, vol, 128 - 50, 0.2);
 
   curveVertex(x, y);
 
   //Left side
   for (var i = 0; i < N; i++) {
-    let size = force[i] / 8;
+    let size = acceleratorY[i] / 2;
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    var R = point * 1.5; //size
+    var R = point * 1.5 + size; //size
     var x = width / 2 + R * cos(radians((i * angle) / N + k));
     var y = height / 2 + R * sin(radians((i * angle) / N + k));
     if (i === 0) {
@@ -58,8 +58,10 @@ function drawWaveform() {
 
   //Right side
   for (var i = N; i > 0; i--) {
+    let size = acceleratorY[i] * 2;
+
     point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    R = point * 1.5; //size
+    R = point * 1.5 - size; //size
     x = width / 2 + R * cos(radians((i * angle) / N + k + 180));
     y = height / 2 + R * sin(radians((i * angle) / N + k));
     if (i === 0) {
