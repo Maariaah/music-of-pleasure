@@ -30,27 +30,28 @@ let gyroZ = "gyro_thz (deg/sec)";
 let accY = "accel_y (m/s^2)";
 let accX = "accel_x (m/s^2)";
 let motor, temperature, force, seconds, gyroscopeX;
-const Cmajor = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"];
+let Cmajor = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"];
 let majorPart, melodyPart, kickPart, bassPart;
 let note = 0;
 let speed;
 var newRed;
 let green;
 let blue;
+let button;
+let fft;
+let env;
 
 async function preload() {
-  data = await loadTable(
-    "./data/User 05/1594507979_reduced.csv",
-    "csv",
-    "header"
-  );
+  data = await loadTable("./data/odabrane/1574576287.csv", "csv", "header");
 }
 
 //interesting samples:
 // old/1560888523
 // User 05/1602286534
 // User 05/1601942638
-// User 05/ 1601942638
+
+//1574576287
+//Range:9-43
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -64,29 +65,44 @@ function setup() {
   gyroscopeX = data.getColumn(gyroX);
   acceleratorX = data.getColumn(accX);
   acceleratorY = data.getColumn(accY);
-  defineColor();
+  // defineColor();
   // background(red, green, blue);
+
+  env = new Tone.AmplitudeEnvelope();
+
+  // Analyse frequency/amplitude of signal
+  fft = new Tone.Analyser({
+    size: 512,
+    type: fft,
+    smoothing: 10,
+  });
 
   initializeForce();
   initializeAccelerator();
-  initializeDrums();
+  // initializeDrums();
   // initializeGyro();
   initializeBass();
 
   // Set the BPM (beats per minute)
-  Tone.Transport.bpm.value = 300;
+  Tone.Transport.bpm.value = 250;
 
-  Tone.Transport.start();
   getAudioContext().resume();
 }
 
 function draw() {
+  drawWaveform();
+
   //background('red')
   // speed = Math.round(seconds[note]) * 100;
 
   // if (frameCount % speed === 0 || frameCount === 1) {
   //   note = (note + 1) % seconds.length;
   // }
+  button = createButton("click me");
+  button.position(0, 0);
+  button.mousePressed(startSound);
+}
 
-  drawWaveform();
+function startSound() {
+  Tone.Transport.start();
 }

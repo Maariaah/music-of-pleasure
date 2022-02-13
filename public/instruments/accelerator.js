@@ -8,7 +8,7 @@ function initializeAccelerator() {
   constructAcceleratorXChords();
 
   // Use a simple Synth as the instrument
-  synthMelody = new Tone.Synth({
+  synthMelody = new Tone.PolySynth({
     oscillator: {
       volume: 1,
       count: 10,
@@ -17,10 +17,11 @@ function initializeAccelerator() {
     },
   })
     .connect(fft)
+    .connect(env)
     .toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {
-    if (prevMelodyNote !== note.note  ) {
+    if (prevMelodyNote !== note.note) {
       synthMelody.triggerAttackRelease(note.note, note.duration, time);
     }
     prevMelodyNote = note.note;
@@ -36,49 +37,33 @@ function constructAcceleratorXChords() {
 function defineAccXChords(value, seconds) {
   // ['A4', 'B4', 'C4', 'D4', 'E4', 'F4', 'G4'];
 
-  if (value <= 40) {
-    mainMelody.push({
-      time: seconds,
-      note: "G4",
-      duration: "4n",
-    });
-  }
-  if (value > 40 && value <= 50) {
-    mainMelody.push({
-      time: seconds,
-      note: "F4",
-      duration: "4n",
-    });
-  }
-  if (value > 50 && value <= 60) {
+  let newVal = parseInt(value);
+
+  if (newVal <= 60 && newVal > 50) {
     mainMelody.push({
       time: seconds,
       note: "D4",
       duration: "4n.",
     });
-  }
-  if (value > 60 && value <= 70) {
+  } else if (newVal > 65 && newVal <= 70) {
     mainMelody.push({
       time: seconds,
       note: "D4",
       duration: "4n",
     });
-  }
-  if (value > 70 && value <= 80) {
+  } else if (newVal > 70 && newVal <= 75) {
     mainMelody.push({
       time: seconds,
       note: "F4",
       duration: "4n.",
     });
-  }
-  if (value > 80 && value <= 90) {
+  } else if (newVal > 75 && newVal <= 80) {
     mainMelody.push({
       time: seconds,
       note: "A4",
       duration: "2n",
     });
-  }
-  if (value > 100 && value <= 110) {
+  } else if (newVal > 85 && newVal <= 90) {
     mainMelody.push({
       time: seconds,
       note: "A4",
@@ -87,9 +72,10 @@ function defineAccXChords(value, seconds) {
   } else {
     mainMelody.push({
       time: seconds,
-      note: "A4",
+      note: "A1",
       duration: "2n",
     });
   }
+
   return mainMelody;
 }

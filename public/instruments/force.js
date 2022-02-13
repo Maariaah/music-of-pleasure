@@ -8,8 +8,7 @@ let volume = -6;
 let lfo;
 let mainChords = [];
 let IChord, IIChord, IIIChord, IVChord, VChord;
-let fft;
-let env;
+
 
 function initializeForce() {
   // Define chords
@@ -22,15 +21,12 @@ function initializeForce() {
   // Set Low frequency oscilator
   lfo = new Tone.LFO("4n", 100, 1000);
 
-  // Analyse frequency/amplitude of signal
-  fft = new Tone.Analyser({
-    size: 512,
-    type: fft,
-    smoothing: 10,
-  });
+  // Chose frequency between:
+  // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
 
-  // Create Envelope for visualisation
-  env = new Tone.AmplitudeEnvelope();
+  //Tempo
+  //Volume
+  //Scale
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(7, Tone.Synth, {
@@ -68,13 +64,14 @@ function initializeForce() {
 function constructForceChords() {
   for (let i = 0; i < seconds.length; i++) {
     defineForceChords(force[i], seconds[i]);
+    //console.log(defineForceChords(force[i], seconds[i]));
   }
 }
 
 function defineForceChords(value, seconds) {
   // ['A3', 'B3', 'C4', 'D4', 'E4', 'F4', 'G4'];
 
-  if (value <= 20) {
+  if (value <= 20 && value > 10) {
     mainChords.push({
       time: seconds,
       note: IIChord,

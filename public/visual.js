@@ -1,8 +1,4 @@
 // https://openprocessing.org/sketch/1311114
-
-let red;
-let green;
-let blue;
 let angle = 2.0;
 let offset = 10;
 let scalar = 3.5;
@@ -17,7 +13,6 @@ function drawWaveform() {
   waveform = fft.getValue();
   envelope = synthMajor.get().envelope;
   c = map(b++, 0, 15, 0, 360);
-
   if (c > 359) c = 0;
   if (b > 15) b = 0;
 
@@ -81,7 +76,7 @@ function defineColor() {
 
   getRange(temperature);
   convertRange();
-  red = newRange * 8;
+  newRed = newRange * 8;
   green = 30;
   blue = 30;
 }

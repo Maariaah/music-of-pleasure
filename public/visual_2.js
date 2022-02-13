@@ -1,5 +1,5 @@
 // https://openprocessing.org/sketch/615374
-var fqSmoothLevel = 1
+var fqSmoothLevel = 1;
 var x;
 var y;
 var b = 0;
@@ -13,14 +13,19 @@ function drawWaveform() {
   noFill();
   // stroke(`rgb(${red}%, ${green}%,${blue}%)`);
 
-  if (c > 359) {c = 1};
-  if (b > 15) {b = 1};
-
+  if (c > 359) {
+    c = 1;
+  }
+  if (b > 15) {
+    b = 1;
+  }
+  // synthMajor
+  // synthMelody
   let frequency = synthMelody.get().oscillator.frequency;
   let spectrum = fft.getValue();
 
   if (frequency !== oldFrequency) {
-    c = map(b++, 0,15, 0,360)
+    c = map(b++, 0, 15, 0, 360);
     oldFrequency = frequency;
   }
 
@@ -28,13 +33,21 @@ function drawWaveform() {
   // Draw vertex
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
   var len = scaledSpectrum.length;
-  var N = len - 2; 
+  var N = len;
   var vol = frequency * 0.02;
 
-  translate(width / 2, height / 2);
-  rotate(radians(c));
-  //translate(-width / 2, -height / 2);
-  translate(-width / 2, -height / 2 - len / 30);
+  // Debug
+  fill("white");
+  rect(20, 20, 360, 70);
+  fill("red");
+  text("Melody: " + mainMelody.length, 50, 50);
+  // text("Energy: " + energy, 50, 70);
+  text("Seconds: " + seconds.length, 50, 70);
+
+  // translate(width / 2, height / 2);
+  // rotate(radians(c));
+  // //translate(-width / 2, -height / 2);
+  // translate(-width / 2, -height / 2 - len / 30);
 
   beginShape();
   fill(c + newRed, frequency * 0.2, 255, 0.01);
@@ -42,14 +55,21 @@ function drawWaveform() {
 
   //Left side
   for (var i = 0; i < N; i++) {
+    // Debug
+    fill("white");
+    rect(20, 400, 400, 100);
+    fill("red");
+    // text("mainMelody: " + JSON.stringify(mainMelody[i]), 50, 500);
+    text("mainChords: " + JSON.stringify(mainMelody[i]), 50, 450);
+
     let size = acceleratorY[i] / 2;
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
     var R = point * 1.5 + size; //size
     var x = width / 2 + R * cos(radians((i * angle) / N + k));
     var y = height / 2 + R * sin(radians((i * angle) / N + k));
     if (i === 0) {
-      var x1=x, y1=y
-
+      var x1 = x,
+        y1 = y;
     }
     curveVertex(x, y);
   }
@@ -63,7 +83,8 @@ function drawWaveform() {
     x = width / 2 + R * cos(radians((i * angle) / N + k + 180));
     y = height / 2 + R * sin(radians((i * angle) / N + k));
     if (i === 0) {
-       var x1=x, y1=y
+      var x1 = x,
+        y1 = y;
     }
     curveVertex(x, y);
   }
