@@ -34,12 +34,12 @@ let Cmajor = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"];
 let majorPart, melodyPart, kickPart, bassPart;
 let note = 0;
 let speed;
-var newRed;
 let green;
 let blue;
 let button;
 let fft;
 let env;
+let waveform;
 
 async function preload() {
   data = await loadTable("./data/odabrane/1574576287.csv", "csv", "header");
@@ -65,7 +65,7 @@ function setup() {
   gyroscopeX = data.getColumn(gyroX);
   acceleratorX = data.getColumn(accX);
   acceleratorY = data.getColumn(accY);
-  // defineColor();
+  defineColor();
   // background(red, green, blue);
 
   env = new Tone.AmplitudeEnvelope();
@@ -77,9 +77,11 @@ function setup() {
     smoothing: 10,
   });
 
+  waveform = new Tone.Analyser("waveform", 1024);
+
   initializeForce();
   initializeAccelerator();
-  // initializeDrums();
+  initializeDrums();
   // initializeGyro();
   initializeBass();
 

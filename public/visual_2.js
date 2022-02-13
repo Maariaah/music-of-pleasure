@@ -7,6 +7,7 @@ var oldFrequency;
 var k = 90;
 const angle = 310;
 let c = 256;
+let newRed;
 
 function drawWaveform() {
   colorMode(HSB);
@@ -37,17 +38,15 @@ function drawWaveform() {
   var vol = frequency * 0.02;
 
   // Debug
-  fill("white");
-  rect(20, 20, 360, 70);
-  fill("red");
-  text("Melody: " + mainMelody.length, 50, 50);
-  // text("Energy: " + energy, 50, 70);
-  text("Seconds: " + seconds.length, 50, 70);
+  // fill("white");
+  // rect(20, 20, 360, 70);
+  // fill("red");
+  // text("Seconds: " + seconds.length, 50, 70);
 
-  // translate(width / 2, height / 2);
-  // rotate(radians(c));
-  // //translate(-width / 2, -height / 2);
-  // translate(-width / 2, -height / 2 - len / 30);
+  translate(width / 2, height / 2);
+  rotate(radians(c));
+  //translate(-width / 2, -height / 2);
+  translate(-width / 2, -height / 2 - len / 30);
 
   beginShape();
   fill(c + newRed, frequency * 0.2, 255, 0.01);
@@ -56,11 +55,11 @@ function drawWaveform() {
   //Left side
   for (var i = 0; i < N; i++) {
     // Debug
-    fill("white");
-    rect(20, 400, 400, 100);
-    fill("red");
+    // fill("white");
+    // rect(20, 450, 400, 100);
+    // fill("red");
     // text("mainMelody: " + JSON.stringify(mainMelody[i]), 50, 500);
-    text("mainChords: " + JSON.stringify(mainMelody[i]), 50, 450);
+    // text("mainChords: " + JSON.stringify(mainMelody[i]), 50, 480);
 
     let size = acceleratorY[i] / 2;
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);

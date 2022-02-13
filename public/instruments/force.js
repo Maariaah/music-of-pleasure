@@ -9,7 +9,6 @@ let lfo;
 let mainChords = [];
 let IChord, IIChord, IIIChord, IVChord, VChord;
 
-
 function initializeForce() {
   // Define chords
   IChord = constructMajorChord(Cmajor, 3, "A1");
@@ -45,7 +44,8 @@ function initializeForce() {
     // },
   })
     .connect(fft)
-   .connect(env)
+    .connect(waveform)
+    .connect(env)
     .toMaster();
 
   // Progression or sequence
@@ -55,7 +55,7 @@ function initializeForce() {
   majorPart = new Tone.Part(function (time, note) {
     // Prevent playing a note if it is same as previous one
     if (prevNote !== note.note) {
-    synthMajor.triggerAttackRelease(note.note, note.duration, time);
+      synthMajor.triggerAttackRelease(note.note, note.duration, time);
     }
     prevNote = note.note;
   }, mainChords).start(0);
@@ -63,8 +63,8 @@ function initializeForce() {
 
 function constructForceChords() {
   for (let i = 0; i < seconds.length; i++) {
-    defineForceChords(force[i], seconds[i]);
-    //console.log(defineForceChords(force[i], seconds[i]));
+    // defineForceChords(force[i], seconds[i]);
+    console.log(defineForceChords(force[i], seconds[i]));
   }
 }
 
@@ -78,70 +78,70 @@ function defineForceChords(value, seconds) {
       duration: "4n",
     });
   }
-  if (value > 20 && value <= 30) {
+  else if (value > 20 && value <= 30) {
     mainChords.push({
       time: seconds,
       note: IChord,
       duration: "2n",
     });
   }
-  if (value > 30 && value <= 40) {
+  else if (value > 30 && value <= 40) {
     mainChords.push({
       time: seconds,
       note: IChord,
       duration: "4n",
     });
   }
-  if (value > 40 && value <= 50) {
+  else if (value > 40 && value <= 50) {
     mainChords.push({
       time: seconds,
       note: IIChord,
       duration: "2n",
     });
   }
-  if (value > 50 && value <= 60) {
+  else if (value > 50 && value <= 60) {
     mainChords.push({
       time: seconds,
       note: IVChord,
       duration: "4n",
     });
   }
-  if (value > 60 && value <= 70) {
+  else if (value > 60 && value <= 70) {
     mainChords.push({
       time: seconds,
       note: IIIChord,
       duration: "2n",
     });
   }
-  if (value > 70 && value <= 80) {
+  else if (value > 70 && value <= 80) {
     mainChords.push({
       time: seconds,
       note: IIIChord,
       duration: "4n",
     });
   }
-  if (value > 80 && value <= 90) {
+  else if (value > 80 && value <= 90) {
     mainChords.push({
       time: seconds,
       note: IVChord,
       duration: "2n",
     });
   }
-  if (value > 90 && value <= 95) {
+  else if (value > 90 && value <= 95) {
     mainChords.push({
       time: seconds,
       note: VChord,
       duration: "4n",
     });
   }
-  if (value > 95 && value <= 100) {
+  else if (value > 95 && value <= 100) {
     mainChords.push({
       time: seconds,
       note: VChord,
       duration: "2n",
     });
   }
-  if (value > 100 && value <= 120) {
+  else if (value > 100 && value <= 120) {
     mainChords.push({
       time: seconds,
       note: IVChord,

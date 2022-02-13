@@ -5,6 +5,7 @@ let scalar = 3.5;
 let spiralSpeed = 0.01;
 var c = 256;
 var b = 0;
+let newRed;
 
 function drawWaveform() {
   colorMode(HSB);
@@ -16,7 +17,7 @@ function drawWaveform() {
   if (c > 359) c = 0;
   if (b > 15) b = 0;
 
-  let r = frequency / Math.PI;
+  let r = frequency / 10 / Math.PI;
   let add = 300;
   let splitCircle = 2;
   let curveBase = (2 * Math.PI) / splitCircle;
