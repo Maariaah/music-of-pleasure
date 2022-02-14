@@ -1,7 +1,7 @@
 //TEMPERATURE - Drums and snares
 
 let prevBeat = 0;
-let beat = 0;
+let drums_beat = 0;
 let snare = 0;
 
 function initializeDrums() {
@@ -12,11 +12,7 @@ function initializeDrums() {
 
   kickDrum = new Tone.MembraneSynth({
     volume: -10,
-  })
-  .connect(fft)
-  .connect(waveform)
-  .connect(env)
-  .toMaster();
+  }).toMaster();
 
   kickPart = new Tone.Part(function (time) {
     kickDrum.triggerAttackRelease("C2", "8n.", time);
@@ -47,13 +43,13 @@ function initializeDrums() {
 
   function constructKicksAndSnares() {
     for (let i = 0; i < seconds.length; i++) {
-      beat = parseFloat(temperature[i]).toFixed(2);
+      drums_beat = parseFloat(temperature[i]).toFixed(2);
 
-      if (prevBeat !== beat) {
+      if (prevBeat !== drums_beat) {
         kicks.push(seconds[i]);
         snares.push(Number(seconds[i]) + 0.6);
       }
-      prevBeat = beat;
+      prevBeat = drums_beat;
     }
   }
 }

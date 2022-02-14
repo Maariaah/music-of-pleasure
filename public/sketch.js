@@ -38,10 +38,18 @@ let green;
 let blue;
 let button;
 let fft;
+let fft2;
 let env;
 let waveform;
 let synthMajor;
 let analyser;
+var beatThreshold = 0.02;
+var defaultBPM = 120;
+let beat;
+let frequency;
+let spectrum;
+let scource;
+let signal;
 
 async function preload() {
   data = await loadTable("./data/odabrane/1574576287.csv", "csv", "header");
@@ -68,7 +76,6 @@ function setup() {
   acceleratorX = data.getColumn(accX);
   acceleratorY = data.getColumn(accY);
   defineColor();
-  // background(red, green, blue);
 
   env = new Tone.AmplitudeEnvelope();
 
@@ -76,27 +83,27 @@ function setup() {
   fft = new Tone.Analyser({
     size: 512,
     type: fft,
-    smoothing: 10,
+    smoothing: 2,
   });
 
+  scource = new Tone.Source();
+  signal = new Tone.Signal();
   waveform = new Tone.Waveform();
-  Tone.Master.connect(waveform);
 
-    initializeForce();
-   initializeAccelerator();
-   initializeBass();
+  Tone.Master.connect(waveform).connect(fft).connect(env);
+
+  initializeForce();
+  initializeAccelerator();
+  initializeBass();
 
   // initializeDrums();
   // initializeGyro();
 
   // Set the BPM (beats per minute)
   Tone.Transport.bpm.value = 300;
-
-  getAudioContext().resume();
 }
 
 function draw() {
-  //background(0);
   drawWaveform();
 
   // speed = Math.round(seconds[note]) * 100;
@@ -111,4 +118,5 @@ function draw() {
 
 function startSound() {
   Tone.Transport.start();
+  getAudioContext().resume();
 }

@@ -12,9 +12,6 @@ function initializeBass() {
       type: "sine",
     },
   })
-    .connect(env)
-    .connect(fft)
-    .connect(waveform)
     .toMaster();
 
   bassPart = new Tone.Part(function (time, note) {

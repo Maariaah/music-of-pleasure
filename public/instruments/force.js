@@ -1,6 +1,5 @@
 // FORCE - The major
 
-let frequency;
 let envelope;
 let wave;
 let prevNote;
@@ -27,11 +26,11 @@ function initializeForce() {
   //Scale
 
   // Use a synth as an instrument to play chords
-  synthMajor = new Tone.PolySynth(4, Tone.Synth, {
+  synthMajor = new Tone.PolySynth(7, Tone.Synth, {
     volume: -1,
     oscillator: {
       count: 20,
-      spread: 10,
+      spread: 20,
       type: "sine",
     },
     // envelope: {
@@ -41,9 +40,6 @@ function initializeForce() {
     //   release: 0.05,
     // },
   })
-    .connect(fft)
-    .connect(waveform)
-    .connect(env)
     .toMaster();
 
   // Progression or sequence

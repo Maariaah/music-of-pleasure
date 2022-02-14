@@ -1,24 +1,32 @@
 // https://openprocessing.org/sketch/615374
-let fqSmoothLevel = 2;
+let fqSmoothLevel = 1;
 let x;
 let y;
 let b = 0;
-let oldFrequency;
-let oldSpectrum;
-const k = 90; // intersecion point
-const angle = 240;
+let oldHighPick;
+const k = 86; // intersecion point
+const angle = 360;
 let c = 256;
 let newRed;
-const strokeIntensity = 0.18;
+const strokeIntensity = 0.5;
 const strokeOpacity = 0.4;
-const fillOpacity = 0.03;
-let spectrum;
-let energy = 100;
-const density = 100;
+const fillOpacity = 0.2;
+let energy;
+const size = 1;
+const irregularities = 1;
+const shapeIrregularities = 40;
 
 function drawWaveform() {
   colorMode(HSB);
   noFill();
+
+  frequency = parseInt(synthMelody.get().oscillator.frequency);
+
+  //spectrum = waveform.getValue().map((item) => parseInt(Math.abs(item) * 100)); // create Analyser
+  //spectrum = waveform.getValue().map((item) => item * 100);
+  spectrum = fft.getValue(); // create Analyser
+  console.log(frequency);
+
   // stroke(`rgb(${red}%, ${green}%,${blue}%)`);
   if (c > 359) {
     c = 1;
@@ -26,75 +34,53 @@ function drawWaveform() {
   if (b > 15) {
     b = 1;
   }
-  // synthMajor
-  // synthMelody
 
-  // setInterval(() => console.log(Tone.now()), 100);
-
-  let frequency = synthMelody.get().oscillator.frequency;
-  spectrum = waveform.getValue(); // create Analyser
-  // console.log(buffer);
-
-  if (frequency !== oldFrequency) {
+  //if the high pick is detected
+  if (frequency !== oldHighPick) {
     c = map(b++, 0, 15, 0, 360);
-    oldFrequency = frequency;
+    oldHighPick = frequency;
   }
-
-  energy = findEnergy(); // Density
+  console.log(frequency);
+  energy = Math.floor(Math.random() * (130 - 100) + 100); // Density
 
   // Draw vertex
-  var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
+  var scaledSpectrum = splitOctaves(
+    spectrum,
+    map(energy, 0, 255, 6, shapeIrregularities)
+  );
   var len = scaledSpectrum.length;
-  var N = len;
+  var N = len - irregularities;
   var vol = frequency * strokeIntensity;
 
-  // Debug
-  // fill("white");
-  // rect(20, 20, 360, 70);
-  // fill("red");
-  // text("Seconds: " + seconds.length, 50, 70);
+  console.log(frequency);
 
   translate(width / 2, height / 2);
   rotate(radians(c));
   translate(-width / 2, -height / 2);
 
   beginShape();
-  fill(c + newRed, vol, 255, fillOpacity);
-  stroke(c, vol, 128 - 50, strokeOpacity);
-
-  // for (i = 0; i < spectrum.length; i++) {
-  // Debug
-  // fill("white");
-  // rect(20, 450, 400, 100);
-  // fill("red");
-  // text("i: " + i, 50, 520);
-  // text("mainMelody: " + JSON.stringify(mainMelody[i]), 50, 500);
-  // text("mainChords: " + JSON.stringify(mainChords[i]), 50, 480);
-  // }
+  fill(c + newRed, vol * 1.2, 255, fillOpacity);
+  stroke(c, vol * 3, 128 - 50, strokeOpacity);
 
   //Left side
   for (var i = 0; i < N; i++) {
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    var R = point * 100; //size
+    var R = point * 1.5;
+
     var x = width / 2 + R * cos(radians((i * angle) / N + k));
     var y = height / 2 + R * sin(radians((i * angle) / N + k));
-    if (i === 0) {
+    if (i === 0)
       var x1 = x,
         y1 = y;
-    }
     curveVertex(x, y);
   }
 
   //Right side
   for (var i = N; i > 0; i--) {
     point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    R = point * 100; //size
+    R = point * 1.5;
     x = width / 2 + R * cos(radians((i * angle) / N + k + 180));
     y = height / 2 + R * sin(radians((i * angle) / N + k));
-    if (i === 0) {
-      var x1 = x,
-        y1 = y;
-    }
     curveVertex(x, y);
   }
 
@@ -103,13 +89,6 @@ function drawWaveform() {
   curveVertex(x, y);
 
   endShape();
-}
-
-function findEnergy() {
-  if (spectrum !== oldSpectrum) {
-    energy = Math.floor(Math.random() * density);
-  }
-  return energy;
 }
 
 function splitOctaves(spectrum, slicesPerOctave) {
@@ -136,7 +115,7 @@ function splitOctaves(spectrum, slicesPerOctave) {
 
     // add up all of the values for the frequencies
     for (i = binIndex; i > nextBinIndex; i--) {
-      total += spectrum[i];
+      total += spectrum[i] * size;
       numBins++;
     }
 
@@ -150,7 +129,7 @@ function splitOctaves(spectrum, slicesPerOctave) {
 
   // add the lowest bins at the end
   for (var j = i; j > 0; j--) {
-    scaledSpectrum.push(spectrum[j]);
+    scaledSpectrum.push(spectrum[j] * size);
   }
 
   // reverse so that array has same order as original array (low to high frequencies)
@@ -173,8 +152,8 @@ function smoothPoint(spectrum, index, numberOfNeighbors) {
 
   for (var i = indexMinusNeighbors; i < index + neighbors && i < len; i++) {
     // if there is a point at spectrum[i], tally it
-    if (typeof spectrum[i] !== "undefined") {
-      val += spectrum[i];
+    if (typeof spectrum[i] * size !== "undefined") {
+      val += spectrum[i] * size;
       smoothedPoints++;
     }
   }

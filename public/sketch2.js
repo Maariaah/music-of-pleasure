@@ -18,13 +18,12 @@ function setup() {
 
   source = new p5.AudioIn();
   source.start();
-
+  getAudioContext().resume();
+  
   fft = new p5.FFT(0.92, 512);
   fft.setInput(source);
-  //amplitude = new p5.Amplitude();
   beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60/(defaultBPM/60))
 }
-
 var k = 90;
 var c = startColor
 var b = 0
@@ -32,27 +31,24 @@ var b = 0
 function draw() {
   var spectrum = fft.analyze();
   var newBuffer = [];
-   beat.update(fft)
+  beat.update(fft)
   
   //if(scaledSpectrum[4] > 128) {// beat
   //if(fft.getEnergy("bass") > 160){// beat
   //if(fft.getEnergy("bass") > 120) 
 
   if( beat.isDetected ){
-    //c += 0.125
     c = map(b++, 0,15, 0,360)
-    //ellipse(width/2, height/2, 8);
-    //print(fft.getEnergy("bass"))
-    //print(c)
   }
+
   if(c>359) c=0;
   if(b>15) b=0;
 
   var energy = fft.getEnergy("bass","treeble");
+
   //if( energy > 128 ){}
   // scaledSpectrum is a new, smaller array of more meaningful values
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0,255, 6,12));
-  console.log(spectrum)
   var len = scaledSpectrum.length;
   var N = len - 20;
   var volume = max(scaledSpectrum);
@@ -119,7 +115,6 @@ function mouseClicked(){
 	//tap
 }
 
-
 /**
  *  Divides an fft array into octaves with each
  *  divided by three, or by a specified "slicesPerOctave".
@@ -180,8 +175,6 @@ function splitOctaves(spectrum, slicesPerOctave) {
 
   return scaledSpectrum;
 }
-
-
 
 // average a point in an array with its neighbors
 function smoothPoint(spectrum, index, numberOfNeighbors) {

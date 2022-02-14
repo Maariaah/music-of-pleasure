@@ -17,9 +17,6 @@ function initializeAccelerator() {
       type: "triangle",
     },
   })
-    .connect(fft)
-    .connect(env)
-    .connect(waveform)
     .toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {
