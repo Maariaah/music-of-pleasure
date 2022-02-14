@@ -7,12 +7,14 @@ function initializeBass() {
   constructAcceleratorYChords();
 
   const bass = new Tone.Synth({
-    volume: 2,
+    volume: 3,
     oscillator: {
       type: "sine",
     },
   })
     .connect(env)
+    .connect(fft)
+    .connect(waveform)
     .toMaster();
 
   bassPart = new Tone.Part(function (time, note) {
@@ -43,44 +45,37 @@ function initializeBass() {
         note: A,
         duration: duration1,
       });
-    }
-    if (value > -100 && value <= 50) {
+    } else if (value > -100 && value <= 50) {
       bassline.push({
         time: seconds,
         note: A,
         duration: duration2,
       });
-    }
-    if (value > -50 && value <= -20) {
+    } else if (value > -50 && value <= -20) {
       bassline.push({
         time: seconds,
         note: F,
         duration: duration2,
       });
-    }
-    if (value > -20 && value <= -0) {
+    } else if (value > -20 && value <= -0) {
       bassline.push({
         time: seconds,
         note: F,
         duration: duration3,
       });
-    }
-
-    if (value > 0 && value <= 20) {
+    } else if (value > 0 && value <= 20) {
       bassline.push({
         time: seconds,
         note: F,
         duration: duration3,
       });
-    }
-    if (value > 20 && value <= 50) {
+    } else if (value > 20 && value <= 50) {
       bassline.push({
         time: seconds,
         note: D,
         duration: duration2,
       });
-    }
-    if (value > 50 && value <= 100) {
+    } else if (value > 50 && value <= 100) {
       bassline.push({
         time: seconds,
         note: A,

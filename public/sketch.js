@@ -40,6 +40,8 @@ let button;
 let fft;
 let env;
 let waveform;
+let synthMajor;
+let analyser;
 
 async function preload() {
   data = await loadTable("./data/odabrane/1574576287.csv", "csv", "header");
@@ -77,24 +79,26 @@ function setup() {
     smoothing: 10,
   });
 
-  waveform = new Tone.Analyser("waveform", 1024);
+  waveform = new Tone.Waveform();
+  Tone.Master.connect(waveform);
 
-  initializeForce();
-  initializeAccelerator();
-  initializeDrums();
+    initializeForce();
+   initializeAccelerator();
+   initializeBass();
+
+  // initializeDrums();
   // initializeGyro();
-  initializeBass();
 
   // Set the BPM (beats per minute)
-  Tone.Transport.bpm.value = 250;
+  Tone.Transport.bpm.value = 300;
 
   getAudioContext().resume();
 }
 
 function draw() {
+  //background(0);
   drawWaveform();
 
-  //background('red')
   // speed = Math.round(seconds[note]) * 100;
 
   // if (frameCount % speed === 0 || frameCount === 1) {

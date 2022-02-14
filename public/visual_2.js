@@ -1,19 +1,25 @@
 // https://openprocessing.org/sketch/615374
-var fqSmoothLevel = 1;
-var x;
-var y;
-var b = 0;
-var oldFrequency;
-var k = 90;
-const angle = 310;
+let fqSmoothLevel = 2;
+let x;
+let y;
+let b = 0;
+let oldFrequency;
+let oldSpectrum;
+const k = 90; // intersecion point
+const angle = 240;
 let c = 256;
 let newRed;
+const strokeIntensity = 0.18;
+const strokeOpacity = 0.4;
+const fillOpacity = 0.03;
+let spectrum;
+let energy = 100;
+const density = 100;
 
 function drawWaveform() {
   colorMode(HSB);
   noFill();
   // stroke(`rgb(${red}%, ${green}%,${blue}%)`);
-
   if (c > 359) {
     c = 1;
   }
@@ -22,20 +28,25 @@ function drawWaveform() {
   }
   // synthMajor
   // synthMelody
+
+  // setInterval(() => console.log(Tone.now()), 100);
+
   let frequency = synthMelody.get().oscillator.frequency;
-  let spectrum = fft.getValue();
+  spectrum = waveform.getValue(); // create Analyser
+  // console.log(buffer);
 
   if (frequency !== oldFrequency) {
     c = map(b++, 0, 15, 0, 360);
     oldFrequency = frequency;
   }
 
-  var energy = map(frequency, 0, 100, 0, 128); // Irregularities
+  energy = findEnergy(); // Density
+
   // Draw vertex
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
   var len = scaledSpectrum.length;
   var N = len;
-  var vol = frequency * 0.02;
+  var vol = frequency * strokeIntensity;
 
   // Debug
   // fill("white");
@@ -45,25 +56,26 @@ function drawWaveform() {
 
   translate(width / 2, height / 2);
   rotate(radians(c));
-  //translate(-width / 2, -height / 2);
-  translate(-width / 2, -height / 2 - len / 30);
+  translate(-width / 2, -height / 2);
 
   beginShape();
-  fill(c + newRed, frequency * 0.2, 255, 0.01);
-  stroke(c, vol, 128 - 50, 0.2);
+  fill(c + newRed, vol, 255, fillOpacity);
+  stroke(c, vol, 128 - 50, strokeOpacity);
+
+  // for (i = 0; i < spectrum.length; i++) {
+  // Debug
+  // fill("white");
+  // rect(20, 450, 400, 100);
+  // fill("red");
+  // text("i: " + i, 50, 520);
+  // text("mainMelody: " + JSON.stringify(mainMelody[i]), 50, 500);
+  // text("mainChords: " + JSON.stringify(mainChords[i]), 50, 480);
+  // }
 
   //Left side
   for (var i = 0; i < N; i++) {
-    // Debug
-    // fill("white");
-    // rect(20, 450, 400, 100);
-    // fill("red");
-    // text("mainMelody: " + JSON.stringify(mainMelody[i]), 50, 500);
-    // text("mainChords: " + JSON.stringify(mainMelody[i]), 50, 480);
-
-    let size = acceleratorY[i] / 2;
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    var R = point * 1.5 + size; //size
+    var R = point * 100; //size
     var x = width / 2 + R * cos(radians((i * angle) / N + k));
     var y = height / 2 + R * sin(radians((i * angle) / N + k));
     if (i === 0) {
@@ -75,10 +87,8 @@ function drawWaveform() {
 
   //Right side
   for (var i = N; i > 0; i--) {
-    let size = acceleratorY[i] * 2;
-
     point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
-    R = point * 1.5 - size; //size
+    R = point * 100; //size
     x = width / 2 + R * cos(radians((i * angle) / N + k + 180));
     y = height / 2 + R * sin(radians((i * angle) / N + k));
     if (i === 0) {
@@ -93,6 +103,13 @@ function drawWaveform() {
   curveVertex(x, y);
 
   endShape();
+}
+
+function findEnergy() {
+  if (spectrum !== oldSpectrum) {
+    energy = Math.floor(Math.random() * density);
+  }
+  return energy;
 }
 
 function splitOctaves(spectrum, slicesPerOctave) {

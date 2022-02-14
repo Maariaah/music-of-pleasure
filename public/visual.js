@@ -8,23 +8,24 @@ var b = 0;
 let newRed;
 
 function drawWaveform() {
-  colorMode(HSB);
+  // colorMode(HSB);
   // background(`rgb(${red}%, ${green}%,${blue}%)`);
-  frequency = synthMajor.get().oscillator.frequency;
+  // frequency = synthMajor.get().oscillator.frequency;
   waveform = fft.getValue();
-  envelope = synthMajor.get().envelope;
-  c = map(b++, 0, 15, 0, 360);
-  if (c > 359) c = 0;
-  if (b > 15) b = 0;
+  // envelope = synthMajor.get().envelope;
+  // c = map(b++, 0, 15, 0, 360);
+  // if (c > 359) c = 0;
+  // if (b > 15) b = 0;
 
-  let r = frequency / 10 / Math.PI;
-  let add = 300;
-  let splitCircle = 2;
+  let r = 100;
+  let add = 200;
+  let splitCircle = 6;
   let curveBase = (2 * Math.PI) / splitCircle;
-
-  translate(width / 2, height / 2);
-  rotate(radians(frequency));
-  translate(-width / 2, -height / 2);
+    stroke(225);
+    noFill();
+  // translate(width / 2, height / 2);
+  // rotate(radians(frequency));
+  // translate(-width / 2, -height / 2);
 
   // let spiralX = offset + cos(angle) * scalar;
   // let spiralY = offset + sin(angle) * scalar;
@@ -34,14 +35,13 @@ function drawWaveform() {
   for (j = 0; j < splitCircle; j++) {
     beginShape();
 
-    fill(c, frequency * 0.8, 255, 0.1);
-    stroke(c, frequency, 128 - volume / 2, 0.4);
+    // fill(c, frequency * 0.8, 255, 0.1);
+    // stroke(c, frequency, 128 - volume / 2, 0.4);
 
     for (i = 0; i < waveform.length; i++) {
       let x = map(i, 0, waveform.length - 1, 0, curveBase);
       let y = map(waveform[i], 0, 255, 0, add);
       let y_r = map(waveform[waveform.length - i - 1], 0, 255, 0, add);
-      noFill();
 
       vertex(
         (y + y_r + r) * cos(x + curveBase * j) + windowWidth / 2,

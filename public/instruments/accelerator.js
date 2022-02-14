@@ -10,10 +10,11 @@ function initializeAccelerator() {
   // Use a simple Synth as the instrument
   synthMelody = new Tone.PolySynth({
     oscillator: {
+      frequency: 444,
       volume: 1,
       count: 10,
-      spread: 30,
-      type: "sine",
+     spread: 30,
+      type: "triangle",
     },
   })
     .connect(fft)

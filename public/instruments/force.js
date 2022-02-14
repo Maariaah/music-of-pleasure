@@ -4,7 +4,6 @@ let frequency;
 let envelope;
 let wave;
 let prevNote;
-let volume = -6;
 let lfo;
 let mainChords = [];
 let IChord, IIChord, IIIChord, IVChord, VChord;
@@ -18,7 +17,7 @@ function initializeForce() {
   VChord = constructMajorChord(Cmajor, 3, "G4");
 
   // Set Low frequency oscilator
-  lfo = new Tone.LFO("4n", 100, 1000);
+  // lfo = new Tone.LFO("4n", 100, 1000);
 
   // Chose frequency between:
   // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
@@ -28,10 +27,9 @@ function initializeForce() {
   //Scale
 
   // Use a synth as an instrument to play chords
-  synthMajor = new Tone.PolySynth(7, Tone.Synth, {
-    volume: -15,
+  synthMajor = new Tone.PolySynth(4, Tone.Synth, {
+    volume: -1,
     oscillator: {
-      frequency: 100,
       count: 20,
       spread: 10,
       type: "sine",
@@ -39,8 +37,8 @@ function initializeForce() {
     // envelope: {
     //   attack: 0.01,
     //   decay: 0.1,
-    //   sustain: 0.05,
-    //   release: 0.5,
+    //   sustain: 0.5,
+    //   release: 0.05,
     // },
   })
     .connect(fft)
@@ -63,8 +61,7 @@ function initializeForce() {
 
 function constructForceChords() {
   for (let i = 0; i < seconds.length; i++) {
-    // defineForceChords(force[i], seconds[i]);
-    console.log(defineForceChords(force[i], seconds[i]));
+     defineForceChords(force[i], seconds[i]);
   }
 }
 

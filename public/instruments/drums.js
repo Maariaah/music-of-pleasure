@@ -12,7 +12,11 @@ function initializeDrums() {
 
   kickDrum = new Tone.MembraneSynth({
     volume: -10,
-  }).toMaster();
+  })
+  .connect(fft)
+  .connect(waveform)
+  .connect(env)
+  .toMaster();
 
   kickPart = new Tone.Part(function (time) {
     kickDrum.triggerAttackRelease("C2", "8n.", time);
