@@ -8,24 +8,14 @@ var b = 0;
 let newRed;
 
 function drawWaveform() {
-  // colorMode(HSB);
-  // background(`rgb(${red}%, ${green}%,${blue}%)`);
-  // frequency = synthMajor.get().oscillator.frequency;
-  waveform = fft.getValue();
-  // envelope = synthMajor.get().envelope;
-  // c = map(b++, 0, 15, 0, 360);
-  // if (c > 359) c = 0;
-  // if (b > 15) b = 0;
+  stroke(225);
+
+  spectrum = fft.getValue();
 
   let r = 100;
   let add = 200;
   let splitCircle = 6;
   let curveBase = (2 * Math.PI) / splitCircle;
-    stroke(225);
-    noFill();
-  // translate(width / 2, height / 2);
-  // rotate(radians(frequency));
-  // translate(-width / 2, -height / 2);
 
   // let spiralX = offset + cos(angle) * scalar;
   // let spiralY = offset + sin(angle) * scalar;
@@ -35,14 +25,12 @@ function drawWaveform() {
   for (j = 0; j < splitCircle; j++) {
     beginShape();
 
-    // fill(c, frequency * 0.8, 255, 0.1);
-    // stroke(c, frequency, 128 - volume / 2, 0.4);
+    for (i = 0; i < spectrum.length; i++) {
 
-    for (i = 0; i < waveform.length; i++) {
-      let x = map(i, 0, waveform.length - 1, 0, curveBase);
-      let y = map(waveform[i], 0, 255, 0, add);
-      let y_r = map(waveform[waveform.length - i - 1], 0, 255, 0, add);
+      let x = map(i, 0, spectrum.length - 1, 0, curveBase);
+      let y = map(spectrum[i], 0, 255, 0, add);
 
+      let y_r = map(spectrum[spectrum.length - i - 1], 0, 255, 0, add);
       vertex(
         (y + y_r + r) * cos(x + curveBase * j) + windowWidth / 2,
         (y + y_r + r) * sin(x + curveBase * j) + windowHeight / 2
@@ -50,7 +38,22 @@ function drawWaveform() {
     }
     endShape();
   }
+
+  // for (j = 0; j < splitCircle; j++) {
+  //   beginShape();
+
+  // 	for (i = 0; i < spectrum.length; i++) {
+  // 		let x = map(i, 0, spectrum.length - 1, 0, curveBase);
+  // 		let y = map(spectrum[i], 0, 255, 0, add);
+
+  // 		let y_r = map(spectrum[spectrum.length-i-1], 0, 255, 0, add);
+  // 		vertex((y+y_r+r) * cos(x + curveBase * j) + windowWidth /2 ,
+  // 		(y+y_r+r) * sin(x + curveBase * j) + windowHeight /2);
+  // 	}
+  //   endShape();
+  // }
 }
+
 
 function defineColor() {
   //Get temperature highest and lowest values
