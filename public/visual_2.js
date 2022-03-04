@@ -25,18 +25,17 @@ function drawWaveform() {
   colorMode(HSB);
   noFill();
   beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60 / (defaultBPM / 60));
-  frequency = parseInt(synthMelody.get().oscillator.frequency);
+  // frequency = parseInt(synthMelody.get().oscillator.frequency);
   //spectrum = waveform.getValue().map((item) => Math.abs(item) * 100);
-  spectrum = fft.getValue().map((item) => Math.abs(item)); // create Analyser
-
+ spectrum = fft.getValue().map((item) => Math.abs(item)); // create Analyser
   if(c>359) c=0;
   if(b>15) b=0;
 
   //if the high pick is detected
-  if (frequency !== oldHighPick) {
-    c = map(b++, 0, 15, 0, 360);
-    oldHighPick = frequency;
-  }
+  // if (frequency !== oldHighPick) {
+    // c = map(b++, 0, 15, 0, 360);
+  //   oldHighPick = frequency;
+  // }
 
    //energy = Math.floor(Math.random() * (130 - 100) + 100); // Density
     energy = noise(100, 0);
@@ -55,7 +54,6 @@ function drawWaveform() {
   rotate(radians(c));
   translate(-width / 2, -height / 2);
   //rotate(radians(10));
-
 
   beginShape();
 

@@ -54,7 +54,7 @@ var w, h;
 let space_between_lines;
 
 async function preload() {
-  data = await loadTable("./data/odabrane/1574576287.csv", "csv", "header");
+  data = await loadTable("./data/odabrane/1580252966.csv", "csv", "header");
 }
 
 //interesting samples:
@@ -63,14 +63,17 @@ async function preload() {
 // User 05/1601942638
 
 //1574576287
-//Range:9-43
+//Force range: 9-43
+
+//1580252966
+//Force range: 9-48
 
 function setup() {
-  createCanvas(1200, 600);
+  createCanvas(800, 600);
   colorMode(HSB);
   w = windowWidth / 2;
   h = windowHeight / 2;
-  space_between_lines = (width/2) / 64;
+  space_between_lines = width / 2 / 64;
 
   // Define data
   motor = data.getColumn(mtr);
@@ -98,10 +101,10 @@ function setup() {
 
   Tone.Master.connect(waveform).connect(fft).connect(env);
 
-  initializeForce();
-  initializeAccelerator();
-  initializeBass();
-
+  initializeMelody1();
+  initializeHarmony();
+  //initializeAccelerator();
+  //initializeBass();
   // initializeDrums();
   // initializeGyro();
 
@@ -111,20 +114,19 @@ function setup() {
 
 function draw() {
   // defineColor();
-   drawWaveform();
-   background('rgba(100%,0%,100%,0.2)');
+  drawWaveform();
 
   button = createButton("click me");
   button.position(0, 0);
   button.mousePressed(startSound);
 
   /*** Chrome autoplay on gesture bug ***/
-// https://github.com/Tonejs/Tone.js/issues/341
-document.documentElement.addEventListener("mousedown", function () {
-  if (Tone.context.state !== "running") {
-    Tone.context.resume();
-  }
-});
+  // https://github.com/Tonejs/Tone.js/issues/341
+  document.documentElement.addEventListener("mousedown", function () {
+    if (Tone.context.state !== "running") {
+      Tone.context.resume();
+    }
+  });
 }
 
 function startSound() {

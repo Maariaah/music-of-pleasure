@@ -29,7 +29,7 @@ function initializeAccelerator() {
 
 function constructAcceleratorXChords() {
   for (let i = 0; i < seconds.length; i++) {
-    defineAccXChords(acceleratorX[i] * 10, seconds[i]);
+    defineAccXChords(force[i] * 10, seconds[i]);
   }
 }
 

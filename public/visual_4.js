@@ -17,18 +17,19 @@ function drawWaveform() {
   // dodati trag
   // treba da se smanjuje i povecava kao da dise
   translate(width / 2, height / 2);
-  stroke(255);
+  stroke('rgba(0,0,0,0.1)');
+  fill('rgba(50,0,0,0.1)');
   strokeWeight(1);
-  noFill();
   beginShape();
+  background('rgba(100%,0%,100%,0.01)');
 
   let noiseMax = 2;
-  let diameter =map(sin(angle), -1, 1, 0, 200);
+  let diameter=map(sin(angle), -1, 1, 0, 200);
 
    for (let i = 0; i < spectrum.length / 100; i++) {
 
-    for (let a = 0; a < TWO_PI; a += radians(10)) {
-      noiseMax = spectrum[i] / 50;
+    for (let a = 0; a < TWO_PI; a += radians(5)) {
+      noiseMax = spectrum[i] / 100;
       let xoff = map(cos(a + phase), -1, 1, 0, noiseMax);
       let yoff = map(sin(a + phase), -1, 1, 0, noiseMax);
        let r = map(noise(xoff, yoff, zoff), 0, 1, 100, height / 2);

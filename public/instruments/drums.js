@@ -19,7 +19,7 @@ function initializeDrums() {
   }, kicks).start(0);
 
   const lowPass = new Tone.Filter({
-    frequency: 8000,
+    frequency: 220,
   }).toMaster();
 
   const snareDrum = new Tone.NoiseSynth({
