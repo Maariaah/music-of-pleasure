@@ -18,6 +18,9 @@
 // ["A", "B", "C", "D", "E", "F", "G"] - Tonovi, akordi
 // [FChord1, FChord2] - Triade
 // synth.triggerAttackRelease('C4', '8n') - note C on the 4th octave, 8th note
+//https://tone-demos.glitch.me/
+//PIANO DEMO:
+//https://modulovalue.com/tonejs_meets_flutterweb/#/
 
 let playButton;
 let s = "seconds";
@@ -57,16 +60,13 @@ async function preload() {
   data = await loadTable("./data/odabrane/1580252966.csv", "csv", "header");
 }
 
-//interesting samples:
-// old/1560888523
-// User 05/1602286534
-// User 05/1601942638
-
 //1574576287
 //Force range: 9-43
 
 //1580252966
 //Force range: 9-48
+//GyroX range: 30 - -20
+//AcceleratorX range: 0 - 10
 
 function setup() {
   createCanvas(800, 600);
@@ -103,6 +103,7 @@ function setup() {
 
   initializeMelody1();
   initializeHarmony();
+  initializeHarmony2();
   //initializeAccelerator();
   //initializeBass();
   // initializeDrums();

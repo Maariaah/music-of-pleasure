@@ -6,10 +6,11 @@ let prevNote;
 let lfo;
 let mainChords = [];
 I = "F3";
-II = "A3";
+II = "B3";
 III = "E4";
-IV = "C5";
-V = "A4";
+IV = "F4";
+V = "G4";
+VI = "C5";
 
 function initializeMelody1() {
   constructMelodyChords();
@@ -18,7 +19,7 @@ function initializeMelody1() {
   synthMelody = new Tone.PolySynth({
     oscillator: {
       volume: 1,
-      type: "sawtooth",
+      type: "sine",
     },
   }).toMaster();
 
@@ -51,43 +52,43 @@ function defineMelodyChords(value, seconds) {
   if (newVal > 16 && newVal <= 19) {
     mainChords.push({
       time: seconds,
-      note: II,
-      duration: "2n",
+      note: I,
+      duration: "4n",
     });
   } else if (newVal > 19 && newVal <= 21) {
     mainChords.push({
       time: seconds,
-      note: I,
-      duration: "2n",
+      note: II,
+      duration: "4n",
     });
   } else if (newVal > 21 && newVal <= 21.5) {
     mainChords.push({
       time: seconds,
-      note: IV,
-      duration: "4n",
+      note: II,
+      duration: "6n",
     });
   } else if (newVal > 21.5 && newVal <= 25) {
     mainChords.push({
       time: seconds,
-      note: V,
-      duration: "4n",
+      note: III,
+      duration: "6n",
     });
   } else if (newVal > 25 && newVal <= 26) {
-    mainChords.push({
-      time: seconds,
-      note: V,
-      duration: "8n",
-    });
-  } else if (newVal > 27 && newVal <= 29) {
     mainChords.push({
       time: seconds,
       note: III,
       duration: "8n",
     });
-  } else if (newVal > 29 && newVal <= 30) {
+  } else if (newVal > 27 && newVal <= 29) {
     mainChords.push({
       time: seconds,
       note: IV,
+      duration: "8n",
+    });
+  } else if (newVal > 29 && newVal <= 30) {
+    mainChords.push({
+      time: seconds,
+      note: V,
       duration: "8n",
     });
   } else if (newVal > 30 && newVal <= 32.5) {
@@ -99,25 +100,25 @@ function defineMelodyChords(value, seconds) {
   } else if (newVal > 32.5 && newVal <= 35) {
     mainChords.push({
       time: seconds,
-      note: III,
+      note: VI,
       duration: "8n",
     });
   } else if (newVal > 35 && newVal <= 38) {
     mainChords.push({
       time: seconds,
-      note: IV,
+      note: V,
       duration: "8n",
     });
   } else if (newVal > 38 && newVal <= 40) {
     mainChords.push({
       time: seconds,
-      note: V,
+      note: VI,
       duration: "8n",
     });
   } else if (newVal > 40) {
     mainChords.push({
       time: seconds,
-      note: IV,
+      note: V,
       duration: "8n",
     });
   } else {

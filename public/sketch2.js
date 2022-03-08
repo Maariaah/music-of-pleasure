@@ -22,7 +22,8 @@ function setup() {
   
   fft = new p5.FFT(0.92, 512);
   fft.setInput(source);
-  beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60/(defaultBPM/60))
+  beat = new AudioEnergy();
+  // beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60/(defaultBPM/60))
 }
 var k = 90;
 var c = startColor
@@ -31,8 +32,8 @@ var b = 0
 function draw() {
   var spectrum = fft.analyze();
   var newBuffer = [];
-  beat.update(fft)
-  
+  // beat.update(fft)
+  beat.update();
   //if(scaledSpectrum[4] > 128) {// beat
   //if(fft.getEnergy("bass") > 160){// beat
   //if(fft.getEnergy("bass") > 120) 
@@ -44,7 +45,7 @@ function draw() {
   if(c>359) c=0;
   if(b>15) b=0;
 
-  var energy = fft.getEnergy("bass","treeble");
+   var energy = fft.getEnergy("bass","treeble");
 
   //if( energy > 128 ){}
   // scaledSpectrum is a new, smaller array of more meaningful values
