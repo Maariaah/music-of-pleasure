@@ -47,7 +47,7 @@ let waveform;
 let synthMajor;
 let analyser;
 var beatThreshold = 0.02;
-var defaultBPM = 350;
+var defaultBPM = 220;
 let beat;
 let frequency;
 let spectrum;
@@ -59,13 +59,13 @@ let space_between_lines;
 async function preload() {
   data = await loadTable("./data/odabrane/1580252966.csv", "csv", "header");
 }
-
 //1574576287
 //Force range: 9-43
 
 //1580252966
 //Force range: 9-48
 //GyroX range: 30 - -20
+//GyroY range: -15 - 0
 //AcceleratorX range: 0 - 10
 
 function setup() {
@@ -81,6 +81,7 @@ function setup() {
   force = data.getColumn(fc);
   seconds = data.getColumn(s);
   gyroscopeX = data.getColumn(gyroX);
+  gyroscopeY = data.getColumn(gyroY);
   acceleratorX = data.getColumn(accX);
   acceleratorY = data.getColumn(accY);
 
@@ -90,7 +91,7 @@ function setup() {
   fft = new Tone.Analyser({
     size: 512,
     type: fft,
-    smoothing: 2,
+     smoothing: 2,
   });
 
   scource = new Tone.Source();
@@ -104,10 +105,8 @@ function setup() {
   initializeMelody1();
   initializeHarmony();
   initializeHarmony2();
-  //initializeAccelerator();
-  //initializeBass();
-  // initializeDrums();
-  // initializeGyro();
+  initializeBass();
+   initializeDrums();
 
   // Set the BPM (beats per minute)
   Tone.Transport.bpm.value = defaultBPM;

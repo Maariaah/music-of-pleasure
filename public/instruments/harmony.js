@@ -6,8 +6,8 @@ let IChord, IIChord, IIIChord, IVChord, VChord, VIChord;
 function initializeHarmony() {
   // Define chords
   IChord = constructMajorChord(Cmajor, 2, "B2");
-  IIChord = constructMajorChord(Cmajor, 3, "E3");
-  IIIChord = constructMajorChord(Cmajor, 3, "F3");
+  IIChord = constructMajorChord(Cmajor, 3, "F3");
+  IIIChord = constructMajorChord(Cmajor, 4, "B3");
   IVChord = constructMajorChord(Cmajor, 4, "C4");
 
   // Set Low frequency oscilator
@@ -22,10 +22,16 @@ function initializeHarmony() {
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(3, Tone.Synth, {
-    volume: 2,
+    volume: 1,
     oscillator: {
-      type: "sine",
-    }
+      type: "triangle",
+    },
+    envelope: {
+      // attack: 1,
+      // decay: 1,
+      // sustain: 0.2,
+      release: 2
+    },
   }).toMaster();
 
   // Progression or sequence
@@ -43,41 +49,45 @@ function initializeHarmony() {
 
 function constructHarmonyChords() {
   for (let i = 0; i < seconds.length; i++) {
-    defineHarmonyChords(force[i], seconds[i]);
+    defineHarmonyChords(gyroscopeX[i], seconds[i]);
   }
 }
 
 function defineHarmonyChords(value, seconds) {
-  if (value > 13 && value <= 25) {
+  if (value > -22 && value <= -14) {
     harmonyChords.push({
       time: seconds,
       note: IChord,
-      duration: "2n",
+      duration: "1n",
     });
-  } else if (value > 25 && value <= 32.5) {
+  } else if (value > -14 && value <= -6) {
     harmonyChords.push({
       time: seconds,
       note: IIChord,
       duration: "2n",
     });
-  } else if (value > 32.5 && value <= 40) {
+  } else if (value > -6 && value <= 1) {
     harmonyChords.push({
       time: seconds,
       note: IIIChord,
-      duration: "2n.",
+      duration: "2n",
     });
-  } 
-  else if (value > 40) {
+  } else if (value > 1 && value <= 9) {
     mainChords.push({
       time: seconds,
       note: IV,
-      duration: "2n.",
+      duration: "2n",
     });
-  }
-  else {
+  } else if (value > 9 && value <= 19.5) {
+    mainChords.push({
+      time: seconds,
+      note: III,
+      duration: "1n",
+    });
+  } else {
     harmonyChords.push({
       time: seconds,
-      note: IIChord,
+      note: IVChord,
       duration: "2n",
     });
   }

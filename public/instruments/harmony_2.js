@@ -6,9 +6,9 @@ let IChord2, IIChord2, IIIChord2, IVChord2, VChord2;
 function initializeHarmony2() {
   // Define chords
   IChord2 = constructMajorChord(Cmajor, 2, "F2");
-  IIChord2 = constructMajorChord(Cmajor, 3, "E3");
-  IIIChord2 = constructMajorChord(Cmajor, 3, "G3");
-  IVChord2 = constructMajorChord(Cmajor, 4, "C4");
+  IIChord2 = constructMajorChord(Cmajor, 2, "B2");
+  IIIChord2 = constructMajorChord(Cmajor, 3, "E4");
+  IVChord2 = constructMajorChord(Cmajor, 3, "B4");
 
   // Set Low frequency oscilator
   // lfo = new Tone.LFO("4n", 100, 1000);
@@ -22,15 +22,14 @@ function initializeHarmony2() {
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(3, Tone.Synth, {
-    volume: 2,
+    volume: -7,
+    count: 6,
+    spread: 80,
     oscillator: {
-      type: "sine",
+      type: "fatsawtooth",
     },
     envelope: {
-      // attack: 1.0,
-      // decay: 1.0,
-      // sustain: 0.5,
-      // release: 1.5
+      release: 2,
     },
   }).toMaster();
 
@@ -41,7 +40,7 @@ function initializeHarmony2() {
   majorPart = new Tone.Part(function (time, note) {
     // Prevent playing a note if it is same as previous one
     if (prevHarmony2Note !== note.note) {
-      synthMajor.triggerAttackRelease(note.note, note.duration, time);
+      synthMajor.triggerAttackRelease(note.note, note.duration, time, 0.5);
     }
     prevHarmony2Note = note.note;
   }, harmony2Chords).start(0);

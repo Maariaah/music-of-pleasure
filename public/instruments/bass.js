@@ -7,9 +7,9 @@ function initializeBass() {
   constructAcceleratorYChords();
 
   const bass = new Tone.Synth({
-    volume: 3,
+    volume: 5,
     oscillator: {
-      type: "sine",
+      type: "triangle",
     },
   })
     .toMaster();
@@ -23,60 +23,48 @@ function initializeBass() {
 
   function constructAcceleratorYChords() {
     for (let i = 0; i < seconds.length; i++) {
-      defineAccelYChords(parseInt(acceleratorX[i] * 10), seconds[i]);
+      defineAccelYChords(parseInt(gyroscopeY[i]), seconds[i]);
     }
   }
 
   function defineAccelYChords(value, seconds) {
-    let A = "A0";
-    let E = "E0";
-    let F = "F0";
-    let D = "D0";
+    let A = "A1";
+    let E = "E1";
+    let F = "F1";
+    let D = "D1";
     let duration1 = "2n";
     let duration2 = "2n.";
-    let duration3 = "1:1";
+    let duration3 = "4n";
 
-    if (value <= -100) {
+    if (value < -15) {
       bassline.push({
         time: seconds,
         note: A,
         duration: duration1,
       });
-    } else if (value > -100 && value <= 50) {
+    } else if (value > -15 && value <= -13) {
       bassline.push({
         time: seconds,
-        note: A,
+        note: E,
         duration: duration2,
       });
-    } else if (value > -50 && value <= -20) {
+    } else if (value > -13 && value <= -10) {
       bassline.push({
         time: seconds,
         note: F,
         duration: duration2,
       });
-    } else if (value > -20 && value <= -0) {
-      bassline.push({
-        time: seconds,
-        note: F,
-        duration: duration3,
-      });
-    } else if (value > 0 && value <= 20) {
-      bassline.push({
-        time: seconds,
-        note: F,
-        duration: duration3,
-      });
-    } else if (value > 20 && value <= 50) {
+    } else if (value > -10 && value <= -5) {
       bassline.push({
         time: seconds,
         note: D,
-        duration: duration2,
+        duration: duration3,
       });
-    } else if (value > 50 && value <= 100) {
+    } else if (value > -5 && value <= 0) {
       bassline.push({
         time: seconds,
-        note: A,
-        duration: duration1,
+        note: F,
+        duration: duration3,
       });
     } else {
       bassline.push({

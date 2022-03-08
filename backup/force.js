@@ -24,7 +24,7 @@ function initializeForce() {
 
   melodyPart = new Tone.Part(function (time, note) {
     if (prevNote !== note.note) {
-      synthMelody.triggerAttackRelease(note.note, note.duration, time);
+      // synthMelody.triggerAttackRelease(note.note, note.duration, time);
     }
     prevNote = note.note;
   }, mainChords).start(0);
