@@ -21,6 +21,7 @@
 //https://tone-demos.glitch.me/
 //PIANO DEMO:
 //https://modulovalue.com/tonejs_meets_flutterweb/#/
+//https://www.guitarland.com/MusicTheoryWithToneJS/Presets-gh-pages/
 
 let playButton;
 let s = "seconds";
@@ -32,8 +33,9 @@ let gyroY = "gyro_thy (deg/sec)";
 let gyroZ = "gyro_thz (deg/sec)";
 let accY = "accel_y (m/s^2)";
 let accX = "accel_x (m/s^2)";
+let accZ = "accel_z (m/s^2)";
 let motor, temperature, force, seconds, gyroscopeX;
-let Cmajor = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"];
+let Cmajor = ["C", "D", "E", "F", "G", "A", "B", "C"];
 let majorPart, melodyPart, kickPart, bassPart;
 let note = 0;
 let speed;
@@ -47,7 +49,7 @@ let waveform;
 let synthMajor;
 let analyser;
 var beatThreshold = 0.02;
-var defaultBPM = 220;
+var defaultBPM = 350;
 let beat;
 let frequency;
 let spectrum;
@@ -55,6 +57,7 @@ let scource;
 let signal;
 var w, h;
 let space_between_lines;
+let player;
 
 async function preload() {
   data = await loadTable("./data/odabrane/1580252966.csv", "csv", "header");
@@ -84,14 +87,13 @@ function setup() {
   gyroscopeY = data.getColumn(gyroY);
   acceleratorX = data.getColumn(accX);
   acceleratorY = data.getColumn(accY);
-
+  acceleratorZ = data.getColumn(accZ);
   env = new Tone.AmplitudeEnvelope();
 
   // Analyse frequency/amplitude of signal
   fft = new Tone.Analyser({
     size: 512,
     type: fft,
-     smoothing: 2,
   });
 
   scource = new Tone.Source();
@@ -100,14 +102,19 @@ function setup() {
     size: 512,
   });
 
-  Tone.Master.connect(waveform).connect(fft).connect(env);
+  player = new Tone.Player({
+    url: "./mp3/laugh.mp3",
+    loop: true,
+  }).toMaster();
 
   initializeMelody1();
-  initializeHarmony();
-  initializeHarmony2();
+  //initializeMelody2();
   initializeBass();
-   initializeDrums();
+  initializeHarmony2(); //?????
+  initializeDrums();
 
+
+  Tone.Master.connect(waveform).connect(fft).connect(env);
   // Set the BPM (beats per minute)
   Tone.Transport.bpm.value = defaultBPM;
 }
@@ -131,5 +138,7 @@ function draw() {
 
 function startSound() {
   Tone.Transport.start();
+  player.start();
+
   getAudioContext().resume();
 }

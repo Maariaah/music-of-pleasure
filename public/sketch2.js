@@ -22,7 +22,6 @@ function setup() {
   
   fft = new p5.FFT(0.92, 512);
   fft.setInput(source);
-  beat = new AudioEnergy();
   // beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60/(defaultBPM/60))
 }
 var k = 90;

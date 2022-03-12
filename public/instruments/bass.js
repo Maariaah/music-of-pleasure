@@ -7,9 +7,9 @@ function initializeBass() {
   constructAcceleratorYChords();
 
   const bass = new Tone.Synth({
-    volume: 5,
+    volume: 2,
     oscillator: {
-      type: "triangle",
+      type: "sine",
     },
   })
     .toMaster();
