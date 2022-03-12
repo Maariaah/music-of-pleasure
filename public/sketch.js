@@ -102,17 +102,26 @@ function setup() {
     size: 512,
   });
 
+  let pingPongEffect = new Tone.PingPongDelay({
+    delayTime: "4n",
+    feedback: 0.2,
+    wet: 0.5,
+  });
+
   player = new Tone.Player({
     url: "./mp3/laugh.mp3",
     loop: true,
-  }).toMaster();
+    fadeIn: 3,
+    fadeOut: 3,
+  })
+    .connect(pingPongEffect)
+    .toMaster();
 
   initializeMelody1();
   //initializeMelody2();
   initializeBass();
   initializeHarmony2(); //?????
   initializeDrums();
-
 
   Tone.Master.connect(waveform).connect(fft).connect(env);
   // Set the BPM (beats per minute)

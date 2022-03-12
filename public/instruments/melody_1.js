@@ -9,7 +9,7 @@ II = "E3";
 III = "B3";
 IV = "C4";
 V = "G4";
-VI = "B4";  
+VI = "B4";
 VII = "C5";
 
 function initializeMelody1() {
@@ -39,7 +39,9 @@ function initializeMelody1() {
       sustain: 0,
       release: 1.6,
     },
-  }).connect(effect1).toMaster();
+  })
+    .connect(effect1)
+    .toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {
     // let currentMelodyTone = { note: note.note, duration: note.duration };
@@ -47,12 +49,17 @@ function initializeMelody1() {
     //   synthMelody.triggerAttackRelease(note.note, note.duration, time);
     // }
 
-    if(Number(seconds) < 10) {
-      player.volume.value = 1;
-    } else if(Number(seconds) > 20 ) {
-      player.volume.value = 2;
-    } else {
-      player.volume.value = -20;
+
+    if (time < 19) {
+      player.volume.value = -50;
+    }
+    else if(time > 19 && time < 23) {
+      player.volume.value = 4;
+    } else if(time > 50) {
+      player.volume.value = 7;
+    }
+    else {
+      player.volume.value = -50;
     }
 
     if (prevMelodyTone !== note.note) {
@@ -60,13 +67,14 @@ function initializeMelody1() {
       prevMelodyTone = note.note;
     }
     // prevMelodyTone = currentMelodyTone;
-
   }, mainChords).start(0);
 }
 
 function constructMelodyChords() {
   for (let i = 0; i < seconds.length; i++) {
     defineMelodyChords(force[i], seconds[i]);
+
+    let value = Number(seconds[i]);
   }
 }
 
@@ -79,8 +87,7 @@ function defineMelodyChords(value, seconds) {
       note: I,
       duration: "1n",
     });
-  }
-  else if (newVal > 16 && newVal <= 19) {
+  } else if (newVal > 16 && newVal <= 19) {
     mainChords.push({
       time: seconds,
       note: II,
