@@ -5,13 +5,11 @@ let IChord, IIChord, IIIChord, IVChord, VChord;
 
 function initializeHarmony() {
   // Define chords
-  IChord = constructMajorChord(Ebmajor, 2, "Eb3");
-  IIChord = constructMajorChord(Ebmajor, 3, "F3");
-  IIIChord = constructMajorChord(Ebmajor, 3, "G3");
-  IVChord = constructMajorChord(Ebmajor, 4, "C4");
-  VChord = constructMajorChord(Ebmajor, 4, "Eb4");
-
-  // Set Low frequency oscilator
+  IChord = constructMajorChord(Cmajor, 2, "C2");
+  IIChord = constructMajorChord(Cmajor, 3, "C3");
+  IIIChord = constructMajorChord(Cmajor, 3, "G3");
+  IVChord = constructMajorChord(Cmajor, 4, "B3");
+  VChord = constructMajorChord(Cmajor, 4, "C4");
 
   // Chose frequency between:
   // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
@@ -30,7 +28,7 @@ function initializeHarmony() {
   constructHarmonyChords();
 
   //Use part to encapsulate chords into single unit
-  majorPart = new Tone.Part(function (time, note) {
+  harmonyPart = new Tone.Part(function (time, note) {
     let currentHarmonyTone = { note: note.note, duration: note.duration };
     // Prevent playing a note if it is same as previous one
     if (
@@ -106,7 +104,7 @@ function defineHarmonyChords(value, seconds) {
   } else {
     harmonyChords.push({
       time: seconds,
-      note: IIChord,
+      note: IIIChord,
       duration: "1n",
     });
   }

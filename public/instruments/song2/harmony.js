@@ -1,29 +1,29 @@
 // FORCE - Harmony
 let prevHarmonyTone;
 let harmonyChords = [];
-let IChord, IIChord, IIIChord, IVChord, VChord;
+let IChord, IIChord, IIIChord, IVChord, VChord, VIChord;
 
 function initializeHarmony() {
   // Define chords
-  IChord = constructMajorChord(Cmajor, 2, "C2");
-  IIChord = constructMajorChord(Cmajor, 3, "C3");
-  IIIChord = constructMajorChord(Cmajor, 3, "G3");
-  IVChord = constructMajorChord(Cmajor, 4, "B3");
-  VChord = constructMajorChord(Cmajor, 4, "C4");
-  VIChord = constructMajorChord(Cmajor, 4, "A4");
+
+  IChord = constructMajorChord(Ebmajor, 3, "Eb3");
+  IIChord = constructMajorChord(Ebmajor, 3, "F3");
+  IIIChord = constructMajorChord(Ebmajor, 3, "G3");
+  IVChord = constructMajorChord(Ebmajor, 3, "Bb3");
+  VChord = constructMajorChord(Ebmajor, 4, "C4");
+  VIChord = constructMajorChord(Cmajor, 4, "Eb4");
 
   // Set Low frequency oscilator
-  // lfo = new Tone.LFO("4n", 100, 1000);
 
   // Chose frequency between:
   // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(3, Tone.Synth, {
-    volume: -4,
+    volume: -3,
     envelope: {
-      decay: 1.3,
-      sustain: 0.4,
+      decay: 1.5,
+      sustain: 0.6,
       release: 2,
     },
   }).toMaster();
@@ -32,7 +32,7 @@ function initializeHarmony() {
   constructHarmonyChords();
 
   //Use part to encapsulate chords into single unit
-  majorPart = new Tone.Part(function (time, note) {
+  harmonyPart = new Tone.Part(function (time, note) {
     let currentHarmonyTone = { note: note.note, duration: note.duration };
     // Prevent playing a note if it is same as previous one
     if (
@@ -57,7 +57,7 @@ function defineHarmonyChords(value, seconds) {
     harmonyChords.push({
       time: seconds,
       note: IChord,
-      duration: "8n",
+      duration: "1n",
     });
   } else if (value > 3.2 && value <= 4.3) {
     harmonyChords.push({

@@ -13,7 +13,7 @@ let VIII2 = "C#5";
 
 function initializeMelody2() {
   synthMajor = new Tone.Synth({
-    volume: -5,
+    volume: -8,
     oscillator: {
       type: "fatsawtooth"
     },
@@ -23,7 +23,7 @@ function initializeMelody2() {
   constructmelody2Chords();
 
   //Use part to encapsulate chords into single unit
-  majorPart = new Tone.Part(function (time, note) {
+  melody2Part = new Tone.Part(function (time, note) {
     // Prevent playing a note if it is same as previous one
     if (prevMelody2Tone !== note.note) {
       synthMajor.triggerAttackRelease(note.note, note.duration, time);

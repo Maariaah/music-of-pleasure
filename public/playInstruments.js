@@ -14,16 +14,14 @@
 
 //Song2
 //Force range: 7.5 - 53.5
-//GyroX range: 
-//GyroY range: 
+//GyroZ range: -30 - 30
 //AcceleratorY range: 3.2 - 10.2 
 
 function playInstruments() {
   initializeMelody1();
-  initializeMelody2();
-  initializeHarmony();
-
-  // initializeBass();
-  // initializeDrums();
+   initializeMelody2();
+   initializeHarmony();
+   initializeBass();
+    initializeDrums();
   // initializeVoice();
 }

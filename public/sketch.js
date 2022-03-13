@@ -40,7 +40,7 @@ var Ebmajor = ['Eb','F','G','Ab','Bb','C','D','Eb'];
 // var HARMONIC_MINOR_SCALE = [0,2,3,5,7,8,11,12];
 // var MELODIC_MINOR_SCALE = [0,2,3,5,7,9,11,12];
 let Cmajor = ['C','D','E','F','G','A','B','C'];;
-let majorPart, melodyPart, kickPart, bassPart;
+let melodyPart, melody2Part, harmonyPart, kickPart, bassPart;
 let note = 0;
 let speed;
 let green;
@@ -53,7 +53,8 @@ let waveform;
 let synthMajor;
 let analyser;
 var beatThreshold = 0.02;
-var defaultBPM = 350;
+// var defaultBPM = 350;
+var defaultBPM = 400;
 let beat;
 let frequency;
 let spectrum;
@@ -84,6 +85,7 @@ function setup() {
   seconds = data.getColumn(s);
   gyroscopeX = data.getColumn(gyroX);
   gyroscopeY = data.getColumn(gyroY);
+  gyroscopeZ = data.getColumn(gyroZ);
   acceleratorX = data.getColumn(accX);
   acceleratorY = data.getColumn(accY);
   acceleratorZ = data.getColumn(accZ);
@@ -110,7 +112,7 @@ function setup() {
 
 function draw() {
   // defineColor();
-  drawWaveform();
+  //drawWaveform();
 
   button = createButton("click me");
   button.position(0, 0);

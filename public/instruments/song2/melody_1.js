@@ -4,7 +4,6 @@ let lfo;
 let mainChords = [];
 var effect1, effect2, effect3;
 
-
 //Eb4','F4','G4','Ab4','Bb4','C5','D5','Eb5
 
 let I = "Eb4";
@@ -20,32 +19,14 @@ function initializeMelody1() {
   constructMelodyChords();
 
   // create effects
-  let effect1 = new Tone.AutoFilter({
-    frequency: 8,
-    octaves: 0.2,
-    Q: 2,
-    baseFrequency: 700,
-    wet: 0.6,
-  }).toMaster();
 
   // Use a simple Synth as the instrument
   synthMelody = new Tone.Synth({
-    volume: -5,
+    volume: 8,
     oscillator: {
-      type: "fatcustom",
-      partials: [0.2, 1, 0, 0.5, 0.1],
-      spread: 40,
-      count: 3,
+      type: "fatsawtooth5",
     },
-    envelope: {
-      attack: 0.001,
-      decay: 1.6,
-      sustain: 0,
-      release: 1.6,
-    },
-  })
-    .connect(effect1)
-    .toMaster();
+  }).toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {
     if (prevMelodyTone !== note.note) {
@@ -65,7 +46,7 @@ function defineMelodyChords(value, seconds) {
   let newVal = parseInt(value);
 
   // 7.5 - 53.5
-  
+
   if (newVal < 7.5) {
     mainChords.push({
       time: seconds,
@@ -73,7 +54,6 @@ function defineMelodyChords(value, seconds) {
       duration: "1n",
     });
   }
-
   if (newVal > 7.5 && newVal <= 10) {
     mainChords.push({
       time: seconds,
@@ -90,7 +70,7 @@ function defineMelodyChords(value, seconds) {
     mainChords.push({
       time: seconds,
       note: II,
-      duration: "1n",
+      duration: "2n",
     });
   } else if (newVal > 27.5 && newVal <= 30) {
     mainChords.push({
@@ -101,56 +81,56 @@ function defineMelodyChords(value, seconds) {
   } else if (newVal > 30 && newVal <= 32.5) {
     mainChords.push({
       time: seconds,
-      note: II,
+      note: IV,
       duration: "2n",
     });
   } else if (newVal > 32.5 && newVal <= 35) {
     mainChords.push({
       time: seconds,
-      note: IV,
-      duration: "4n",
+      note: V,
+      duration: "2n",
     });
   } else if (newVal > 35 && newVal <= 37) {
     mainChords.push({
       time: seconds,
-      note: V,
+      note: IV,
       duration: "8n",
     });
   } else if (newVal > 37 && newVal <= 40) {
     mainChords.push({
       time: seconds,
-      note: IV,
+      note: V,
       duration: "16n",
     });
   } else if (newVal > 40 && newVal <= 42.5) {
     mainChords.push({
       time: seconds,
-      note: V,
+      note: VI,
       duration: "8n",
     });
   } else if (newVal > 42.5 && newVal <= 45) {
     mainChords.push({
       time: seconds,
-      note: V,
+      note: VII,
       duration: "16n",
     });
   } else if (newVal > 45 && newVal <= 47.5) {
     mainChords.push({
       time: seconds,
       note: VI,
-      duration: "8n",
+      duration: "16n",
     });
   } else if (newVal > 47.5 && newVal <= 50) {
     mainChords.push({
       time: seconds,
-      note: VII,
+      note: VIII,
       duration: "16n",
     });
   } else if (newVal > 50 && newVal <= 52.5) {
     mainChords.push({
       time: seconds,
-      note: VIII,
-      duration: "16n",
+      note: VII,
+      duration: "32n",
     });
   } else if (newVal > 52.5) {
     mainChords.push({
@@ -161,7 +141,7 @@ function defineMelodyChords(value, seconds) {
   } else {
     mainChords.push({
       time: seconds,
-      note: III,
+      note: IV,
       duration: "4n",
     });
   }
