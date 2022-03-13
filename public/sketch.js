@@ -35,11 +35,13 @@ let accY = "accel_y (m/s^2)";
 let accX = "accel_x (m/s^2)";
 let accZ = "accel_z (m/s^2)";
 let motor, temperature, force, seconds, gyroscopeX;
-var Ebmajor = ['Eb','F','G','Ab','Bb','C','D','Eb'];
+var Ebmajor = ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"];
 // var NATURAL_MINOR_SCALE = [0,2,3,5,7,8,10,12];
 // var HARMONIC_MINOR_SCALE = [0,2,3,5,7,8,11,12];
 // var MELODIC_MINOR_SCALE = [0,2,3,5,7,9,11,12];
-let Cmajor = ['C','D','E','F','G','A','B','C'];;
+// var Dbmajor = Db Eb F Gb Ab Bb C (Db)
+let Cmajor = ["C", "D", "E", "F", "G", "A", "B", "C"];
+var Dmajor = ["D", "E", "F", "G", "A", "B", "C", "D"];
 let melodyPart, melody2Part, harmonyPart, kickPart, bassPart;
 let note = 0;
 let speed;
@@ -54,7 +56,8 @@ let synthMajor;
 let analyser;
 var beatThreshold = 0.02;
 // var defaultBPM = 350;
-var defaultBPM = 400;
+// var defaultBPM = 400;
+var defaultBPM = 220;
 let beat;
 let frequency;
 let spectrum;
@@ -68,7 +71,9 @@ async function preload() {
   // ======== SONG 1 ========
   // data = await loadTable("./data/1580252966.csv", "csv", "header");
   // ======== SONG 2 ========
-  data = await loadTable("./data/1635706032.csv", "csv", "header");
+  // data = await loadTable("./data/1635706032.csv", "csv", "header");
+  // ======== SONG 3 ========
+  data = await loadTable("./data/1624909543.csv", "csv", "header");
 }
 
 function setup() {

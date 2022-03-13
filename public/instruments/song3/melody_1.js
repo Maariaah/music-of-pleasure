@@ -4,27 +4,24 @@ let lfo;
 let mainChords = [];
 var effect1, effect2, effect3;
 
-//Eb4','F4','G4','Ab4','Bb4','C5','D5','Eb5
-
-let I = "Eb4";
-let II = "F4";
-let III = "G4";
-let IV = "Ab4";
-let V = "Bb4";
-let VI = "C5";
-let VII = "D5";
-let VIII = "Eb5";
+// D E F# G A B C# (D)
+let I = "D4";
+let II = "E4";
+let III = "F#4";
+let IV = "G4";
+let V = "A4";
+let VI = "B4";
+let VII = "C#5";
+let VIII = "D5";
 
 function initializeMelody1() {
   constructMelodyChords();
 
-  // create effects
-
   // Use a simple Synth as the instrument
   synthMelody = new Tone.Synth({
-    volume: 8,
+    volume: 6,
     oscillator: {
-      type: "fatsawtooth5",
+      type: "triangle7",
     },
   }).toMaster();
 
@@ -43,96 +40,96 @@ function constructMelodyChords() {
 }
 
 function defineMelodyChords(value, seconds) {
-  let newVal = parseInt(value);
+  let newVal = map(parseInt(value), 0, 63.5, 0, 14);
 
-  // 7.5 - 53.5
+  // 0 - 63.5
 
-  if (newVal < 7.5) {
+  if (newVal < 1) {
     mainChords.push({
       time: seconds,
       note: I,
       duration: "1n",
     });
   }
-  else if (newVal > 7.5 && newVal <= 10) {
+   else if (newVal > 1 && newVal <= 2) {
     mainChords.push({
       time: seconds,
       note: II,
       duration: "1n",
     });
-  } else if (newVal > 10 && newVal <= 15) {
+  } else if (newVal > 2 && newVal <= 3) {
     mainChords.push({
       time: seconds,
       note: III,
       duration: "1n",
     });
-  } else if (newVal > 20 && newVal <= 25) {
+  } else if (newVal > 3 && newVal <= 5) {
     mainChords.push({
       time: seconds,
       note: II,
       duration: "2n",
     });
-  } else if (newVal > 27.5 && newVal <= 30) {
+  } else if (newVal > 5 && newVal <= 6) {
     mainChords.push({
       time: seconds,
       note: III,
       duration: "2n",
     });
-  } else if (newVal > 30 && newVal <= 32.5) {
+  } else if (newVal > 6 && newVal <= 8) {
     mainChords.push({
       time: seconds,
       note: IV,
       duration: "2n",
     });
-  } else if (newVal > 32.5 && newVal <= 35) {
+  } else if (newVal > 8 && newVal <= 8.5 ) {
     mainChords.push({
       time: seconds,
       note: V,
       duration: "2n",
     });
-  } else if (newVal > 35 && newVal <= 37) {
+  } else if (newVal > 8.5 && newVal <= 9) {
     mainChords.push({
       time: seconds,
       note: IV,
       duration: "8n",
     });
-  } else if (newVal > 37 && newVal <= 40) {
+  } else if (newVal > 9 && newVal <= 10.5) {
     mainChords.push({
       time: seconds,
       note: V,
       duration: "16n",
     });
-  } else if (newVal > 40 && newVal <= 42.5) {
+  } else if (newVal > 10.5 && newVal <= 11) {
     mainChords.push({
       time: seconds,
       note: VI,
       duration: "8n",
     });
-  } else if (newVal > 42.5 && newVal <= 45) {
+  } else if (newVal > 11 && newVal <= 12) {
     mainChords.push({
       time: seconds,
       note: VII,
       duration: "16n",
     });
-  } else if (newVal > 45 && newVal <= 47.5) {
+  } else if (newVal > 12.5 && newVal <= 13) {
     mainChords.push({
       time: seconds,
       note: VI,
       duration: "16n",
     });
-  } else if (newVal > 47.5 && newVal <= 50) {
+  } else if (newVal > 13 && newVal <= 13.5) {
     mainChords.push({
       time: seconds,
       note: VIII,
       duration: "16n",
     });
-  } else if (newVal > 50 && newVal <= 52.5) {
+  } else if (newVal > 13.5 && newVal <= 14) {
     mainChords.push({
       time: seconds,
       note: VII,
       duration: "32n",
     });
-  } else if (newVal > 52.5) {
+  } else if (newVal > 14) {
     mainChords.push({
       time: seconds,
       note: VIII,
