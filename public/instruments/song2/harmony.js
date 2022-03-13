@@ -10,6 +10,7 @@ function initializeHarmony() {
   IIIChord = constructMajorChord(Cmajor, 3, "G3");
   IVChord = constructMajorChord(Cmajor, 4, "B3");
   VChord = constructMajorChord(Cmajor, 4, "C4");
+  VIChord = constructMajorChord(Cmajor, 4, "A4");
 
   // Set Low frequency oscilator
   // lfo = new Tone.LFO("4n", 100, 1000);
@@ -17,17 +18,11 @@ function initializeHarmony() {
   // Chose frequency between:
   // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
 
-  // var effect1 = new Tone.FeedbackDelay({
-  //   delayTime: "16n",
-  //   feedback: 0.1,
-  //   wet: 0.5,
-  // }).toMaster();
-
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(3, Tone.Synth, {
     volume: -4,
     envelope: {
-      decay: 1,
+      decay: 1.3,
       sustain: 0.4,
       release: 2,
     },
@@ -51,69 +46,77 @@ function initializeHarmony() {
 
 function constructHarmonyChords() {
   for (let i = 0; i < seconds.length; i++) {
-    defineHarmonyChords(acceleratorX[i], seconds[i]);
+    defineHarmonyChords(acceleratorY[i], seconds[i]);
   }
 }
 
+// 3.2 - 10.2
+
 function defineHarmonyChords(value, seconds) {
-  if (value > 0 && value <= 1.2) {
+  if (value < 3.2) {
     harmonyChords.push({
       time: seconds,
       note: IChord,
       duration: "8n",
     });
-  } else if (value > 1.2 && value <= 2.5) {
+  } else if (value > 3.2 && value <= 4.3) {
     harmonyChords.push({
       time: seconds,
       note: IIChord,
       duration: "8n",
     });
-  } else if (value > 2.5 && value <= 3.45) {
+  } else if (value > 4.3 && value <= 4.7) {
     harmonyChords.push({
       time: seconds,
       note: IChord,
       duration: "1n",
     });
-  } else if (value > 3.55 && value <= 4.5) {
+  } else if (value > 4.7 && value <= 5.2) {
     harmonyChords.push({
       time: seconds,
       note: IIIChord,
       duration: "8n",
     });
-  } else if (value > 4.5 && value <= 5.6) {
+  } else if (value > 5.2 && value <= 5.9) {
     harmonyChords.push({
       time: seconds,
       note: IVChord,
       duration: "8n",
     });
-  } else if (value > 5.6 && value <= 7.2) {
+  } else if (value > 5.9 && value <= 6.8) {
     harmonyChords.push({
       time: seconds,
       note: IIIChord,
       duration: "1n",
     });
-  } else if (value > 7.2 && value <= 8) {
+  } else if (value > 7.1 && value <= 7.9) {
     harmonyChords.push({
       time: seconds,
       note: VChord,
       duration: "8n",
     });
-  } else if (value > 8 && value <= 9) {
+  } else if (value > 7.9 && value <= 8.9) {
     harmonyChords.push({
       time: seconds,
       note: IVChord,
       duration: "1n",
     });
-  } else if (value > 9) {
+  } else if (value > 8.9 && value <= 9.4) {
     harmonyChords.push({
       time: seconds,
       note: VChord,
       duration: "1n",
+    });
+  } else if (value > 9.4 && value <= 10.2) {
+    harmonyChords.push({
+      time: seconds,
+      note: VIChord,
+      duration: "4n",
     });
   } else {
     harmonyChords.push({
       time: seconds,
-      note: IIChord,
+      note: III,
       duration: "1n",
     });
   }

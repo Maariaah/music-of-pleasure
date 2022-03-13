@@ -35,7 +35,11 @@ let accY = "accel_y (m/s^2)";
 let accX = "accel_x (m/s^2)";
 let accZ = "accel_z (m/s^2)";
 let motor, temperature, force, seconds, gyroscopeX;
-let Cmajor = ["C", "D", "E", "F", "G", "A", "B", "C"];
+var Ebmajor = ['Eb','F','G','Ab','Bb','C','D','Eb'];
+// var NATURAL_MINOR_SCALE = [0,2,3,5,7,8,10,12];
+// var HARMONIC_MINOR_SCALE = [0,2,3,5,7,8,11,12];
+// var MELODIC_MINOR_SCALE = [0,2,3,5,7,9,11,12];
+let Cmajor = ['C','D','E','F','G','A','B','C'];;
 let majorPart, melodyPart, kickPart, bassPart;
 let note = 0;
 let speed;
@@ -60,16 +64,11 @@ let space_between_lines;
 let player;
 
 async function preload() {
-  data = await loadTable("./data/1580252966.csv", "csv", "header");
+  // ======== SONG 1 ========
+  // data = await loadTable("./data/1580252966.csv", "csv", "header");
+  // ======== SONG 2 ========
+  data = await loadTable("./data/1635706032.csv", "csv", "header");
 }
-//1574576287
-//Force range: 9-43
-
-//1580252966
-//Force range: 9-48
-//GyroX range: 30 - -20
-//GyroY range: -15 - 0
-//AcceleratorX range: 0 - 10
 
 function setup() {
   createCanvas(800, 600);
@@ -128,7 +127,6 @@ function draw() {
 
 function startSound() {
   Tone.Transport.start();
-  player.start();
-
+  // player.start();
   getAudioContext().resume();
 }

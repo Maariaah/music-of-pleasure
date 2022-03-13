@@ -5,23 +5,16 @@ let IChord, IIChord, IIIChord, IVChord, VChord;
 
 function initializeHarmony() {
   // Define chords
-  IChord = constructMajorChord(Cmajor, 2, "C2");
-  IIChord = constructMajorChord(Cmajor, 3, "C3");
-  IIIChord = constructMajorChord(Cmajor, 3, "G3");
-  IVChord = constructMajorChord(Cmajor, 4, "B3");
-  VChord = constructMajorChord(Cmajor, 4, "C4");
+  IChord = constructMajorChord(Ebmajor, 2, "Eb3");
+  IIChord = constructMajorChord(Ebmajor, 3, "F3");
+  IIIChord = constructMajorChord(Ebmajor, 3, "G3");
+  IVChord = constructMajorChord(Ebmajor, 4, "C4");
+  VChord = constructMajorChord(Ebmajor, 4, "Eb4");
 
   // Set Low frequency oscilator
-  // lfo = new Tone.LFO("4n", 100, 1000);
 
   // Chose frequency between:
   // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
-
-  // var effect1 = new Tone.FeedbackDelay({
-  //   delayTime: "16n",
-  //   feedback: 0.1,
-  //   wet: 0.5,
-  // }).toMaster();
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(3, Tone.Synth, {
