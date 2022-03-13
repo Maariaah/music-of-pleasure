@@ -60,7 +60,7 @@ let space_between_lines;
 let player;
 
 async function preload() {
-  data = await loadTable("./data/odabrane/1580252966.csv", "csv", "header");
+  data = await loadTable("./data/1580252966.csv", "csv", "header");
 }
 //1574576287
 //Force range: 9-43
@@ -102,26 +102,7 @@ function setup() {
     size: 512,
   });
 
-  let pingPongEffect = new Tone.PingPongDelay({
-    delayTime: "4n",
-    feedback: 0.2,
-    wet: 0.5,
-  });
-
-  player = new Tone.Player({
-    url: "./mp3/laugh.mp3",
-    loop: true,
-    fadeIn: 3,
-    fadeOut: 3,
-  })
-    .connect(pingPongEffect)
-    .toMaster();
-
-  initializeMelody1();
-  //initializeMelody2();
-  initializeBass();
-  initializeHarmony2(); //?????
-  initializeDrums();
+  playInstruments();
 
   Tone.Master.connect(waveform).connect(fft).connect(env);
   // Set the BPM (beats per minute)
