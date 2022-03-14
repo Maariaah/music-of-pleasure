@@ -19,7 +19,7 @@
 
 function playInstruments() {
   initializeMelody1();
-  //initializeMelody2();
+  initializeMelody2();
   initializeHarmony();
   // initializeBass();
   initializeDrums();

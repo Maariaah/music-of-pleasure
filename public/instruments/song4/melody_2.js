@@ -1,34 +1,32 @@
 // FORCE - melody
 let prevMelody2Tone;
 let melody2Chords = [];
-let I2 = "Bb4";
-let II2 = "C5";
-let III2 = "D5";
-let IV2 = "Eb5";
-let V2 = "F4";
-let VI2 = "G4";
-let VII2 = "Ab4";
-let VIII2 = "Bb5";
+let I2 = "D4";
+let II2 = "F4";
+let III2 = "A4";
+let IV2 = "B4";
+let V2 = "C5";
+let VI2 = "D5";
 
 function initializeMelody2() {
   constructmelody2Chords();
 
   let melody2Efect = new Tone.PingPongDelay({
     delayTime: "8t",
-    feedback: 0.5,
+    feedback: 0.3,
     wet: 0.5,
   }).toMaster();
 
   synthMelody2 = new Tone.Synth({
     oscillator: {
-      type: "fatsawtooth4",
+      type: "triangle",
     },
-    volume: -10,
+    volume: -18,
     envelope: {
       attack: 0.2,
       decay: 1,
       sustain: 0,
-      release: 1.6,
+      release: 0.5,
     },
   })
     .connect(melody2Efect)
@@ -46,19 +44,15 @@ function initializeMelody2() {
 
 function constructmelody2Chords() {
   for (let i = 0; i < seconds.length; i++) {
-    definemelody2Chords(gyroscopeX[i], seconds[i]);
+    definemelody2Chords(force[i], seconds[i]);
   }
 }
-//GyroZ range: -50 - 50
+
 function definemelody2Chords(value, seconds) {
-  let newVal = map(parseInt(value), -21, 26, 0, 9);
+  let newVal = map(parseInt(value), 30, 38, 0, 5);
 
   if (newVal <= 0) {
-    melody2Chords.push({
-      time: seconds,
-      note: I2,
-      duration: "1n",
-    });
+    return;
   } else if (newVal > 0 && newVal <= 1) {
     melody2Chords.push({
       time: seconds,
@@ -89,22 +83,10 @@ function definemelody2Chords(value, seconds) {
       note: V2,
       duration: "2n",
     });
-  } else if (newVal > 5 && newVal <= 6) {
+  } else if (newVal > 5) {
     melody2Chords.push({
       time: seconds,
       note: VI2,
-      duration: "8n",
-    });
-  } else if (newVal > 6 && newVal <= 7) {
-    melody2Chords.push({
-      time: seconds,
-      note: VII2,
-      duration: "8n",
-    });
-  } else if (newVal > 7 && newVal <= 8) {
-    melody2Chords.push({
-      time: seconds,
-      note: VIII2,
       duration: "8n",
     });
   } else {
