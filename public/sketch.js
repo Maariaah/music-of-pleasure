@@ -63,7 +63,7 @@ var beatThreshold = 0.02;
 // var defaultBPM = 350;
 // var defaultBPM = 400;
 //var defaultBPM = 220;
- var defaultBPM = 400;
+ var defaultBPM = 430;
 let beat;
 let frequency;
 let spectrum;

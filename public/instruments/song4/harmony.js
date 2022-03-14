@@ -17,9 +17,9 @@ function initializeHarmony() {
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(3, Tone.Synth, {
-    volume: 2,
+    volume: 3,
     oscillator: {
-      type: "triangle2",
+      type: "sine",
     },
   }).toMaster();
 
@@ -60,7 +60,7 @@ function defineHarmonyChords(v, seconds) {
     harmonyChords.push({
       time: seconds,
       note: IIChord,
-      duration: "4n",
+      duration: "2n",
     });
   } else if (value > 1 && value <= 2) {
     harmonyChords.push({
@@ -72,13 +72,13 @@ function defineHarmonyChords(v, seconds) {
     harmonyChords.push({
       time: seconds,
       note: IIIChord,
-      duration: "4n",
+      duration: "2n",
     });
   } else if (value > 3 && value <= 4) {
     harmonyChords.push({
       time: seconds,
       note: IVChord,
-      duration: "4n",
+      duration: "2n",
     });
   } else if (value > 4 && value <= 5) {
     harmonyChords.push({

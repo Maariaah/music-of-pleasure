@@ -13,11 +13,6 @@ function initializeDrums() {
 
   constructKicksAndSnares(force, seconds);
 
-  var effectDrum = new Tone.JCReverb({
-    roomSize: 0.3,
-    wet: 0.2,
-  }).toMaster();
-
   kickDrum = new Tone.MembraneSynth({
     volume: -6,
   })

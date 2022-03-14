@@ -6,13 +6,13 @@ var effect1, effect2, effect3;
 
 // ["Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"];
 
-let I = "Db3";
-let II = "Eb3";
-let III = "F3";
-let IV = "Gb3";
-let V = "Ab3";
-let VI = "Bb3";
-let VII = "Cb4";
+let I = "Db4";
+let II = "Eb4";
+let III = "F4";
+let IV = "Gb4";
+let V = "Ab4";
+let VI = "Bb4";
+let VII = "Cb5";
 let VIII = "Db5";
 
 function initializeMelody1() {
@@ -22,7 +22,7 @@ function initializeMelody1() {
   synthMelody = new Tone.Synth({
     volume: 6,
     oscillator: {
-      type: "triangle7",
+      type: "triangle1",
     },
   }).toMaster();
 
@@ -49,19 +49,19 @@ function defineMelodyChords(value, seconds) {
     mainChords.push({
       time: seconds,
       note: I,
-      duration: "1n",
+      duration: "2n",
     });
   } else if (newVal > 1 && newVal <= 2) {
     mainChords.push({
       time: seconds,
       note: II,
-      duration: "1n",
+      duration: "2n",
     });
   } else if (newVal > 2 && newVal <= 3) {
     mainChords.push({
       time: seconds,
       note: III,
-      duration: "1n",
+      duration: "4n",
     });
   } else if (newVal > 3 && newVal <= 3.5) {
     mainChords.push({
@@ -73,43 +73,43 @@ function defineMelodyChords(value, seconds) {
     mainChords.push({
       time: seconds,
       note: III,
-      duration: "1n",
+      duration: "4n",
     });
   } else if (newVal > 4 && newVal <= 4) {
     mainChords.push({
       time: seconds,
       note: IV,
-      duration: "2n",
+      duration: "4n",
     });
   } else if (newVal > 5 && newVal <= 5.5) {
     mainChords.push({
       time: seconds,
       note: V,
-      duration: "2n",
+      duration: "8n",
     });
   } else if (newVal > 5.5 && newVal <= 6) {
     mainChords.push({
       time: seconds,
       note: IV,
-      duration: "2n",
+      duration: "4n",
     });
   } else if (newVal > 6 && newVal <= 7.5) {
     mainChords.push({
       time: seconds,
       note: VI,
-      duration: "2n",
+      duration: "8n",
     });
   } else if (newVal > 7.5 && newVal <= 8) {
     mainChords.push({
       time: seconds,
       note: V,
-      duration: "4n",
+      duration: "8n",
     });
   } else if (newVal > 8 && newVal <= 8.5) {
     mainChords.push({
       time: seconds,
       note: VI,
-      duration: "4n",
+      duration: "16n",
     });
   } else if (newVal > 8.5 && newVal <= 9) {
     mainChords.push({
@@ -127,7 +127,7 @@ function defineMelodyChords(value, seconds) {
     mainChords.push({
       time: seconds,
       note: VI,
-      duration: "8n",
+      duration: "16n",
     });
   } else if (newVal > 11 && newVal <= 11.5) {
     mainChords.push({
@@ -138,13 +138,13 @@ function defineMelodyChords(value, seconds) {
   } else if (newVal > 11.5 && newVal <= 12) {
     mainChords.push({
       time: seconds,
-      note: VII,
+      note: VI,
       duration: "16n",
     });
   } else if (newVal > 12 && newVal <= 13) {
     mainChords.push({
       time: seconds,
-      note: VI,
+      note: VII,
       duration: "16n",
     });
   } else if (newVal > 13 && newVal <= 13.5) {

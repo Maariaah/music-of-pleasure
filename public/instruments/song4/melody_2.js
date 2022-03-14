@@ -11,26 +11,21 @@ let VI2 = "D5";
 function initializeMelody2() {
   constructmelody2Chords();
 
-  let melody2Efect = new Tone.PingPongDelay({
-    delayTime: "8t",
-    feedback: 0.3,
-    wet: 0.5,
-  }).toMaster();
-
   synthMelody2 = new Tone.Synth({
+    volume: -2,
     oscillator: {
-      type: "triangle",
+      type: "fatcustom",
+      partials: [0.2, 1, 0, 0.5, 0.1],
+      spread: 40,
+      count: 3,
     },
-    volume: -18,
     envelope: {
-      attack: 0.2,
-      decay: 1,
+      attack: 0.001,
+      decay: 1.6,
       sustain: 0,
-      release: 0.5,
+      release: 1.6,
     },
-  })
-    .connect(melody2Efect)
-    .toMaster();
+  }).toMaster();
 
   //Use part to encapsulate chords into single unit
   melody2Part = new Tone.Part(function (time, note) {
@@ -57,31 +52,31 @@ function definemelody2Chords(value, seconds) {
     melody2Chords.push({
       time: seconds,
       note: II2,
-      duration: "1n",
+      duration: "4n",
     });
   } else if (newVal > 1 && newVal <= 2) {
     melody2Chords.push({
       time: seconds,
       note: III2,
-      duration: "1n",
+      duration: "4n",
     });
   } else if (newVal > 2 && newVal <= 3) {
     melody2Chords.push({
       time: seconds,
       note: IV2,
-      duration: "1n",
+      duration: "4n",
     });
   } else if (newVal > 3 && newVal <= 4) {
     melody2Chords.push({
       time: seconds,
       note: III2,
-      duration: "4n",
+      duration: "8n",
     });
   } else if (newVal > 4 && newVal <= 5) {
     melody2Chords.push({
       time: seconds,
       note: V2,
-      duration: "2n",
+      duration: "8n",
     });
   } else if (newVal > 5) {
     melody2Chords.push({
