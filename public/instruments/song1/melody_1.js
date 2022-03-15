@@ -29,16 +29,16 @@ function initializeMelody1() {
     volume: -5,
     oscillator: {
       type: "fatcustom",
-      partials: [0.2, 1, 0, 0.5, 0.1],
+     partials: [0.2, 1, 0, 0.5, 0.1],
       spread: 40,
       count: 3,
     },
-    envelope: {
-      attack: 0.001,
-      decay: 1.6,
-      sustain: 0,
-      release: 1.6,
-    },
+    // envelope: {
+    //   attack: 0.001,
+    //   decay: 1.6,
+    //   sustain: 0,
+    //   release: 1.6,
+    // },
   })
     .connect(effect1)
     .toMaster();
@@ -49,23 +49,11 @@ function initializeMelody1() {
     //   synthMelody.triggerAttackRelease(note.note, note.duration, time);
     // }
 
-    // if (time < 19) {
-    //   player.volume.value = -50;
-    // }
-    // else if(time > 19 && time < 23) {
-    //   player.volume.value = 4;
-    // } else if(time > 50) {
-    //   player.volume.value = 7;
-    // }
-    // else {
-    //   player.volume.value = -50;
-    // }
 
     if (prevMelodyTone !== note.note) {
       synthMelody.triggerAttackRelease(note.note, note.duration, time);
       prevMelodyTone = note.note;
     }
-    // prevMelodyTone = currentMelodyTone;
   }, mainChords).start(0);
 }
 
@@ -80,37 +68,31 @@ function constructMelodyChords() {
 function defineMelodyChords(value, seconds) {
   let newVal = parseInt(value);
 
-  if (newVal > 13 && newVal <= 16) {
+   if (newVal > 8 && newVal <= 10) {
     mainChords.push({
       time: seconds,
       note: I,
-      duration: "1n",
+      duration: "2n",
     });
-  } else if (newVal > 16 && newVal <= 19) {
+  } else if (newVal > 10 && newVal <= 12) {
     mainChords.push({
       time: seconds,
       note: II,
-      duration: "1n",
+      duration: "2n",
     });
-  } else if (newVal > 19 && newVal <= 21.5) {
-    mainChords.push({
-      time: seconds,
-      note: II,
-      duration: "1n",
-    });
-  } else if (newVal > 21.5 && newVal <= 25) {
-    mainChords.push({
-      time: seconds,
-      note: III,
-      duration: "1n",
-    });
-  } else if (newVal > 25 && newVal <= 26) {
+  } else if (newVal > 12 && newVal <= 22) {
     mainChords.push({
       time: seconds,
       note: III,
       duration: "2n",
     });
-  } else if (newVal > 27 && newVal <= 29) {
+  } else if (newVal > 22 && newVal <= 26) {
+    mainChords.push({
+      time: seconds,
+      note: III,
+      duration: "2n",
+    });
+  } else if (newVal > 26 && newVal <= 29) {
     mainChords.push({
       time: seconds,
       note: IV,
@@ -157,7 +139,7 @@ function defineMelodyChords(value, seconds) {
       time: seconds,
       note: III,
       duration: "4n",
-    });
+    });;
   }
   return mainChords;
 }
