@@ -60,10 +60,10 @@ let waveform;
 let synthMajor;
 let analyser;
 var beatThreshold = 0.02;
-// var defaultBPM = 350;
+ var defaultBPM = 340;
 // var defaultBPM = 400;
-//var defaultBPM = 220;
- var defaultBPM = 430;
+// var defaultBPM = 220;
+// var defaultBPM = 430;
 let beat;
 let frequency;
 let spectrum;
@@ -75,13 +75,15 @@ let player;
 
 async function preload() {
   // ======== SONG 1 ========
-  // data = await loadTable("./data/1580252966.csv", "csv", "header");
+  // data = await loadTable("./data/1624909543.csv", "csv", "header");
   // ======== SONG 2 ========
   // data = await loadTable("./data/1635706032.csv", "csv", "header");
   // ======== SONG 3 ========
   // data = await loadTable("./data/1624909543.csv", "csv", "header");
-    // ======== SONG 4 ========
-    data = await loadTable("./data/1575331292.csv", "csv", "header");
+  // ======== SONG 4 ========
+  //data = await loadTable("./data/1575331292.csv", "csv", "header");
+    // ======== SONG 5 ========
+  data = await loadTable("./data/1635457267.csv", "csv", "header");
 }
 
 function setup() {
