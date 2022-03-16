@@ -60,10 +60,12 @@ let waveform;
 let synthMajor;
 let analyser;
 var beatThreshold = 0.02;
- var defaultBPM = 340;
+//var defaultBPM = 340;
 // var defaultBPM = 400;
 // var defaultBPM = 220;
 // var defaultBPM = 430;
+var defaultBPM = 160;
+
 let beat;
 let frequency;
 let spectrum;
@@ -72,6 +74,7 @@ let signal;
 var w, h;
 let space_between_lines;
 let player;
+let meter;
 
 async function preload() {
   // ======== SONG 1 ========
@@ -111,7 +114,9 @@ function setup() {
     size: 512,
     type: fft,
   });
-
+  meter = new Tone.Meter();
+  //let pos = 0.5 - this.meter.getValue(0); // -> -0.5 ~ 0.5
+  
   scource = new Tone.Source();
   signal = new Tone.Signal();
   waveform = new Tone.Waveform({

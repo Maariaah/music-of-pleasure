@@ -1,12 +1,13 @@
 // FORCE - melody
 let prevMelody2Tone;
 let melody2Chords = [];
-let I2 = "D4";
-let II2 = "F4";
-let III2 = "A4";
-let IV2 = "B4";
-let V2 = "C5";
-let VI2 = "D5";
+
+let I2 = "D3";
+let II2 = "A3";
+let III2 = "C4";
+let IV2 = "D4";
+let V2 = "A5";
+let VI2 = "A#5";
 
 function initializeMelody2() {
   constructmelody2Chords();
@@ -44,7 +45,7 @@ function constructmelody2Chords() {
 }
 
 function definemelody2Chords(value, seconds) {
-  let newVal = map(parseInt(value), 30, 38, 0, 5);
+  let newVal = map(parseInt(value), 4, 35, 0, 5);
 
   if (newVal <= 0) {
     return;
