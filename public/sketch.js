@@ -61,10 +61,11 @@ let synthMajor;
 let analyser;
 var beatThreshold = 0.02;
 //var defaultBPM = 340;
-// var defaultBPM = 400;
 // var defaultBPM = 220;
 // var defaultBPM = 430;
-var defaultBPM = 160;
+// Song 5
+//var defaultBPM = 400;
+ var defaultBPM = 160;
 
 let beat;
 let frequency;
@@ -78,15 +79,18 @@ let meter;
 
 async function preload() {
   // ======== SONG 1 ========
-  // data = await loadTable("./data/1635457267.csv", "csv", "header"); 1635457267 1624909543
+  // data = await loadTable("./data/1635457267.csv", "csv", "header"); 1624909543
   // ======== SONG 2 ========
   // data = await loadTable("./data/1635706032.csv", "csv", "header");
   // ======== SONG 3 ========
   // data = await loadTable("./data/1624909543.csv", "csv", "header");
   // ======== SONG 4 ========
-  //data = await loadTable("./data/1575331292.csv", "csv", "header");
-    // ======== SONG 5 ========
-  data = await loadTable("./data/1635457267.csv", "csv", "header");
+  //data = await loadTable("./data/1635457267_medians.csv", "csv", "header"); //standalone
+  //data = await loadTable("./data/1575331292.csv", "csv", "header"); //standalone
+  // ======== SONG 5 ========
+  // data = await loadTable("./data/1635457267_medians.csv", "csv", "header"); //sad, nostalgic, but a bot boring 
+   data = await loadTable("./data/1635457267.csv", "csv", "header"); //sad, nostalgic, but a bot boring 
+
 }
 
 function setup() {
@@ -116,7 +120,7 @@ function setup() {
   });
   meter = new Tone.Meter();
   //let pos = 0.5 - this.meter.getValue(0); // -> -0.5 ~ 0.5
-  
+
   scource = new Tone.Source();
   signal = new Tone.Signal();
   waveform = new Tone.Waveform({
@@ -133,7 +137,6 @@ function setup() {
 function draw() {
   // defineColor();
   //drawWaveform();
-
 
   button = createButton("click me");
   button.position(0, 0);

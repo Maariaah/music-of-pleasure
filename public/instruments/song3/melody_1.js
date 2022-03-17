@@ -26,10 +26,10 @@ function initializeMelody1() {
   }).toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {
-    if (prevMelodyTone !== note.note) {
+     if (prevMelodyTone !== note.note) {
       synthMelody.triggerAttackRelease(note.note, note.duration, time);
       prevMelodyTone = note.note;
-    }
+     }
   }, mainChords).start(0);
 }
 

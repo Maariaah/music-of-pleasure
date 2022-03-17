@@ -45,8 +45,6 @@ function initializeMelody1() {
       (count < 7 && note.number === 8) ||
       (count < 5 && note.number === 9)
     ) {
-      console.log(note);
-
       synthMelody.triggerAttackRelease(note.note, note.duration, time);
       count++;
     } else {
@@ -111,7 +109,7 @@ function initializeMelody1() {
     // Set the rythm
 
     let timeoutID;
-    let newVal = map(parseInt(value), 4, 38, 0, 5);
+    let newVal = map(parseInt(value), 5, 40, 0, 5);
     let timeout = 2000;
     let speed1 = 180;
 

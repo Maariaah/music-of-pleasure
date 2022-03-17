@@ -35,13 +35,14 @@ function initializeMelody1() {
 }
 
 function constructMelodyChords() {
-  for (let i = 0; i < seconds.length; i++) {
+  for (let i = 0; i < force.length; i++) {
     defineMelodyChords(force[i], seconds[i]);
   }
 }
 
 function defineMelodyChords(value, seconds) {
-  let newVal = map(parseInt(value), 6, 38, 0, 14);
+   let newVal = map(parseInt(value), 6, 38, 0, 14);
+  //  let newVal = map(parseInt(value), 5, 32, 0, 14);
 
   // 5 - 74
 
@@ -75,7 +76,7 @@ function defineMelodyChords(value, seconds) {
       note: III,
       duration: "4n",
     });
-  } else if (newVal > 4 && newVal <= 4) {
+  } else if (newVal > 4 && newVal <= 5) {
     mainChords.push({
       time: seconds,
       note: IV,
