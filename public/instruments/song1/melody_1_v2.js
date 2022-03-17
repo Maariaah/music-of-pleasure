@@ -1,6 +1,4 @@
 // FORCE - Melody
-let prevMelodyTone;
-let lfo;
 let mainChords = [];
 var effect1, effect2, effect3;
 let picksCount = 0;

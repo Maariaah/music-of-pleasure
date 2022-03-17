@@ -1,5 +1,6 @@
 
 // FORCE - melody
+
 let prevMelody2Tone;
 let melody2Chords = [];
 let I2 = "F3";

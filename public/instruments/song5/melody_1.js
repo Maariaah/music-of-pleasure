@@ -1,14 +1,10 @@
 // FORCE - Melody
-let prevMelodyTone;
-let lfo;
 var effect1, effect2, effect3;
-let count = 0;
+let notesCount = 0;
 let previousTime = 0;
 let secondsDouble = 0;
 let mainChords = [];
 let prevSeconds = 0;
-let date = new Date();
-let time = date.getSeconds();
 let prevNumber;
 
 I = "A3";
@@ -29,37 +25,34 @@ function initializeMelody1() {
   constructMelodyChords();
 
   melodyPart = new Tone.Part(function (time, note) {
-    // console.log(note.number, note);
     // Prevent playing a note if it is same as previous one
-
-    // synthMelody.triggerAttackRelease(note.note, note.duration, time);
-
+    
     if (
-      (count < 2 && note.number === 0) ||
-      (count < 3 && note.number === 1) ||
-      (count < 4 && note.number === 2) ||
-      (count < 4 && note.number === 3) ||
-      (count < 4 && note.number === 4) ||
-      (count < 4 && note.number === 5) ||
-      (count < 3 && note.number === 6) ||
-      (count < 7 && note.number === 8) ||
-      (count < 5 && note.number === 9)
+      (notesCount < 2 && note.number === 0) ||
+      (notesCount < 3 && note.number === 1) ||
+      (notesCount < 4 && note.number === 2) ||
+      (notesCount < 4 && note.number === 3) ||
+      (notesCount < 4 && note.number === 4) ||
+      (notesCount < 4 && note.number === 5) ||
+      (notesCount < 3 && note.number === 6) ||
+      (notesCount < 7 && note.number === 8) ||
+      (notesCount < 5 && note.number === 9)
     ) {
       synthMelody.triggerAttackRelease(note.note, note.duration, time);
-      count++;
+      notesCount++;
     } else {
       if (
-        (count === 2 && note.number === 0) ||
-        (count === 3 && note.number === 1) ||
-        (count === 4 && note.number === 2) ||
-        (count === 4 && note.number === 3) ||
-        (count === 4 && note.number === 4) ||
-        (count === 4 && note.number === 5) ||
-        (count === 3 && note.number === 6) ||
-        (count === 7 && note.number === 8) ||
-        (count === 5 && note.number === 9)
+        (notesCount === 2 && note.number === 0) ||
+        (notesCount === 3 && note.number === 1) ||
+        (notesCount === 4 && note.number === 2) ||
+        (notesCount === 4 && note.number === 3) ||
+        (notesCount === 4 && note.number === 4) ||
+        (notesCount === 4 && note.number === 5) ||
+        (notesCount === 3 && note.number === 6) ||
+        (notesCount === 7 && note.number === 8) ||
+        (notesCount === 5 && note.number === 9)
       ) {
-        count = 0;
+        notesCount = 0;
       }
     }
   }, mainChords).start(0);
@@ -110,7 +103,6 @@ function initializeMelody1() {
 
     let timeoutID;
     let newVal = map(parseInt(value), 5, 40, 0, 5);
-    let timeout = 2000;
     let speed1 = 180;
 
     function mapTime(t, speed) {
@@ -118,19 +110,19 @@ function initializeMelody1() {
     }
 
     //  =================== SET THE RYTHM  ========================
-    // Chorus je odredjen brojem nota
+    // Refren je odredjen brojem nota ovde
 
     if (newVal <= 0) {
       num = 0;
 
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: I,
         duration: "2n",
         number: 0,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: IV,
@@ -138,21 +130,21 @@ function initializeMelody1() {
         number: 0,
       });
     } else if (newVal > 0 && newVal <= 1) {
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: I,
         duration: "2n",
         number: 1,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: IV,
         duration: "2n",
         number: 1,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: V,
@@ -160,28 +152,28 @@ function initializeMelody1() {
         number: 1,
       });
     } else if (newVal > 1 && newVal <= 2) {
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: III,
         duration: "6n",
         number: 2,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: II,
         duration: "4n",
         number: 2,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: III,
         duration: "6n",
         number: 2,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
 
       mainChords.push({
         time: mapTime(timeoutID),
@@ -190,14 +182,14 @@ function initializeMelody1() {
         number: 2,
       });
     } else if (newVal > 2 && newVal <= 2.5) {
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: III,
         duration: "6n",
         number: 3,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
 
       mainChords.push({
         time: mapTime(timeoutID),
@@ -205,7 +197,7 @@ function initializeMelody1() {
         duration: "8n",
         number: 3,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
 
       mainChords.push({
         time: mapTime(timeoutID),
@@ -213,7 +205,7 @@ function initializeMelody1() {
         duration: "6n",
         number: 3,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
 
       mainChords.push({
         time: mapTime(timeoutID),
@@ -222,21 +214,21 @@ function initializeMelody1() {
         number: 3,
       });
     } else if (newVal > 2.5 && newVal <= 3) {
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: IV,
         duration: "4n",
         number: 4,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: III,
         duration: "8n",
         number: 4,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: V,
@@ -244,21 +236,21 @@ function initializeMelody1() {
         number: 4,
       });
     } else if (newVal > 3 && newVal <= 3.5) {
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: I,
         duration: "4n",
         number: 5,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: III,
         duration: "4n",
         number: 5,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: IV,
@@ -266,28 +258,28 @@ function initializeMelody1() {
         number: 5,
       });
     } else if (newVal > 3.5 && newVal <= 4) {
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: III,
         duration: "6n",
         number: 6,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: II,
         duration: "8n",
         number: 6,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: III,
         duration: "6n",
         number: 6,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: IV,
@@ -295,49 +287,49 @@ function initializeMelody1() {
         number: 6,
       });
     } else if (newVal > 4 && newVal <= 5) {
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: V,
         duration: "8n",
         number: 8,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: III,
         duration: "4n",
         number: 8,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: II,
         duration: "4n",
         number: 8,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: IV,
         duration: "8n",
         number: 8,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: V,
         duration: "16n",
         number: 8,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: IV,
         duration: "8n",
         number: 8,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: I,
@@ -345,21 +337,21 @@ function initializeMelody1() {
         number: 8,
       });
     } else if (newVal > 5) {
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: III,
         duration: "4n",
         number: 9,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(timeoutID),
         note: IV,
         duration: "8n",
         number: 9,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
 
       mainChords.push({
         time: mapTime(timeoutID),
@@ -367,7 +359,7 @@ function initializeMelody1() {
         duration: "16n",
         number: 9,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
 
       mainChords.push({
         time: mapTime(timeoutID),
@@ -375,7 +367,7 @@ function initializeMelody1() {
         duration: "8n",
         number: 9,
       });
-      timeoutID = setTimeout(time, [timeout]);
+      timeoutID = setTimeout(time, [song5Timeout]);
 
       mainChords.push({
         time: mapTime(timeoutID),
