@@ -5,7 +5,7 @@ let drums_beat = 0;
 let snare = 0;
 let kickTime = 0;
 let snareTime = 0;
-let count = 0;
+// let count = 0;
 let drumsTimeoutID;
 let drumsNotesCount = 0;
 let drumsSpeed = 180;
@@ -20,12 +20,8 @@ function initializeDrums() {
     volume: -1,
   }).toMaster();
 
-  kickPart = new Tone.Part(function (time) {
-    let roundTime = Math.floor(time);
-
-    // if (roundTime % 2 == 0) {
-    kickDrum.triggerAttackRelease("C1", "2n", time);
-    // }
+  kickPart = new Tone.Part(function (time, note) {
+    kickDrum.triggerAttackRelease(note.note, note.duration, time);
   }, kicks).start(0);
 
   const lowPass = new Tone.Filter({
@@ -46,36 +42,55 @@ function initializeDrums() {
     },
   }).connect(lowPass);
 
-  snarePart = new Tone.Part(function (time) {
-    let roundTime = Math.floor(time);
+  snarePart = new Tone.Part(function (time, note) {
 
-    if (snareTime !== roundTime) {
-      if (count > 3) {
-        snareDrum.triggerAttackRelease("4n", time);
-        count = 0;
-      }
-      count++;
-    }
-    snareTime = roundTime;
+    //snareDrum.triggerAttackRelease("4n", time);
+   
   }, snares).start(0);
 
   function constructKicksAndSnares(force) {
     for (let i = 0; i < force.length; i++) {
-      defineKicksAndSnares(force);
+      defineKicksAndSnares(force[i]);
     }
   }
 
   function defineKicksAndSnares(value) {
     let drumsNewVal = map(parseInt(value), 5, 40, 0, 5);
 
-    function mapTime(t) {
+    function mapDrumTime(t) {
       return map(t, 24, 443, 0, drumsSpeed);
     }
+    drumsTimeoutID = setTimeout(time, [song5Timeout]);
 
+    if (drumsNewVal > 0 && drumsNewVal < 3) {
+      drumsTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push({
+        time: mapDrumTime(drumsTimeoutID),
+        note: "C1",
+        duration: "4n",
+      });
+    }
     if (drumsNewVal > 3) {
       drumsTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(drumsTimeoutID);
-      snares.push(drumsTimeoutID);
+      kicks.push({
+        time: mapDrumTime(drumsTimeoutID),
+        note: "C1",
+        duration: "4n",
+      });
+      drumsTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push({
+        time: mapDrumTime(drumsTimeoutID),
+        note: "C1",
+        duration: "4n",
+      });
+      drumsTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push({
+        time: mapDrumTime(drumsTimeoutID),
+        note: "C1",
+        duration: "4n",
+      });
+    } else {
+      return;
     }
   }
 }

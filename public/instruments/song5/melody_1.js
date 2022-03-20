@@ -8,6 +8,8 @@ let prevNumber;
 let melodyTimeoutID;
 let malodyNotesCount = 0;
 let melodySpeed = 180;
+let kicks = [];
+let snares = [];
 
 I = "A3";
 II = "A#3";
@@ -59,11 +61,41 @@ function initializeMelody1() {
     }
   }, mainChords).start(0);
 
+  kickDrum = new Tone.MembraneSynth({
+    volume: -6,
+  }).toMaster();
+
+  kickPart = new Tone.Part(function (time, note) {
+    kickDrum.triggerAttackRelease("C1", "4n", time);
+  }, kicks).start(0);
+
+  const lowPass = new Tone.Filter({
+    frequency: 8000,
+  }).toMaster();
+
   function constructMelodyChords() {
     for (let i = 0; i < force.length; i++) {
       defineMelodyChords(force[i]);
     }
   }
+
+  const snareDrum = new Tone.NoiseSynth({
+    volume: -20,
+    noise: {
+      type: "white",
+      playbackRate: 3,
+    },
+    envelope: {
+      attack: 0.001,
+      decay: 0.2,
+      sustain: 0.15,
+      release: 0.03,
+    },
+  }).connect(lowPass);
+
+  snarePart = new Tone.Part(function (time, note) {
+    snareDrum.triggerAttackRelease("4n", time);
+  }, snares).start(0);
 
   function defineMelodyChords(value) {
     // Set the rythm
@@ -85,6 +117,7 @@ function initializeMelody1() {
         number: 0,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: IV,
@@ -100,13 +133,7 @@ function initializeMelody1() {
         number: 1,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: IV,
-        duration: "2n",
-        number: 1,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: V,
@@ -152,7 +179,7 @@ function initializeMelody1() {
         number: 3,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
-
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: V,
@@ -160,7 +187,6 @@ function initializeMelody1() {
         number: 3,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
-
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: III,
@@ -177,12 +203,14 @@ function initializeMelody1() {
       });
     } else if (melodyNewVal > 2.5 && melodyNewVal <= 3) {
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: IV,
         duration: "4n",
         number: 4,
       });
+
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(melodyTimeoutID),
@@ -191,6 +219,9 @@ function initializeMelody1() {
         number: 4,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
+      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: V,
@@ -212,7 +243,9 @@ function initializeMelody1() {
         duration: "4n",
         number: 5,
       });
+
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: IV,
@@ -241,14 +274,15 @@ function initializeMelody1() {
         duration: "6n",
         number: 6,
       });
+    } else if (melodyNewVal > 4 && melodyNewVal <= 5) {
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: IV,
         duration: "4n",
         number: 6,
       });
-    } else if (melodyNewVal > 4 && melodyNewVal <= 5) {
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(melodyTimeoutID),
@@ -271,6 +305,7 @@ function initializeMelody1() {
         number: 8,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: IV,
@@ -278,19 +313,29 @@ function initializeMelody1() {
         number: 8,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
+      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
+      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      snares.push(mapTime(melodyTimeoutID));
+
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: V,
         duration: "16n",
         number: 8,
       });
+
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
+
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: IV,
         duration: "8n",
         number: 8,
       });
+
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
       mainChords.push({
         time: mapTime(melodyTimeoutID),
@@ -307,12 +352,20 @@ function initializeMelody1() {
         number: 9,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: IV,
         duration: "8n",
         number: 9,
       });
+
+      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
+
+      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
+      snares.push(mapTime(melodyTimeoutID));
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
 
       mainChords.push({
@@ -321,8 +374,9 @@ function initializeMelody1() {
         duration: "16n",
         number: 9,
       });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
 
+      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: IV,
@@ -330,7 +384,6 @@ function initializeMelody1() {
         number: 9,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
-
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: III,
