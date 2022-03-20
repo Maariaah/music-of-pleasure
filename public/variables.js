@@ -62,3 +62,4 @@ let lfo;
 let date = new Date();
 let time = date.getSeconds();
 let song5Timeout = 2000;
+let melodyTimeoutID;

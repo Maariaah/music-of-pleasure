@@ -6,6 +6,9 @@ let snare = 0;
 let kickTime = 0;
 let snareTime = 0;
 let count = 0;
+let drumsTimeoutID;
+let drumsNotesCount = 0;
+let drumsSpeed = 180;
 
 function initializeDrums() {
   let kicks = [];
@@ -14,17 +17,15 @@ function initializeDrums() {
   constructKicksAndSnares(force, seconds);
 
   kickDrum = new Tone.MembraneSynth({
-    volume: -6,
-  })
-    .toMaster();
+    volume: -1,
+  }).toMaster();
 
   kickPart = new Tone.Part(function (time) {
     let roundTime = Math.floor(time);
 
-    if (kickTime !== roundTime) {
-      kickDrum.triggerAttackRelease("C1", "8n", time);
-    }
-    kickTime = roundTime;
+    // if (roundTime % 2 == 0) {
+    kickDrum.triggerAttackRelease("C1", "2n", time);
+    // }
   }, kicks).start(0);
 
   const lowPass = new Tone.Filter({
@@ -32,14 +33,14 @@ function initializeDrums() {
   }).toMaster();
 
   const snareDrum = new Tone.NoiseSynth({
-    volume: -12,
+    volume: -15,
     noise: {
-      type: "black",
+      type: "white",
       playbackRate: 3,
     },
     envelope: {
       attack: 0.001,
-      decay: 0.1,
+      decay: 0.2,
       sustain: 0.15,
       release: 0.03,
     },
@@ -49,8 +50,8 @@ function initializeDrums() {
     let roundTime = Math.floor(time);
 
     if (snareTime !== roundTime) {
-      if (count > 1) {
-        snareDrum.triggerAttackRelease("2n", time);
+      if (count > 3) {
+        snareDrum.triggerAttackRelease("4n", time);
         count = 0;
       }
       count++;
@@ -58,15 +59,23 @@ function initializeDrums() {
     snareTime = roundTime;
   }, snares).start(0);
 
-  function constructKicksAndSnares(force, seconds) {
+  function constructKicksAndSnares(force) {
     for (let i = 0; i < force.length; i++) {
-      let time = Number(seconds[i]);
-      let newVal = map(parseInt(force[i]), 30, 38, 0, 5);
+      defineKicksAndSnares(force);
+    }
+  }
 
-      if (newVal > 0) {
-        kicks.push(time);
-        snares.push(time + 1);
-      }
+  function defineKicksAndSnares(value) {
+    let drumsNewVal = map(parseInt(value), 5, 40, 0, 5);
+
+    function mapTime(t) {
+      return map(t, 24, 443, 0, drumsSpeed);
+    }
+
+    if (drumsNewVal > 3) {
+      drumsTimeoutID = setTimeout(time, [song5Timeout]);
+      kicks.push(drumsTimeoutID);
+      snares.push(drumsTimeoutID);
     }
   }
 }
