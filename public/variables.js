@@ -60,7 +60,5 @@ var beatThreshold = 0.02;
 let prevMelodyTone;
 let lfo;
 let date = new Date();
-let time = date.getSeconds();
 let song5Timeout = 2000;
 let date2 = new Date();
-let time2 = date2.getSeconds();

@@ -1,13 +1,14 @@
-// Song4
-var Dbmajor = ["Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"];
-//var defaultBPM = 340;
-// var defaultBPM = 220;
-// var defaultBPM = 430;
+// Song5
+var Amajor = ["A", "B", "C", "D", "E", "F", "G", "A"];
+// var Dbmajor = ["Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"];
+// Song 5
+//var defaultBPM = 400; // Harmony
+ var defaultBPM = 190; // Melody
 
 async function preload() {
-  // ======== SONG 4 ========
-  //data = await loadTable("./data/1635457267_medians.csv", "csv", "header"); //standalone
-  //data = await loadTable("./data/1575331292.csv", "csv", "header"); //standalone
+  // ======== SONG 5 ========
+  // data = await loadTable("./data/1635457267_medians.csv", "csv", "header"); //sad, nostalgic, but a bot boring
+  data = await loadTable("./data/1635457267.csv", "csv", "header"); //sad, nostalgic,less boring
 }
 
 function setup() {

@@ -7,14 +7,11 @@ let countHarmonyNotes = 0;
 function initializeHarmony() {
   // Define chords
 
-  IChord = constructMajorChord(Amajor, 4, "C3");
-  // IIChord = ["D4", "D4", "E4"];
-  // IIIChord = ["E4", "E4", "E5"];
-  IIChord = constructMajorChord(Amajor, 4, "G3");
-  IIIChord = constructMajorChord(Amajor, 4, "A#3");
-  IVChord = constructMajorChord(Amajor, 4, "F3");
+  IChord = constructMajorChord(Amajor, 3, "A3");
+  IIChord = constructMajorChord(Amajor, 3, "G3");
+  IIIChord = constructMajorChord(Amajor, 3, "F3");
+  IVChord = constructMajorChord(Amajor, 3, "A4");
   VChord = constructMajorChord(Amajor, 4, "G3");
-  //VChord =["E5", "E5", "E5"];
 
   // Chose frequency between:
   // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
@@ -23,7 +20,7 @@ function initializeHarmony() {
   synthMajor = new Tone.PolySynth(3, Tone.Synth, {
     volume: -10,
     oscillator: {
-      type: "sine",
+      type: "triangle",
     },
   }).toMaster();
 
@@ -40,6 +37,9 @@ function initializeHarmony() {
     ) {
       synthMajor.triggerAttackRelease(note.note, note.duration, time);
       countHarmonyNotes = 0;
+      if (countHarmonyNotes >= 5) {
+        countHarmonyNotes = 0;
+      }
     } else {
       if (count < 1) {
         synthMajor.triggerAttackRelease(note.note, note.duration, time);
@@ -101,7 +101,7 @@ function defineHarmonyChords(v, timeoutHarmony) {
       note: IIIChord,
       duration: "4n",
     });
-    IIIChord.push("A2", "G4");
+    // IIIChord.push("A2", "G4");
   } else if (value > 2.4 && value <= 2.6) {
     VChord.push("E2", "G3");
     harmonyChords.push({
@@ -110,14 +110,14 @@ function defineHarmonyChords(v, timeoutHarmony) {
       duration: "4n",
     });
   } else if (value > 2.6 && value <= 3) {
-    IVChord.push("D2", "C4");
+    // IVChord.push("D2", "C4");
     harmonyChords.push({
       time: timeoutHarmony,
       note: IVChord,
       duration: "4n",
     });
   } else if (value > 3) {
-    VChord.push("F3", "C5");
+    // VChord.push("F3", "C5");
     harmonyChords.push({
       time: timeoutHarmony,
       note: VChord,

@@ -99,7 +99,7 @@ function initializeMelody1() {
 
   function defineMelodyChords(value) {
     // Set the rythm
-
+    let time = date.getSeconds();
     let melodyNewVal = map(parseInt(value), 5, 40, 0, 5);
     function mapTime(t) {
       return map(t, 24, 443, 0, melodySpeed);
@@ -117,7 +117,6 @@ function initializeMelody1() {
         number: 0,
       });
       melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
       mainChords.push({
         time: mapTime(melodyTimeoutID),
         note: IV,

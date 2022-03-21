@@ -1,7 +1,7 @@
 // FORCE - Harmony
 let prevHarmonyTone;
 let harmonyChords = [];
-let IChord, IIChord, IIIChord, IVChord, VChord;
+let IChord, IIChord, IIIChord, IVChord, VChord,VIChord;
 let countHarmonyNotes = 0;
 let harmonyTimeoutID;
 let harmonySpeed = 190;
@@ -10,14 +10,12 @@ let harmonySpeed = 190;
 function initializeHarmony() {
   // Define chords
 
-  IChord = constructMajorChord(Amajor, 3, "C3");
-  // IIChord = ["D4", "D4", "E4"];
-  // IIIChord = ["E4", "E4", "E5"];
-  IIChord = constructMajorChord(Amajor, 3, "G3");
-  IIIChord = constructMajorChord(Amajor, 3, "Ab3");
-  IVChord = constructMajorChord(Amajor, 3, "F3");
-  VChord = constructMajorChord(Amajor, 4, "G3");
-  //VChord =["E5", "E5", "E5"];
+  IChord = constructMajorChord(Amajor, 4, "A3");
+  IIChord = constructMajorChord(Amajor, 4, "G3");
+  IIIChord = constructMajorChord(Amajor, 4, "F3");
+  IVChord = constructMajorChord(Amajor, 5, "A4");
+  VChord = constructMajorChord(Amajor, 5, "G4");
+  VIChord = constructMajorChord(Amajor, 5, "F4");
 
   // Chose frequency between:
   // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
@@ -34,7 +32,7 @@ function initializeHarmony() {
   constructHarmonyChords();
 
   //Use part to encapsulate chords into single unit
-  harmonyPart = new Tone.Part(function (time, note) {
+  harmonyPart = new Tone.Part(function (time2, note) {
     // Prevent playing a note if it is same as previous one
 
     if (
@@ -48,7 +46,7 @@ function initializeHarmony() {
       (countHarmonyNotes < 7 && note.number === 8) ||
       (countHarmonyNotes < 5 && note.number === 9)
     ) {
-      synthHarmony.triggerAttackRelease(note.note, note.duration, time);
+      synthHarmony.triggerAttackRelease(note.note, note.duration, time2);
       countHarmonyNotes++;
     } else {
       if (
@@ -78,6 +76,8 @@ function defineHarmonyChords(value) {
   // Set the rythm
 
   let newVal = map(parseInt(value), 0, 3.5, 0, 5);
+  let time2 = date.getSeconds();
+
   function mapHarmonyTime(t) {
     return map(t, 24, 443, 0, harmonySpeed);
   }
@@ -86,177 +86,227 @@ function defineHarmonyChords(value) {
   // Refren je odredjen brojem nota ovde
 
   if (newVal <= 0) {
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IChord,
-      duration: "1n",
+      duration: "6n",
       number: 0,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IIChord,
-      duration: "1n",
+      duration: "6n",
       number: 0,
     });
-  } else if (newVal > 0 && newVal <= 1) {
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-    harmonyChords.push({
-      time: mapHarmonyTime(harmonyTimeoutID),
-      note: IChord,
-      duration: "1n",
-      number: 1,
-    });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IIIChord,
-      duration: "1n",
-      number: 1,
+      duration: "6n",
+      number: 0,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-    harmonyChords.push({
-      time: mapHarmonyTime(harmonyTimeoutID),
-      note: IIIChord,
-      duration: "2n",
-      number: 1,
-    });
-  } else if (newVal > 1 && newVal <= 2) {
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-    harmonyChords.push({
-      time: mapHarmonyTime(harmonyTimeoutID),
-      note: IIIChord,
-      duration: "4n",
-      number: 2,
-    });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IIChord,
-      duration: "1n",
-      number: 2,
-    });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-    harmonyChords.push({
-      time: mapHarmonyTime(harmonyTimeoutID),
-      note: IIIChord,
       duration: "4n",
-      number: 2,
+      number: 0,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-    harmonyChords.push({
-      time: mapHarmonyTime(harmonyTimeoutID),
-      note: IChord,
-      duration: "4n",
-      number: 2,
-    });
-  } else if (newVal > 2 && newVal <= 2.5) {
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
+  } 
+  
+  else if (newVal > 0 && newVal <= 1) {
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IIChord,
-      duration: "2n",
-      number: 3,
+      duration: "6n",
+      number: 1,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IIIChord,
-      duration: "2n",
-      number: 3,
+      duration: "6n",
+      number: 1,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: IIChord,
+      duration: "6n",
+      number: 1,
+    });
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IChord,
-      duration: "1n",
-      number: 3,
+      duration: "4n",
+      number: 1,
     });
-  } else if (newVal > 2 && newVal <= 3) {
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
+  } 
+  
+  
+  else if (newVal > 1 && newVal <= 2) {
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: IIIChord,
+      duration: "6n",
+      number: 2,
+    });
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: IIChord,
+      duration: "6n",
+      number: 2,
+    });
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: IChord,
+      duration: "6n",
+      number: 2,
+    });
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: IIChord,
+      duration: "4n",
+      number: 2,
+    });
+  } 
+  
+  
+  else if (newVal > 2 && newVal <= 2.5) {
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IVChord,
-      duration: "2n",
-      number: 4,
+      duration: "6n",
+      number: 3,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
-      note: IIIChord,
-      duration: "4n",
-      number: 4,
+      note: VChord,
+      duration: "6n",
+      number: 3,
     });
-  } else if (newVal > 3 && newVal <= 4) {
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: VIChord,
+      duration: "6n",
+      number: 3,
+    });
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IVChord,
-      duration: "2n",
+      duration: "4n",
+      number: 3,
+    });
+  } 
+  
+  
+  else if (newVal > 2 && newVal <= 3) {
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: VChord,
+      duration: "6n",
+      number: 4,
+    });
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: VIChord,
+      duration: "6n",
+      number: 4,
+    });
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: IVChord,
+      duration: "6n",
+      number: 4,
+    });
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: VIChord,
+      duration: "4n",
+      number: 4,
+    });
+  } 
+  
+  else if (newVal > 3 && newVal <= 4) {
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: VIChord,
+      duration: "6n",
       number: 6,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-  } else if (newVal > 4 && newVal <= 5) {
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-    harmonyChords.push({
-      time: mapHarmonyTime(harmonyTimeoutID),
-      note: IIIChord,
-      duration: "2n",
-      number: 8,
-    });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IVChord,
-      duration: "4n",
-      number: 8,
+      duration: "6n",
+      number: 6,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: VChord,
-      duration: "8n",
-      number: 8,
+      duration: "6n",
+      number: 6,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-    harmonyChords.push({
-      time: mapHarmonyTime(harmonyTimeoutID),
-      note: IChord,
-      duration: "4n",
-      number: 8,
-    });
-
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IVChord,
       duration: "4n",
-      number: 9,
+      number: 6,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-
+  } 
+  
+  else if (newVal > 4 && newVal <= 5) {
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: IVChord,
+      duration: "6n",
+      number: 8,
+    });
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: VChord,
-      duration: "8n",
-      number: 9,
+      duration: "6n",
+      number: 8,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
       note: IVChord,
-      duration: "8n",
-      number: 9,
+      duration: "6n",
+      number: 8,
     });
-    harmonyTimeoutID = setTimeout(time, [song5Timeout]);
-
+    harmonyTimeoutID = setTimeout(time2, [2000]);
     harmonyChords.push({
       time: mapHarmonyTime(harmonyTimeoutID),
-      note: IIIChord,
+      note: VIChord,
+      duration: "4n",
+      number: 8,
+    });
+  } 
+  
+  else if (newVal > 5) {
+    harmonyTimeoutID = setTimeout(time2, [2000]);
+    harmonyChords.push({
+      time: mapHarmonyTime(harmonyTimeoutID),
+      note: VChord,
       duration: "4n",
       number: 9,
     });
