@@ -44,52 +44,49 @@ function constructmelody2Chords() {
 }
 
 function definemelody2Chords(value, seconds) {
-  let newVal = map(parseInt(value), 30, 38, 0, 5);
+  let newVal = map(parseInt(value), 6, 38, 0, 14);
 
-  if (newVal <= 0) {
+  if(newVal < 11) {
     return;
-  } else if (newVal > 0 && newVal <= 1) {
-    melody2Chords.push({
-      time: seconds,
-      note: II2,
-      duration: "4n",
-    });
-  } else if (newVal > 1 && newVal <= 2) {
-    melody2Chords.push({
-      time: seconds,
-      note: III2,
-      duration: "4n",
-    });
-  } else if (newVal > 2 && newVal <= 3) {
-    melody2Chords.push({
+  }
+  else if (newVal > 11 && newVal <= 11.5) {
+    mainChords.push({
       time: seconds,
       note: IV2,
-      duration: "4n",
-    });
-  } else if (newVal > 3 && newVal <= 4) {
-    melody2Chords.push({
-      time: seconds,
-      note: III2,
       duration: "8n",
     });
-  } else if (newVal > 4 && newVal <= 5) {
-    melody2Chords.push({
+  } else if (newVal > 11.5 && newVal <= 12) {
+    mainChords.push({
+      time: seconds,
+      note: IV2,
+      duration: "8n",
+    });
+  } else if (newVal > 12 && newVal <= 13) {
+    mainChords.push({
       time: seconds,
       note: V2,
       duration: "8n",
     });
-  } else if (newVal > 5) {
-    melody2Chords.push({
+  } else if (newVal > 13 && newVal <= 13.5) {
+    mainChords.push({
+      time: seconds,
+      note: V2,
+      duration: "8n",
+    });
+  } else if (newVal > 13.5 && newVal <= 14) {
+    mainChords.push({
+      time: seconds,
+      note: VI2,
+      duration: "8n",
+    });
+  } else if (newVal > 14) {
+    mainChords.push({
       time: seconds,
       note: VI2,
       duration: "8n",
     });
   } else {
-    melody2Chords.push({
-      time: seconds,
-      note: V2,
-      duration: "4n",
-    });
+    return;
   }
 
   return melody2Chords;

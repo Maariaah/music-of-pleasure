@@ -42,7 +42,7 @@ function initializeHarmony() {
         synthMajor.triggerAttackRelease(note.note, note.duration, time);
         countHarmonyNotes++;
       } else {
-        if (countHarmonyNotes >= 6) {
+        if (countHarmonyNotes >= 4) {
           countHarmonyNotes = 0;
         }
       }
@@ -75,7 +75,7 @@ function defineHarmonyChords(v, seconds) {
     harmonyChords.push({
       time: seconds,
       note: IChord,
-      duration: "2n",
+      duration: "4n",
     });
   } else if (value > 2 && value <= 3) {
     harmonyChords.push({
@@ -99,7 +99,7 @@ function defineHarmonyChords(v, seconds) {
     harmonyChords.push({
       time: seconds,
       note: VChord,
-      duration: "2n",
+      duration: "6n",
     });
   } else if (value > 6 && value <= 7) {
     harmonyChords.push({
@@ -111,7 +111,7 @@ function defineHarmonyChords(v, seconds) {
     harmonyChords.push({
       time: seconds,
       note: VChord,
-      duration: "2n",
+      duration: "4n",
     });
   } else if (value > 8 && value < 9) {
     harmonyChords.push({
