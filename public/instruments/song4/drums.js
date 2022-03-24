@@ -65,7 +65,9 @@ function initializeDrums() {
 
       if (newVal > 0) {
         kicks.push(time);
-        snares.push(time + 1);
+        kicks.push(time);
+
+        //snares.push(time);
       }
     }
   }

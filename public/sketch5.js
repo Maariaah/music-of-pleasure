@@ -1,6 +1,5 @@
 // Song5
 var Amajor = ["A", "B", "C", "D", "E", "F", "G", "A"];
-// var Dbmajor = ["Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"];
 // Song 5
 //var defaultBPM = 400; // Harmony
  var defaultBPM = 190; // Melody

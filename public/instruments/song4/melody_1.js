@@ -18,7 +18,7 @@ function initializeMelody1() {
 
   // Use a simple Synth as the instrument
   synthMelody = new Tone.Synth({
-    volume: 6,
+    volume: -1,
     oscillator: {
       type: "triangle1",
     },
@@ -108,7 +108,7 @@ function defineMelodyChords(value, seconds) {
     mainChords.push({
       time: seconds,
       note: VI,
-      duration: "16n",
+      duration: "8n",
     });
   } else if (newVal > 8.5 && newVal <= 9) {
     mainChords.push({
@@ -120,49 +120,49 @@ function defineMelodyChords(value, seconds) {
     mainChords.push({
       time: seconds,
       note: V,
-      duration: "16n",
+      duration: "8n",
     });
   } else if (newVal > 10.5 && newVal <= 11) {
     mainChords.push({
       time: seconds,
       note: VI,
-      duration: "16n",
+      duration: "8n",
     });
   } else if (newVal > 11 && newVal <= 11.5) {
     mainChords.push({
       time: seconds,
       note: VII,
-      duration: "16n",
+      duration: "8n",
     });
   } else if (newVal > 11.5 && newVal <= 12) {
     mainChords.push({
       time: seconds,
       note: VI,
-      duration: "16n",
+      duration: "8n",
     });
   } else if (newVal > 12 && newVal <= 13) {
     mainChords.push({
       time: seconds,
       note: VII,
-      duration: "16n",
+      duration: "8n",
     });
   } else if (newVal > 13 && newVal <= 13.5) {
     mainChords.push({
       time: seconds,
       note: VIII,
-      duration: "16n",
+      duration: "8n",
     });
   } else if (newVal > 13.5 && newVal <= 14) {
     mainChords.push({
       time: seconds,
       note: VII,
-      duration: "16n",
+      duration: "8n",
     });
   } else if (newVal > 14) {
     mainChords.push({
       time: seconds,
       note: VIII,
-      duration: "16n",
+      duration: "8n",
     });
   } else {
     return;
