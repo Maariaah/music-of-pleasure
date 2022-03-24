@@ -14,7 +14,7 @@ function initializeDrums() {
   constructKicksAndSnares(force, seconds);
 
   kickDrum = new Tone.MembraneSynth({
-    volume: -6,
+    volume: -8,
   })
     .toMaster();
 
@@ -32,7 +32,7 @@ function initializeDrums() {
   }).toMaster();
 
   const snareDrum = new Tone.NoiseSynth({
-    volume: -12,
+    volume: -18,
     noise: {
       type: "black",
       playbackRate: 3,
@@ -49,8 +49,8 @@ function initializeDrums() {
     let roundTime = Math.floor(time);
 
     if (snareTime !== roundTime) {
-      if (count > 1) {
-        snareDrum.triggerAttackRelease("2n", time);
+      if (count > 3) {
+        snareDrum.triggerAttackRelease("4n", time);
         count = 0;
       }
       count++;
@@ -66,8 +66,7 @@ function initializeDrums() {
       if (newVal > 0) {
         kicks.push(time);
         kicks.push(time);
-
-        //snares.push(time);
+        snares.push(time);
       }
     }
   }

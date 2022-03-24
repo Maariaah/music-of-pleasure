@@ -18,9 +18,9 @@ function initializeMelody1() {
 
   // Use a simple Synth as the instrument
   synthMelody = new Tone.Synth({
-    volume: -1,
+    volume: 1,
     oscillator: {
-      type: "triangle1",
+      type: "triangle3",
     },
   }).toMaster();
 

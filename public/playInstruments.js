@@ -18,10 +18,10 @@
 //AcceleratorY range: 3.2 - 10.2 
 
 function playInstruments() {
-  // initializeMelody1();
+  //initializeMelody1();
   //initializeMelody2();
-  // initializeHarmony();
-  // initializeBass();
-  //  initializeDrums();
+  initializeHarmony();
+  //initializeBass();
+  //initializeDrums();
   // initializeVoice();
 }

@@ -18,7 +18,7 @@ function initializeHarmony() {
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(2, Tone.Synth, {
-    volume: -8,
+    volume: -13,
     oscillator: {
       type: "sine3",
     },

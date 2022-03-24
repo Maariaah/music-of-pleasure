@@ -19,7 +19,7 @@ function initializeMelody1() {
   synthMelody = new Tone.Synth({
     volume: 6,
     oscillator: {
-      type: "triangle7",
+      type: "triangle4",
     },
   }).toMaster();
 

@@ -17,7 +17,7 @@ function initializeBass() {
   }).toMaster();
 
   const bass = new Tone.MembraneSynth({
-    volume: -5,
+    volume: -8,
     pitchDecay: 0.15,
     octaves: 8,
     oscillator: {
@@ -43,11 +43,13 @@ function initializeBass() {
 
   function constructAcceleratorYChords() {
     for (let i = 0; i < seconds.length; i++) {
-      defineAccelYChords(parseInt(gyroscopeY[i]), seconds[i]);
+      defineAccelYChords(parseInt(force[i]), seconds[i]);
     }
   }
 
   function defineAccelYChords(v, seconds) {
+    let newValBass = map(parseInt(v), 0, 63.5, 0, 14);
+
     let A = "A1";
     let E = "E1";
     let F = "F1";
@@ -56,44 +58,57 @@ function initializeBass() {
     let duration2 = "2n.";
     let duration3 = "4n";
 
-    let value = map(v, -16, 26, 0, 4);
-
-    if (value < 0) {
+    if (newValBass < 8) {
+        return;
+    } 
+    else if (newValBass > 8 && newValBass <= 8.5 ) {
       bassline.push({
         time: seconds,
         note: A,
         duration: duration1,
       });
-    } else if (value > 0 && value <= 1) {
+    }
+
+    else if(newValBass > 8.5 && newValBass <= 9) {
+      bassline.push({
+        time: seconds,
+        note: E,
+        duration: duration1,
+      });
+    }
+    else if (newValBass > 9 && newValBass <= 10.5) {
       bassline.push({
         time: seconds,
         note: E,
         duration: duration2,
       });
-    } else if (value > 1 && value <= 2) {
+    }
+    else if (newValBass > 11 && newValBass <= 12) {
       bassline.push({
         time: seconds,
-        note: F,
+        note: E,
+        duration: duration1,
+      });
+    } else if (newValBass > 12.5 && newValBass <= 13.5) {
+      bassline.push({
+        time: seconds,
+        note: A,
         duration: duration2,
       });
-    } else if (value > 2 && value <= 3) {
+    } else if (newValBass > 13.5 && newValBass <= 14) {
       bassline.push({
         time: seconds,
         note: D,
         duration: duration3,
       });
-    } else if (value > 4 && value <= 4) {
+    } else if (newValBass > 14) {
       bassline.push({
         time: seconds,
         note: F,
         duration: duration3,
       });
     } else {
-      bassline.push({
-        time: seconds,
-        note: E,
-        duration: duration1,
-      });
+      return;
     }
     return bassline;
   }

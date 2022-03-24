@@ -1,14 +1,10 @@
-// Song4
-var Dbmajor = ["Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"];
-
-var defaultBPM = 350;
-// var defaultBPM = 220;
-// var defaultBPM = 430;
+// Song3
+var Dmajor = ["D", "E", "F", "G", "A", "B", "C", "D"];
+var defaultBPM = 280;
 
 async function preload() {
-  // ======== SONG 4 ========
-  //data = await loadTable("./data/1635457267_medians.csv", "csv", "header"); //standalone
-  data = await loadTable("./data/1575331292.csv", "csv", "header"); //standalone
+  // ======== SONG 3 ========
+  data = await loadTable("./data/1624909543.csv", "csv", "header");
 }
 
 function setup() {
@@ -31,20 +27,15 @@ function setup() {
   acceleratorZ = data.getColumn(accZ);
   env = new Tone.AmplitudeEnvelope();
 
-  pitchShift = new Tone.PitchShift(4).toMaster();
-
   // Analyse frequency/amplitude of signal
-  // frequency = new Tone.Frequency().toMaster();
-
   fft = new Tone.Analyser({
     size: 512,
     type: fft,
   });
-
   meter = new Tone.Meter();
   //let pos = 0.5 - this.meter.getValue(0); // -> -0.5 ~ 0.5
 
-  // scource = new Tone.Source();
+  scource = new Tone.Source();
   signal = new Tone.Signal();
   waveform = new Tone.Waveform({
     size: 512,
@@ -59,11 +50,11 @@ function setup() {
 
 function draw() {
   // defineColor();
-  drawWaveform();
+  //drawWaveform();
+
   button = createButton("click me");
   button.position(0, 0);
   button.mousePressed(startSound);
-  loadSound();
 
   /*** Chrome autoplay on gesture bug ***/
   // https://github.com/Tonejs/Tone.js/issues/341
@@ -75,8 +66,7 @@ function draw() {
 }
 
 function startSound() {
-  // Tone.Transport.start();
+  Tone.Transport.start();
   // player.start();
-  // sound.play();
   getAudioContext().resume();
 }

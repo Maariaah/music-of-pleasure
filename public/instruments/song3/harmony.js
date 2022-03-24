@@ -5,28 +5,31 @@ let IChord, IIChord, IIIChord, IVChord, VChord, VIChord;
 
 function initializeHarmony() {
   // Define chords
+  let I = "D4";
+  let II = "E4";
+  let III = "F#4";
+  let IV = "G4";
+  let V = "A4";
+  let VI = "B4";
+  let VII = "C#5";
+  let VIII = "D5";
 
-  IChord = constructMajorChord(Dmajor, 3, "D3");
-  IIChord = constructMajorChord(Dmajor, 3, "E3");
-  IIIChord = constructMajorChord(Dmajor, 3, "F#3");
-  IVChord = constructMajorChord(Dmajor, 3, "G3");
-  VChord = constructMajorChord(Dmajor, 4, "C#4");
-  VIChord = constructMajorChord(Dmajor, 4, "D4");
+  IChord = constructMajorChord(Dmajor, 4, "D3");
+  IIChord = constructMajorChord(Dmajor, 4, "E3");
+  IIIChord = constructMajorChord(Dmajor, 4, "F#3");
+  IVChord = constructMajorChord(Dmajor, 4, "G3");
+  VChord = constructMajorChord(Dmajor, 4, "A3");
+  VIChord = constructMajorChord(Dmajor, 4, "B3");
 
   // Chose frequency between:
   // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
 
   // Use a synth as an instrument to play chords
   synthMajor = new Tone.PolySynth(3, Tone.Synth, {
-    volume: -3,
+    volume: 5,
     oscillator: {
-      type: "triangle7"
+      type: "sine2"
     }
-    // envelope: {
-    //   decay: 1.5,
-    //   sustain: 0.6,
-    //   release: 2,
-    // },
   }).toMaster();
 
   // Progression or sequence
@@ -40,8 +43,8 @@ function initializeHarmony() {
       JSON.stringify(prevHarmonyTone) !== JSON.stringify(currentHarmonyTone)
     ) {
       synthMajor.triggerAttackRelease(note.note, note.duration, time, 0.5);
+      prevHarmonyTone = currentHarmonyTone;
     }
-    prevHarmonyTone = currentHarmonyTone;
   }, harmonyChords).start(0);
 }
 
@@ -73,13 +76,13 @@ function defineHarmonyChords(v, seconds) {
     harmonyChords.push({
       time: seconds,
       note: IChord,
-      duration: "1n",
+      duration: "4n",
     });
   } else if (value > 2 && value <= 3) {
     harmonyChords.push({
       time: seconds,
       note: IIIChord,
-      duration: "8n",
+      duration: "4n",
     });
   } else if (value > 3 && value <= 4) {
     harmonyChords.push({
@@ -90,8 +93,8 @@ function defineHarmonyChords(v, seconds) {
   } else if (value > 4 && value <= 5) {
     harmonyChords.push({
       time: seconds,
-      note: IIIChord,
-      duration: "1n",
+      note: VIChord,
+      duration: "4n",
     });
   } else if (value > 5 && value <= 6) {
     harmonyChords.push({
@@ -103,24 +106,24 @@ function defineHarmonyChords(v, seconds) {
     harmonyChords.push({
       time: seconds,
       note: IVChord,
-      duration: "1n",
+      duration: "4n",
     });
   } else if (value > 7 && value <= 8) {
     harmonyChords.push({
       time: seconds,
       note: VChord,
-      duration: "1n",
+      duration: "4n",
     });
   } else if (value > 8 && value <= 9) {
     harmonyChords.push({
       time: seconds,
       note: VIChord,
-      duration: "4n",
+      duration: "8n",
     });
   } else {
     harmonyChords.push({
       time: seconds,
-      note: III,
+      note: IV,
       duration: "1n",
     });
   }
