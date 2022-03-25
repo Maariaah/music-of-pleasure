@@ -1,13 +1,13 @@
-// Song4
-var Dbmajor = ["Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db"];
+// Song2
+var Ebmajor = ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"];
+var Cmajor = ["C", "D", "E", "F", "G", "A", "B", "C"];
 
-var defaultBPM = 350;
-// var defaultBPM = 220;
-// var defaultBPM = 430;
+var defaultBPM = 270;
 
 async function preload() {
-  // ======== SONG 4 ========
-  data = await loadTable("./data/1575331292_median.csv", "csv", "header"); //standalone
+  // ======== SONG 2 ========
+  data = await loadTable("./data/1635706032.csv", "csv", "header"); // Standalone - dramatical
+  //  data = await loadTable("./data/1635457267.csv", "csv", "header"); // Standalone
 }
 
 function setup() {
@@ -30,20 +30,15 @@ function setup() {
   acceleratorZ = data.getColumn(accZ);
   env = new Tone.AmplitudeEnvelope();
 
-  pitchShift = new Tone.PitchShift(4).toMaster();
-
   // Analyse frequency/amplitude of signal
-  // frequency = new Tone.Frequency().toMaster();
-
   fft = new Tone.Analyser({
     size: 512,
     type: fft,
   });
-
   meter = new Tone.Meter();
   //let pos = 0.5 - this.meter.getValue(0); // -> -0.5 ~ 0.5
 
-  // scource = new Tone.Source();
+  scource = new Tone.Source();
   signal = new Tone.Signal();
   waveform = new Tone.Waveform({
     size: 512,
@@ -58,7 +53,8 @@ function setup() {
 
 function draw() {
   // defineColor();
-  // drawWaveform();
+  //drawWaveform();
+
   button = createButton("click me");
   button.position(0, 0);
   button.mousePressed(startSound);
@@ -73,7 +69,7 @@ function draw() {
 }
 
 function startSound() {
-   Tone.Transport.start();
-   sound.play();
+  Tone.Transport.start();
+  // player.start();
   getAudioContext().resume();
 }

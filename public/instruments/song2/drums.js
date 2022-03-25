@@ -14,7 +14,18 @@ function initializeDrums() {
   constructKicksAndSnares(force, seconds);
 
   kickDrum = new Tone.MembraneSynth({
-    volume: 2,
+    volume: -1,
+    pitchDecay: 0.06,
+    octaves: 10,
+    oscillator: {
+      type: "sine",
+    },
+    envelope: {
+      attack: 0.001,
+      decay: 0.5,
+      sustain: 0.01,
+      release: 1.6,
+    },
   }).toMaster();
 
   kickPart = new Tone.Part(function (time) {
@@ -40,7 +51,7 @@ function initializeDrums() {
     },
     envelope: {
       attack: 0.001,
-      decay: 0.2,
+      decay: 0.1,
       sustain: 0.15,
       release: 0.03,
     },
@@ -63,10 +74,10 @@ function initializeDrums() {
     for (let i = 0; i < force.length; i++) {
       let time = Number(seconds[i]);
 
-       if (force[i] > 27) {
+      if (force[i] > 27) {
         kicks.push(time);
-        snares.push(time + 1);
-       }
+        snares.push(time);
+      }
     }
   }
 }

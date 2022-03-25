@@ -2,8 +2,6 @@
 let mainChords = [];
 var effect1, effect2, effect3;
 
-//Eb4','F4','G4','Ab4','Bb4','C5','D5','Eb5
-
 let I = "Eb4";
 let II = "F4";
 let III = "G4";
@@ -13,6 +11,15 @@ let VI = "C5";
 let VII = "D5";
 let VIII = "Eb5";
 
+// let I = "Cb4";
+// let II = "D4";
+// let III = "E4";
+// let IV = "Fb4";
+// let V = "Gb4";
+// let VI = "A5";
+// let VII = "B5";
+// let VIII = "Cb5";
+
 function initializeMelody1() {
   constructMelodyChords();
 
@@ -20,9 +27,12 @@ function initializeMelody1() {
 
   // Use a simple Synth as the instrument
   synthMelody = new Tone.Synth({
-    volume: 8,
+    volume: 1,
     oscillator: {
-      type: "fatsawtooth5",
+      type: "square6",
+      // type: "amsawtooth5", 
+      // type: "fmsawtooth5",
+      // type: "square6",
     },
   }).toMaster();
 
