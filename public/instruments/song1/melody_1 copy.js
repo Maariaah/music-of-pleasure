@@ -3,14 +3,14 @@ let mainChords = [];
 var effect1, effect2, effect3;
 let picksCount = 0;
 
-I = "C3";
-II = "B3";
-III = "A3";
-IV = "G3";
-V = "F3";
-VI = "E3";
-VII = "D3";
-VIII = "C2";
+I = "C5";
+II = "B5";
+III = "A5";
+IV = "G5";
+V = "F5";
+VI = "E5";
+VII = "D5";
+VIII = "C4";
 
 function initializeMelody1() {
   constructMelodyChords();
@@ -31,11 +31,49 @@ function initializeMelody1() {
 
 
   // Use a simple Synth as the instrument
-  synthMelody = new Tone.Synth({
-    volume: -10,
+  synthMelody = new Tone.DuoSynth({
+    volume: -25,
     vibratoAmount: 0.5,
     vibratoRate: 5,
     harmonicity: 1.5,
+    voice0: {
+      volume: -15,
+      portamento: 0,
+      oscillator: {
+        type: "triangle5",
+      },
+      filterEnvelope: {
+        attack: 0.01,
+        decay: 0,
+        sustain: 1,
+        release: 3,
+      },
+      envelope: {
+        attack: 0.01,
+        decay: 0,
+        sustain: 1,
+        release: 3,
+      },
+    },
+    voice1: {
+      volume: -25,
+      portamento: 0,
+      oscillator: {
+        type: "sine4",
+      },
+      filterEnvelope: {
+        attack: 0.01,
+        decay: 0,
+        sustain: 1,
+        release: 3,
+      },
+      envelope: {
+        attack: 0.01,
+        decay: 0,
+        sustain: 1,
+        release: 3,
+      },
+    },
   })
     .connect(effect1)
     .connect(effect2)

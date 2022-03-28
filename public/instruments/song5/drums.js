@@ -9,11 +9,10 @@ let snareTime = 0;
 let drumsTimeoutID;
 let drumsNotesCount = 0;
 let drumsSpeed = 180;
+let kicks = [];
+let snares = [];
 
 function initializeDrums() {
-  let kicks = [];
-  let snares = [];
-
   constructKicksAndSnares(force, seconds);
 
   kickDrum = new Tone.MembraneSynth({
@@ -70,7 +69,7 @@ function initializeDrums() {
         duration: "4n",
       });
     }
-    if (drumsNewVal > 3) {
+    else if (drumsNewVal > 3) {
       drumsTimeoutID = setTimeout(time, [song5Timeout]);
       kicks.push({
         time: mapDrumTime(drumsTimeoutID),

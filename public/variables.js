@@ -59,6 +59,5 @@ let prevMelodyTone;
 let lfo;
 let date = new Date();
 let song5Timeout = 2000;
-let date2 = new Date();
 let fft1;
 let pitchShift;

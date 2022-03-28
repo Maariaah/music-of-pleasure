@@ -1,7 +1,12 @@
+// Song2
+var Ebmajor = ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"];
+var Cmajor = ["C", "D", "E", "F", "G", "A", "B", "C"];
+
+var defaultBPM = 200;
+
 async function preload() {
-  // ======== SONG 1 ========
-  data = await loadTable("./data/1635457267.csv", "csv", "header"); // Standalone
-  // 1624909543;
+  // ======== SONG 2 ========
+  data = await loadTable("./data/1635706032.csv", "csv", "header"); // Standalone - dramatical
 }
 
 function setup() {

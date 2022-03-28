@@ -6,67 +6,95 @@ let snare = 0;
 let kickTime = 0;
 let snareTime = 0;
 let count = 0;
+let kicks = [];
+let snares = [];
+let = prevKick = 0;
 
 function initializeDrums() {
-  let kicks = [];
-  let snares = [];
+  constructKicksAndSnares(gyroscopeY, seconds);
 
-  constructKicksAndSnares(force, seconds);
+  // ================== KICK 1 ==================
 
-  kickDrum = new Tone.MembraneSynth({
-    volume: -1,
-  }).toMaster();
-
-  kickPart = new Tone.Part(function (time) {
-    let roundTime = Math.floor(time);
-
-    // if (roundTime % 2 == 0) {
-    if (kickTime !== roundTime) {
-      kickDrum.triggerAttackRelease("C1", "2n", time);
+  const kickDrum = new Tone.Sampler(
+    {
+      A0: "./mp3/kick0.mp3",
+      A1: "./mp3/kick1.mp3",
+      A2: "./mp3/kick2.mp3",
+      A3: "./mp3/kick3.mp3",
+      A4: "./mp3/kick4.mp3",
+      A5: "./mp3/kick5.mp3",
+    },
+    {
+      volume: 1,
     }
-    kickTime = roundTime;
-    // }
+  ).toMaster();
+
+  kickPart = new Tone.Part(function (time, note) {
+    if (time > 26) {
+      console.log(note)
+      console.log(time);
+      if (prevKick !== note.note) {
+        kickDrum.triggerAttackRelease(note.note, note.duration, time);
+        prevKick = note.note;
+      }
+    }
   }, kicks).start(0);
 
-  const lowPass = new Tone.Filter({
-    frequency: 8000,
+  // ================== SNARES ==================
+
+  const snaresEffect = new Tone.Chorus({
+    frequency: 4,
+    delayTime: 16,
+    type: "triangle",
+    depth: 1,
+    feedback: 0.1,
+    spread: 80,
+    wet: 0.5,
   }).toMaster();
 
   const snareDrum = new Tone.NoiseSynth({
-    volume: -15,
+    volume: -24,
     noise: {
       type: "white",
-      playbackRate: 3,
+      playbackRate: 0.3,
     },
     envelope: {
-      attack: 0.001,
-      decay: 0.2,
-      sustain: 0.15,
-      release: 0.03,
+      attackCurve: "exponential",
+      attack: 0.003,
+      decay: 0.5,
+      sustain: 0.2,
+      release: 0.1,
     },
-  }).connect(lowPass);
+  }).connect(snaresEffect);
 
   snarePart = new Tone.Part(function (time) {
-    let roundTime = Math.floor(time);
-
-    if (snareTime !== roundTime) {
-      if (count > 3) {
-        snareDrum.triggerAttackRelease("4n", time);
-        count = 0;
-      }
-      count++;
+    if (parseInt(time) % 2 == 0) {
+      snareDrum.triggerAttackRelease("4n", time);
     }
-    snareTime = roundTime;
   }, snares).start(0);
 
-  function constructKicksAndSnares(force, seconds) {
-    for (let i = 0; i < force.length; i++) {
-      let time = Number(seconds[i]);
-
-       if (force[i] > 27) {
-        kicks.push(time);
-        snares.push(time + 1);
-       }
+  function constructKicksAndSnares(value, seconds) {
+    for (let i = 0; i < value.length; i++) {
+      defineKicksAndSnares(value[i], seconds[i]);
     }
+  }
+}
+
+function defineKicksAndSnares(value, seconds) {
+  let newVal = map(value, -9, 0, 9, 0);
+  let t = Number(seconds);
+  
+  if (newVal > 7 && newVal <= 7.5) {
+    kicks.push({ note: "A1", duration: "4n.", time: t });
+  } else if (newVal > 8 && newVal <= 8.2) {
+    kicks.push({ note: "A2", duration: "4n.", time: t });
+  } else if (newVal > 8.2 && newVal <= 8.5) {
+    kicks.push({ note: "A3", duration: "4n.", time: t });
+  } else if (newVal > 8.5 && newVal <= 9) {
+    kicks.push({ note: "A4", duration: "4n.", time: t });
+  } else if (newVal > 9) {
+    kicks.push({ note: "A5", duration: "4n.", time: t });
+  } else {
+    return;
   }
 }

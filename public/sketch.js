@@ -1,14 +1,10 @@
-// Song2
-var Ebmajor = ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"];
-var Cmajor = ["C", "D", "E", "F", "G", "A", "B", "C"];
-
-var defaultBPM = 270;
-
 async function preload() {
-  // ======== SONG 2 ========
-  data = await loadTable("./data/1635706032.csv", "csv", "header"); // Standalone - dramatical
-  //  data = await loadTable("./data/1635457267.csv", "csv", "header"); // Standalone
+  // ======== SONG 1 ========
+  data = await loadTable("./data/1637109005 Only session with 2 orgasms.csv", "csv", "header"); // Standalone
+  // 1624909543;
 }
+var Cmajor = ["C", "D", "E", "F", "G", "A", "B", "C"];
+let defaultBPM = 330;
 
 function setup() {
   createCanvas(800, 600);

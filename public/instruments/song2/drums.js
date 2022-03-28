@@ -74,7 +74,7 @@ function initializeDrums() {
     for (let i = 0; i < force.length; i++) {
       let time = Number(seconds[i]);
 
-      if (force[i] > 27) {
+      if (force[i] > 27 && time > 5) {
         kicks.push(time);
         snares.push(time);
       }
