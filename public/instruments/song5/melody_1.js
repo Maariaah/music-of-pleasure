@@ -30,6 +30,7 @@ function initializeMelody1() {
 
   melodyPart = new Tone.Part(function (time, note) {
     // Prevent playing a note if it is same as previous one
+    window.note = window.note + 1;
 
     if (
       (malodyNotesCount < 2 && note.number === 0) ||

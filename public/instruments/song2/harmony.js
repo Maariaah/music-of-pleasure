@@ -4,8 +4,8 @@ let harmonyChords = [];
 let IChord, IIChord, IIIChord, IVChord, VChord, VIChord;
 
 function initializeHarmony() {
+  
   // Define chords
-
   IChord = constructMajorChord(Ebmajor, 4, "Eb3");
   IIChord = constructMajorChord(Ebmajor, 4, "F3");
   IIIChord = constructMajorChord(Ebmajor, 4, "G3");
@@ -18,29 +18,14 @@ function initializeHarmony() {
   // Chose frequency between:
   // 396Hz, 417Hz, 444Hz, 528Hz, 639Hz, 741Hz, 852Hz.
 
-  // Use a synth as an instrument to play chords
+  // Use a AMSynth as an instrument to play chords
   synthMajor = new Tone.PolySynth(3, Tone.AMSynth, {
     volume: 1,
     harmonicity: 1,
     detune: 0,
     oscillator: {
       type: "fmsquare2",
-    },
-    envelope: {
-      attack: 0.01,
-      decay: 0.01,
-      sustain: 1,
-      release: 0.5,
-    },
-    modulation: {
-      type: "fmsquare2",
-    },
-    modulationEnvelope: {
-      attack: 0.02,
-      decay: 0,
-      sustain: 1,
-      release: 0.5,
-    },
+    }
   }).toMaster();
 
   // Progression or sequence

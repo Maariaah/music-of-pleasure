@@ -17,7 +17,7 @@ function setup() {
   h = windowHeight / 2;
   space_between_lines = width / 2 / 64;
 
-  // Define data
+  // Assign data
   motor = data.getColumn(mtr);
   temperature = data.getColumn(temp);
   force = data.getColumn(fc);
@@ -57,8 +57,7 @@ function setup() {
 }
 
 function draw() {
-  // defineColor();
-  // drawWaveform();
+  drawWaveform();
   button = createButton("click me");
   button.position(0, 0);
   button.mousePressed(startSound);

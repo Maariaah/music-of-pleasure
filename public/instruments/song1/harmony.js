@@ -70,7 +70,7 @@ function initializeHarmony() {
 
   //Use part to encapsulate chords into single unit
   harmonyPart = new Tone.Part(function (time, note) {
-    if (time > 20) {
+    // if (time > 20) {
       let currentHarmonyTone = { note: note.note, duration: note.duration };
       // Prevent playing a note if it is same as previous one
 
@@ -80,7 +80,7 @@ function initializeHarmony() {
         synthMajor.triggerAttackRelease(note.note, note.duration, time);
         prevHarmonyTone = currentHarmonyTone;
       }
-    }
+    // }
   }, harmonyChords).start(0);
 }
 

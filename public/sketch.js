@@ -1,10 +1,11 @@
+// Song3
+var Dmajor = ["D", "E", "F", "G", "A", "B", "C", "D"];
+var defaultBPM = 280;
+
 async function preload() {
-  // ======== SONG 1 ========
-  data = await loadTable("./data/1637109005 Only session with 2 orgasms.csv", "csv", "header"); // Standalone
-  // 1624909543;
+  // ======== SONG 3 ========
+  data = await loadTable("./data/1624909543.csv", "csv", "header");
 }
-var Cmajor = ["C", "D", "E", "F", "G", "A", "B", "C"];
-let defaultBPM = 330;
 
 function setup() {
   createCanvas(800, 600);
@@ -49,7 +50,7 @@ function setup() {
 
 function draw() {
   // defineColor();
-  //drawWaveform();
+  drawWaveform();
 
   button = createButton("click me");
   button.position(0, 0);

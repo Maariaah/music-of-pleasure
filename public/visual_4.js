@@ -2,31 +2,29 @@
 // https://codepen.io/noeldelgado/pen/EaNjBy
 // https://gg-gina.medium.com/how-to-music-visualizer-web-audio-api-aa007f4ea525
 
-let fqSmoothLevel = 10;
 let x;
 let y;
 let b = 0;
+let rotateAngle = 90;
 const k = 90; // intersecion point
 const angle = 180;
-let c = 256;
-let red;
-let strokeOpacity = 0.4;
-let fillOpacity = 0.01;
 let energy;
 const size = 1;
-const shapeIrregularities = 1;
 let yoff = 0.0;
-let newAvg = 10;
-let firstBeatDetected = false;
-let lastAveragePoint = 0;
+let strokeOpacity = 0.4;
+let fillOpacity = 0.01;
+let prevRotateAngle = 0;
+let brightness = 100;
 
 function drawWaveform() {
+  //Tone.context.getByteFrequencyData(dataArray);
   analyser.getByteFrequencyData(dataArray);
   avg = getAvg([].slice.call(dataArray)) * gainNode.gain.value;
-  HIGH_BREAK_POINT_HIT = avg > HIGH_BREAK_POINT;
+  HIGH_BREAK_POINT_HIT = avg >= HIGH_BREAK_POINT;
   MIN_BREAK_POINT_HIT = avg < MIN_BREAK_POINT;
   AVG_BREAK_POINT_HIT = avg < AVG_BREAK_POINT;
-
+  AVG_BREAK_POINT_HIT2 = avg < AVG_BREAK_POINT && avg < HIGH_BREAK_POINT
+  
   function getAvg(values) {
     var value = 0;
     values.forEach(function (v) {
@@ -36,62 +34,75 @@ function drawWaveform() {
     return value / values.length;
   }
 
-  //spectrum = fft.getValue().map((item) => Math.abs(item)); // create Analyser
   spectrum = dataArray.map((item) => {
     if (item > 0) {
       return item;
-    } 
-    else {
+    } else {
       return Math.floor(Math.random() * (100 - 60) + 60);
     }
   });
 
   energy = Math.floor(Math.random() * (255 - 200) + 100); // Density
-
   // Draw vertex
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
+
   var len = scaledSpectrum.length;
-  var N = len - 20;
+  var N = len - 15;
+
   var volume = max(scaledSpectrum);
+  defineShapeAndPosition();
 
-  translate(width / 2, height / 2);
-  rotate(radians(c * 10));
-  translate(-width / 2, -height / 2);
+  // define saturation by temperature value
+  defineSaturation();
+  defineHue();
+ 
 
-  defineColor();
+  function defineShapeAndPosition() {
+    // define the rotation position by the highest pitch
 
-  function defineColor() {
-    if (HIGH_BREAK_POINT_HIT) {
-      c = map(b++, 0, 15, 0, 360);
-      newAvg = avg;
-    }
+    if (avg > 9.92 && avg < 10) {
+      rotateAngle = map(b++, 0, 15, 0, 360);
+    }  
 
-    if (c > 359) c = 0;
+    if (rotateAngle > 359) rotateAngle = 0;
+
+    //  if (hue > 359) hue = 0;
     if (b > 15) b = 0;
+
+    translate(width / 2, height / 2);
+    rotate(radians(rotateAngle));
+    translate(-width / 2, -height / 2);
   }
 
   beginShape();
+  // define the shape opacity
   if (MIN_BREAK_POINT_HIT) {
     fillOpacity = 0;
     strokeOpacity = 0.01;
+    brightness = 100;
   } else if (AVG_BREAK_POINT_HIT) {
-    fillOpacity = 0.01;
+    fillOpacity = 0.05;
     strokeOpacity = 0.2;
-  } else {
-    fillOpacity = 0.02;
-    strokeOpacity = 0.6;
+    brightness = 70;
+  } else if (AVG_BREAK_POINT_HIT2) {
+    fillOpacity = 0.05;
+    strokeOpacity = 0.4;
+    brightness = 50;
+  } else if (HIGH_BREAK_POINT_HIT) {
+    fillOpacity = 0.08;
+    strokeOpacity = 0.7;
+    brightness = 0;
   }
 
-  fill(c, volume * 0.8, 255, fillOpacity);
-  stroke(c, volume, 128 - volume / 2, strokeOpacity);
-
+  fill(hue, saturation, 100, fillOpacity);
+  stroke(hue, saturation, brightness, strokeOpacity);
   curveVertex(x, y);
 
   //Left side
   for (var i = 0; i < N; i++) {
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
 
-    var R = point;
+    var R = point * size;
     var x = width / 2 + R * cos(radians((i * angle) / N + k));
     var y = height / 2 + R * sin(radians((i * angle) / N + k));
 
@@ -106,7 +117,7 @@ function drawWaveform() {
   for (var i = N; i > 0; i--) {
     point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
 
-    R = point;
+    R = point * size;
     x = width / 2 + R * cos(radians((i * angle + 20) / N + k + 180));
     y = height / 2 + R * sin(radians((i * angle + 20) / N + k));
 
@@ -123,34 +134,36 @@ function drawWaveform() {
   endShape();
 }
 
-function defineColor() {
+function defineSaturation() {
   //Get temperature highest and lowest values
-  let lowest;
-  let highest;
-  let colorLowest = 0;
-  let colorHighest = 100;
-  let newRange;
 
-  function getRange(arr) {
-    highest = arr.sort((a, b) => b - a)[0];
-    lowest = arr.sort((a, b) => a - b)[0];
-  }
+      let tempHighest = temperature.sort((a, b) => b - a)[0];
+      let tempLowest = temperature.sort((a, b) => a - b)[0];
 
-  // Resrict values within the range
-  function convertRange() {
-    let tempLowest = parseInt(lowest * 10);
-    let tempHighest = parseInt(highest * 10);
-    let currentDegree = parseInt(temperature[note] * 10);
+    // Resrict values within the range
+    saturation = map(temperature[note], tempLowest, tempHighest, 0, 100);
 
-    let percent = (currentDegree - tempLowest) / (tempHighest - tempLowest);
-    newRange = percent * (colorHighest - colorLowest) + colorLowest;
-  }
+    // red = newRange;
+    // green = 50;
+    // blue = 50;
 
-  getRange(temperature);
-  convertRange();
-  red = newRange * 6;
-  green = 30;
-  blue = 30;
+}
+
+function defineHue() {
+  // if (prevForceValue < force[note]) {
+    //Get temperature highest and lowest values
+    let lowest;
+    let highest;
+
+    function getRange(arr) {
+      highest = arr.sort((a, b) => b - a)[0];
+      lowest = arr.sort((a, b) => a - b)[0];
+    }
+
+    getRange(force);
+    hue = parseInt(map(force[note], lowest, highest, 0, 360));
+    // brightness = parseInt(map(force[note], lowest, highest, 0, 100));
+  // }
 }
 
 function splitOctaves(spectrum, slicesPerOctave) {
@@ -160,7 +173,7 @@ function splitOctaves(spectrum, slicesPerOctave) {
   // default to thirds
   var n = slicesPerOctave || 3;
   var nthRootOfTwo = Math.pow(2, 1 / n);
- 
+
   // the last N bins get their own
   var lowestBin = slicesPerOctave;
 

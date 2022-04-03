@@ -37,8 +37,10 @@ function initializeMelody1() {
   }).toMaster();
 
   melodyPart = new Tone.Part(function (time, note) {
+    window.note = window.note + 1;
+
     if (prevMelodyTone !== note.note) {
-      synthMelody.triggerAttackRelease(note.note, note.duration, time);
+      // synthMelody.triggerAttackRelease(note.note, note.duration, time);
       prevMelodyTone = note.note;
     }
   }, mainChords).start(0);

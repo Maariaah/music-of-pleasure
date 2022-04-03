@@ -43,11 +43,14 @@ function initializeMelody1() {
 
   melodyPart = new Tone.Part(function (time, note) {
     picksCount++;
+     window.note = window.note + 1;
+
     if(time > 20) {
       if (prevMelodyTone !== note.note) {
-        synthMelody.triggerAttackRelease(note.note, note.duration, time);
+        // synthMelody.triggerAttackRelease(note.note, note.duration, time);
         prevMelodyTone = note.note;
       } 
+
       // else {
       //   if (picksCount <= 1) {
       //     synthMelody.triggerAttackRelease(note.note, note.duration, time);

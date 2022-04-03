@@ -51,8 +51,7 @@ function setup() {
 }
 
 function draw() {
-  // defineColor();
-  //drawWaveform();
+  drawWaveform();
 
   button = createButton("click me");
   button.position(0, 0);
