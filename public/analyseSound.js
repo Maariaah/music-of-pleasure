@@ -1,13 +1,19 @@
-let fqSmoothLevel = 6;
-let forcePitch = 40;
-const shapeIrregularities = 3;
+// Song 2
+let forcePitch = 53;
+let HIGH_BREAK_POINT = 15;
+let MIN_BREAK_POINT = 3;
+let AVG_BREAK_POINT = 9;
+
+// Song 3
+// let forcePitch = 40;
+// let HIGH_BREAK_POINT = 15;
+// let MIN_BREAK_POINT = 3;
+// let AVG_BREAK_POINT = 9;
+
 let HIGH_BREAK_POINT_HIT;
 let AVG_BREAK_POINT_HIT;
 let AVG_BREAK_POINT_HIT2;
 let MIN_BREAK_POINT_HIT;
-let HIGH_BREAK_POINT = 15;
-let MIN_BREAK_POINT = 3;
-let AVG_BREAK_POINT = 9;
 
 var player = document.getElementById("player");
  var context = new AudioContext();

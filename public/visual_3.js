@@ -6,24 +6,26 @@ let x;
 let y;
 let b = 0;
 let rotateAngle = 90;
-const k = -90; // intersecion point
+const k = 90; // intersecion point
 const angle = 180;
 let energy;
 const size = 1;
 let yoff = 0.0;
-let hue = 360;
-let saturation = 100;
+let strokeOpacity = 0.4;
+let fillOpacity = 0.01;
+let prevRotateAngle = 0;
 let brightness = 100;
+let fqSmoothLevel = 7;
 
 function drawWaveform() {
   //Tone.context.getByteFrequencyData(dataArray);
-  //analyser.getByteTimeDomainData(dataArray);
-
-  avg = getAvg([].slice.call(fft)) * gainNode.gain.value;
-  HIGH_BREAK_POINT_HIT = avg > HIGH_BREAK_POINT;
+  analyser.getByteFrequencyData(dataArray);
+  avg = getAvg([].slice.call(dataArray)) * gainNode.gain.value;
+  HIGH_BREAK_POINT_HIT = avg >= HIGH_BREAK_POINT;
   MIN_BREAK_POINT_HIT = avg < MIN_BREAK_POINT;
   AVG_BREAK_POINT_HIT = avg < AVG_BREAK_POINT;
-  
+  AVG_BREAK_POINT_HIT2 = avg > AVG_BREAK_POINT && avg < HIGH_BREAK_POINT;
+
   function getAvg(values) {
     var value = 0;
     values.forEach(function (v) {
@@ -33,27 +35,13 @@ function drawWaveform() {
     return value / values.length;
   }
 
-    // spectrum = fft.getValue().map(item => {
-    //   return map(item, -100, 0, -1, 1);
-    // }); // create Analyser
-  
-    // spectrum = fft.getValue();
-
-
-  spectrum = fft.getValue().map((item) => {
-     let i = Math.abs(Math.round(item));
-    return  i;
-
-    // if (item > 0) {
-    //   return item;
-    // } else {
-    //   return Math.floor(Math.random() * (100 - 30) + 30);
-    // }
+  spectrum = dataArray.map((item) => {
+    if (item > 0) {
+      return item;
+    } else {
+      return Math.floor(Math.random() * (100 - 60) + 60);
+    }
   });
-
-  //spectrum = dataArray
-  
-  console.log(spectrum)
 
   energy = Math.floor(Math.random() * (255 - 200) + 100); // Density
   // Draw vertex
@@ -63,21 +51,22 @@ function drawWaveform() {
   var N = len - 15;
 
   var volume = max(scaledSpectrum);
-  saturation = red;
-
   defineShapeAndPosition();
+
+  // define saturation by temperature value
   defineSaturation();
   defineHue();
 
   function defineShapeAndPosition() {
     // define the rotation position by the highest pitch
-    if (AVG_BREAK_POINT_HIT) {
+
+    if (avg > 9.92 && avg < 10) {
       rotateAngle = map(b++, 0, 15, 0, 360);
-      avg = AVG_BREAK_POINT_HIT;
     }
 
     if (rotateAngle > 359) rotateAngle = 0;
-    // if (hue > 359) hue = 0;
+
+    //  if (hue > 359) hue = 0;
     if (b > 15) b = 0;
 
     translate(width / 2, height / 2);
@@ -90,25 +79,29 @@ function drawWaveform() {
   if (MIN_BREAK_POINT_HIT) {
     fillOpacity = 0;
     strokeOpacity = 0.01;
+    brightness = 100;
   } else if (AVG_BREAK_POINT_HIT) {
-    fillOpacity = 0.01;
-    strokeOpacity = 0.1;
+    // fillOpacity = 0.04;
+    // strokeOpacity = 0.2;
+    brightness = 70;
+  } else if (AVG_BREAK_POINT_HIT2) {
+    // fillOpacity = 0.07;
+    // strokeOpacity = 0.4;
+    brightness = 50;
   } else if (HIGH_BREAK_POINT_HIT) {
-    fillOpacity = 0.02;
-    strokeOpacity = 0.3;
+    fillOpacity = 0.08;
+    strokeOpacity = 0.7;
+    brightness = 20;
   }
 
-  fill(hue, saturation * 0.5, brightness, fillOpacity);
-  stroke(hue, volume, 128 - volume / 2, strokeOpacity);
-
+  fill(hue, saturation, 100, fillOpacity);
+  stroke(hue, saturation, brightness, strokeOpacity);
   curveVertex(x, y);
 
   //Left side
   for (var i = 0; i < N; i++) {
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
 
-
-    
     var R = point * size;
     var x = width / 2 + R * cos(radians((i * angle) / N + k));
     var y = height / 2 + R * sin(radians((i * angle) / N + k));
@@ -139,44 +132,27 @@ function drawWaveform() {
   curveVertex(x, y);
 
   endShape();
- }
+}
 
 function defineSaturation() {
   //Get temperature highest and lowest values
-  let lowest;
-  let highest;
-  let colorLowest = 0;
-  let colorHighest = 360;
-  let newRange;
 
-  function getRange(arr) {
-    highest = arr.sort((a, b) => b - a)[0];
-    lowest = arr.sort((a, b) => a - b)[0];
-  }
+  let tempHighest = temperature.sort((a, b) => b - a)[0];
+  let tempLowest = temperature.sort((a, b) => a - b)[0];
 
   // Resrict values within the range
-  function convertRange() {
-    let tempLowest = parseInt(lowest * 10);
-    let tempHighest = parseInt(highest * 10);
-    let currentDegree = parseInt(temperature[note] * 10);
-    let percent = (currentDegree - tempLowest) / (tempHighest - tempLowest);
-    newRange = percent * (colorHighest - colorLowest) + colorLowest;
-  }
+  saturation = map(temperature[note], tempLowest, tempHighest, 0, 100);
 
-  getRange(temperature);
-  convertRange();
-
-  red = newRange;
-  green = 50;
-  blue = 50;
+  // red = newRange;
+  // green = 50;
+  // blue = 50;
 }
 
 function defineHue() {
-
+  // if (prevForceValue < force[note]) {
   //Get temperature highest and lowest values
   let lowest;
   let highest;
-
 
   function getRange(arr) {
     highest = arr.sort((a, b) => b - a)[0];
@@ -184,7 +160,9 @@ function defineHue() {
   }
 
   getRange(force);
-  hue = map(force, lowest, highest, 0, 360);
+  hue = parseInt(map(force[note], lowest, highest, 0, 360));
+  // brightness = parseInt(map(force[note], lowest, highest, 0, 100));
+  // }
 }
 
 function splitOctaves(spectrum, slicesPerOctave) {

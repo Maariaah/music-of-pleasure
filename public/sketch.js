@@ -1,10 +1,12 @@
-// Song3
-var Dmajor = ["D", "E", "F", "G", "A", "B", "C", "D"];
-var defaultBPM = 280;
+// Song2
+var Ebmajor = ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"];
+var Cmajor = ["C", "D", "E", "F", "G", "A", "B", "C"];
+
+var defaultBPM = 200;
 
 async function preload() {
-  // ======== SONG 3 ========
-  data = await loadTable("./data/1624909543.csv", "csv", "header");
+  // ======== SONG 2 ========
+  data = await loadTable("./data/1635706032.csv", "csv", "header"); // Standalone - dramatical
 }
 
 function setup() {
@@ -49,7 +51,6 @@ function setup() {
 }
 
 function draw() {
-  // defineColor();
   drawWaveform();
 
   button = createButton("click me");

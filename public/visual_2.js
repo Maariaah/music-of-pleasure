@@ -11,10 +11,11 @@ const angle = 180;
 let energy;
 const size = 1;
 let yoff = 0.0;
-let strokeOpacity = 0.4;
-let fillOpacity = 0.01;
+let strokeOpacity = 0.3;
+let fillOpacity = 0.008;
 let prevRotateAngle = 0;
 let brightness = 100;
+let fqSmoothLevel = 6;
 
 function drawWaveform() {
   //Tone.context.getByteFrequencyData(dataArray);
@@ -23,8 +24,8 @@ function drawWaveform() {
   HIGH_BREAK_POINT_HIT = avg >= HIGH_BREAK_POINT;
   MIN_BREAK_POINT_HIT = avg < MIN_BREAK_POINT;
   AVG_BREAK_POINT_HIT = avg < AVG_BREAK_POINT;
-  AVG_BREAK_POINT_HIT2 = avg < AVG_BREAK_POINT && avg < HIGH_BREAK_POINT
-  
+  AVG_BREAK_POINT_HIT2 = avg > AVG_BREAK_POINT && avg < HIGH_BREAK_POINT;
+
   function getAvg(values) {
     var value = 0;
     values.forEach(function (v) {
@@ -38,7 +39,7 @@ function drawWaveform() {
     if (item > 0) {
       return item;
     } else {
-      return Math.floor(Math.random() * (100 - 60) + 60);
+      return Math.floor(Math.random() * (80 - 60) + 60);
     }
   });
 
@@ -55,14 +56,12 @@ function drawWaveform() {
   // define saturation by temperature value
   defineSaturation();
   defineHue();
- 
 
   function defineShapeAndPosition() {
     // define the rotation position by the highest pitch
-
-    if (avg > 9.92 && avg < 10) {
+    if (avg > 19.5 && avg < 20) {
       rotateAngle = map(b++, 0, 15, 0, 360);
-    }  
+    }
 
     if (rotateAngle > 359) rotateAngle = 0;
 
@@ -81,17 +80,13 @@ function drawWaveform() {
     strokeOpacity = 0.01;
     brightness = 100;
   } else if (AVG_BREAK_POINT_HIT) {
-    fillOpacity = 0.05;
-    strokeOpacity = 0.2;
     brightness = 70;
   } else if (AVG_BREAK_POINT_HIT2) {
-    fillOpacity = 0.05;
-    strokeOpacity = 0.4;
     brightness = 50;
   } else if (HIGH_BREAK_POINT_HIT) {
-    fillOpacity = 0.08;
-    strokeOpacity = 0.7;
-    brightness = 0;
+    fillOpacity = 0.05;
+    strokeOpacity = 0.3;
+    brightness = 20;
   }
 
   fill(hue, saturation, 100, fillOpacity);
@@ -102,7 +97,7 @@ function drawWaveform() {
   for (var i = 0; i < N; i++) {
     var point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
 
-    var R = point * size;
+    var R = point * size + avg;
     var x = width / 2 + R * cos(radians((i * angle) / N + k));
     var y = height / 2 + R * sin(radians((i * angle) / N + k));
 
@@ -117,9 +112,9 @@ function drawWaveform() {
   for (var i = N; i > 0; i--) {
     point = smoothPoint(scaledSpectrum, i, fqSmoothLevel);
 
-    R = point * size;
-    x = width / 2 + R * cos(radians((i * angle + 20) / N + k + 180));
-    y = height / 2 + R * sin(radians((i * angle + 20) / N + k));
+    R = point * size + avg;
+    x = width / 2 + R * cos(radians((i * angle) / N + k + 180));
+    y = height / 2 + R * sin(radians((i * angle) / N - 20 + k));
 
     curveVertex(x, y);
   }
@@ -137,32 +132,31 @@ function drawWaveform() {
 function defineSaturation() {
   //Get temperature highest and lowest values
 
-      let tempHighest = temperature.sort((a, b) => b - a)[0];
-      let tempLowest = temperature.sort((a, b) => a - b)[0];
+  let tempHighest = temperature.sort((a, b) => b - a)[0];
+  let tempLowest = temperature.sort((a, b) => a - b)[0];
 
-    // Resrict values within the range
-    saturation = map(temperature[note], tempLowest, tempHighest, 0, 100);
+  // Resrict values within the range
+  saturation = map(temperature[note], tempLowest, tempHighest, 0, 100);
 
-    // red = newRange;
-    // green = 50;
-    // blue = 50;
-
+  // red = newRange;
+  // green = 50;
+  // blue = 50;
 }
 
 function defineHue() {
   // if (prevForceValue < force[note]) {
-    //Get temperature highest and lowest values
-    let lowest;
-    let highest;
+  //Get temperature highest and lowest values
+  let lowest;
+  let highest;
 
-    function getRange(arr) {
-      highest = arr.sort((a, b) => b - a)[0];
-      lowest = arr.sort((a, b) => a - b)[0];
-    }
+  function getRange(arr) {
+    highest = arr.sort((a, b) => b - a)[0];
+    lowest = arr.sort((a, b) => a - b)[0];
+  }
 
-    getRange(force);
-    hue = parseInt(map(force[note], lowest, highest, 0, 360));
-    // brightness = parseInt(map(force[note], lowest, highest, 0, 100));
+  getRange(force);
+  hue = parseInt(map(force[note], lowest, highest, 0, 360));
+  // brightness = parseInt(map(force[note], lowest, highest, 0, 100));
   // }
 }
 
