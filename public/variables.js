@@ -64,3 +64,4 @@ var pitchShift;
 var gainNode;
 var note = 0;
 let audioLength = 2000;
+let synthMelody;

@@ -19,7 +19,7 @@ V = "D#4";
 
 function initializeMelody1() {
   // Use a simple Synth as the instrument
-  let synthMelody = new Tone.Synth({
+  synthMelody = new Tone.Synth({
     volume: -5,
     oscillator: {
       type: "triangle",

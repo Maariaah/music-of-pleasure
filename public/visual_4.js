@@ -11,11 +11,10 @@ const angle = 180;
 let energy;
 const size = 1;
 let yoff = 0.0;
-let strokeOpacity = 0.3;
-let fillOpacity = 0.008;
 let prevRotateAngle = 0;
-let brightness = 100;
-let fqSmoothLevel = 6;
+let fqSmoothLevel = 4;
+let strokeOpacity = 0.5;
+let fillOpacity = 0.03;
 
 function drawWaveform() {
   //Tone.context.getByteFrequencyData(dataArray);
@@ -25,8 +24,6 @@ function drawWaveform() {
   MIN_BREAK_POINT_HIT = avg < MIN_BREAK_POINT;
   AVG_BREAK_POINT_HIT = avg < AVG_BREAK_POINT;
   AVG_BREAK_POINT_HIT2 = avg > AVG_BREAK_POINT && avg < HIGH_BREAK_POINT;
-
-  console.log(force[note])
 
   function getAvg(values) {
     var value = 0;
@@ -40,8 +37,11 @@ function drawWaveform() {
   spectrum = dataArray.map((item) => {
     if (item > 0) {
       return item;
-    } else {
-      return Math.floor(Math.random() * (80 - 60) + 60);
+    } else if(item > 70 && item < 90) {
+      return Math.floor(Math.random() * (200 - 20) + 20);
+    }
+    else {
+      return Math.floor(Math.random() * (120 - 60) + 60);
     }
   });
 
@@ -50,7 +50,7 @@ function drawWaveform() {
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
 
   var len = scaledSpectrum.length;
-  var N = len - 15;
+  var N = len - 10;
 
   var volume = max(scaledSpectrum);
   defineShapeAndPosition();
@@ -78,17 +78,17 @@ function drawWaveform() {
   beginShape();
   // define the shape opacity
   if (MIN_BREAK_POINT_HIT) {
-    fillOpacity = 0;
-    strokeOpacity = 0.01;
     brightness = 100;
+    strokeWeight(0.5)
   } else if (AVG_BREAK_POINT_HIT) {
-    brightness = 70;
+    brightness = 80;
+    strokeWeight(0.3)
   } else if (AVG_BREAK_POINT_HIT2) {
     brightness = 50;
+    strokeWeight(0.8)
   } else if (HIGH_BREAK_POINT_HIT) {
-    fillOpacity = 0.03;
-    strokeOpacity = 0.3;
-    brightness = 20;
+    brightness = 0;
+    strokeWeight(1.2)
   }
 
   fill(hue, saturation, 100, fillOpacity);
@@ -101,7 +101,7 @@ function drawWaveform() {
 
     var R = point * size + avg;
     var x = width / 2 + R * cos(radians((i * angle) / N + k));
-    var y = height / 2 + R * sin(radians((i * angle) / N - (force[note]) + k));
+    var y = height / 2 + R * sin(radians((i * angle) / N + - (force[note]) + k));
 
     if (i === 0)
       var x1 = x,
@@ -139,10 +139,6 @@ function defineSaturation() {
 
   // Resrict values within the range
   saturation = map(force[note], tempLowest, tempHighest, 0, 100);
-
-  // red = newRange;
-  // green = 50;
-  // blue = 50;
 }
 
 function defineHue() {

@@ -30,8 +30,7 @@ function setup() {
   acceleratorZ = data.getColumn(accZ);
   env = new Tone.AmplitudeEnvelope();
 
-  pitchShift = new Tone.PitchShift(4).toMaster();
-
+  //  pitchShift = new Tone.PitchShift(4).toMaster();
   // Analyse frequency/amplitude of signal
   // frequency = new Tone.Frequency().toMaster();
 
@@ -43,7 +42,7 @@ function setup() {
   meter = new Tone.Meter();
   //let pos = 0.5 - this.meter.getValue(0); // -> -0.5 ~ 0.5
 
-  // scource = new Tone.Source();
+  scource = new Tone.Source();
   signal = new Tone.Signal();
   waveform = new Tone.Waveform({
     size: 512,
@@ -73,6 +72,6 @@ function draw() {
 
 function startSound() {
    Tone.Transport.start();
-   sound.play();
+  //  sound.play();
   getAudioContext().resume();
 }

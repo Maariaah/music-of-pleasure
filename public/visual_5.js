@@ -9,16 +9,17 @@ const k = -90; // intersecion point
 const angle = -180;
 let c = 256;
 let newRed;
-const strokeIntensity = 0.05;
 const strokeOpacity = 0.6;
-const fillOpacity = 0.05;
+const fillOpacity = 0.1;
 let energy;
 const size = 1;
 const irregularities = 1;
-const shapeIrregularities = 100;
 let yoff = 0.0;
+let rotateAngle=0;
+let prevForce = 0;
 
 function drawWaveform() {
+  // fqSmoothLevel = parseInt(force[note]) / 2;
   colorMode(HSB);
   noFill();
   // beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60 / (defaultBPM / 60));
@@ -29,9 +30,24 @@ function drawWaveform() {
 
   // if the high pick is detected
   if (frequency !== oldHighPick) {
-    c = map(b++, 0, 15, 0, 360);
+    // c = map(b++, 0, 15, 0, 360);
     oldHighPick = frequency;
+    rotateAngle = map(b++, 0, 15, 0, 360);
  }
+
+ if (frequency < 100) {
+   brightness = 100;
+  strokeWeight(0.5)
+} else if (frequency > 100 && frequency < 200) {
+   brightness = 60;
+  strokeWeight(0.3)
+} else if (frequency > 200 && frequency < 300) {
+   brightness = 40;
+  strokeWeight(0.8)
+} else if (frequency > 300) {
+  brightness = 10;
+  strokeWeight(1)
+}
 
     if (c > 359) c = 0;
     if (b > 15) b = 0;
@@ -40,23 +56,23 @@ function drawWaveform() {
   //energy = noise(100, 0);
 
   // Draw vertex
-  var scaledSpectrum = splitOctaves(spectrum, map(energy, 0,255, 6,12));
+  var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6,12));
   var len = scaledSpectrum.length;
   var N = len - 20;
- //var volume = frequency * strokeIntensity;
   var volume = max(scaledSpectrum);
 
+  defineSaturation();
+  defineHue();
   translate(width / 2, height / 2);
-  rotate(radians(c));
+  rotate(radians(rotateAngle));
   translate(-width / 2, -height / 2);
 
   beginShape();
 
-  fill(c, volume * 0.8, 255, 0.01);
-  stroke(c, volume, 128 - volume / 2, 0.4);
+  fill(hue, saturation, 255, fillOpacity);
+  stroke(hue, saturation, brightness, strokeOpacity);
 
   curveVertex(x, y);
-
   // fill(c + newRed, volume * 0.8, 255, fillOpacity);
   // stroke(c, volume * 3, 128 - 50, strokeOpacity);
 
@@ -122,6 +138,32 @@ function defineColor() {
   newRed = newRange * 6;
   green = 30;
   blue = 30;
+}
+
+function defineSaturation() {
+  //Get force highest and lowest values
+
+  let tempHighest = force.sort((a, b) => b - a)[0];
+  let tempLowest = force.sort((a, b) => a - b)[0];
+
+  // Resrict values within the range
+  saturation = map(force[note], tempLowest, tempHighest, 0, 100);
+}
+
+function defineHue() {
+  //Get temp highest and lowest values
+  let lowest;
+  let highest;
+
+  function getRange(arr) {
+    highest = arr.sort((a, b) => b - a)[0];
+    lowest = arr.sort((a, b) => a - b)[0];
+  }
+
+  getRange(temperature);
+  hue = parseInt(map(temperature[note], lowest, highest, 0, 360));
+  // brightness = parseInt(map(force[note], lowest, highest, 0, 100));
+  // }
 }
 
 function splitOctaves(spectrum, slicesPerOctave) {
