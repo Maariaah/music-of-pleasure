@@ -71,12 +71,10 @@ function drawWaveform() {
 
   beginShape();
 
-  if (seconds[note] >= 103) {
-
+  if (seconds[note] >= 122) {
     fillOpacity = 0;
     strokeOpacity=0;
   }
-  console.log(seconds[note])
 
 
   fill(hue, saturation, 255, fillOpacity);
