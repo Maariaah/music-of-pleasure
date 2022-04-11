@@ -9,12 +9,11 @@ let rotateAngle = 90;
 const k = 90; // intersecion point
 const angle = 180;
 let energy;
-const size = 1;
+let size = 1.2;
 let yoff = 0.0;
 let strokeOpacity = 0.4;
 let fillOpacity = 0.01;
 let prevRotateAngle = 0;
-let brightness = 100;
 let fqSmoothLevel = 7;
 
 function drawWaveform() {
@@ -39,7 +38,7 @@ function drawWaveform() {
     if (item > 0) {
       return item;
     } else {
-      return Math.floor(Math.random() * (100 - 60) + 60);
+      return Math.floor(Math.random() * (100 - 20) + 20);
     }
   });
 
@@ -48,7 +47,7 @@ function drawWaveform() {
   var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6, 12));
 
   var len = scaledSpectrum.length;
-  var N = len - 15;
+  var N = len - 10;
 
   var volume = max(scaledSpectrum);
   defineShapeAndPosition();
@@ -60,8 +59,12 @@ function drawWaveform() {
   function defineShapeAndPosition() {
     // define the rotation position by the highest pitch
 
-    if (avg > 9.92 && avg < 10) {
+    if (avg > 9.92 && avg < 9.96) {
       rotateAngle = map(b++, 0, 15, 0, 360);
+    }
+
+    if (avg > 10 && avg < 10.2) {
+      rotateAngle = map(b--, 0, 15, 0, 360);
     }
 
     if (rotateAngle > 359) rotateAngle = 0;
@@ -77,21 +80,25 @@ function drawWaveform() {
   beginShape();
   // define the shape opacity
   if (MIN_BREAK_POINT_HIT) {
-    fillOpacity = 0;
-    strokeOpacity = 0.01;
-    brightness = 100;
+    fillOpacity = 0.03;
+    strokeOpacity = 0.05;
+    brightness = 80;
+    size = 0.8
   } else if (AVG_BREAK_POINT_HIT) {
     // fillOpacity = 0.04;
     // strokeOpacity = 0.2;
-    brightness = 70;
+    brightness = 56;
   } else if (AVG_BREAK_POINT_HIT2) {
     // fillOpacity = 0.07;
     // strokeOpacity = 0.4;
-    brightness = 50;
+    brightness = 35;
+    size = 1
+
   } else if (HIGH_BREAK_POINT_HIT) {
     fillOpacity = 0.08;
     strokeOpacity = 0.7;
-    brightness = 20;
+    brightness = 10;
+    size = 1.1
   }
 
   fill(hue, saturation, 100, fillOpacity);
