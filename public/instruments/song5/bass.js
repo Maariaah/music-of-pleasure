@@ -17,7 +17,7 @@ function initializeBass() {
   }).toMaster();
 
   const bass = new Tone.MembraneSynth({
-    volume: -5,
+    volume: -10,
     pitchDecay: 0.15,
     octaves: 8,
     oscillator: {
@@ -36,7 +36,7 @@ function initializeBass() {
 
   bassPart = new Tone.Part(function (time, note) {
     if (note.note !== prevBassNote) {
-      bass.triggerAttackRelease(note.note, note.duration, time);
+      time > 18 && bass.triggerAttackRelease(note.note, note.duration, time);
     }
     prevBassNote = note.note;
   }, bassline).start(0);
@@ -56,44 +56,36 @@ function initializeBass() {
     let duration2 = "2n.";
     let duration3 = "4n";
 
-    let value = map(v, -16, 26, 0, 4);
+    let value = map(v, -16, 26, 0, 5);
 
     if (value < 0) {
-      bassline.push({
-        time: seconds,
-        note: A,
-        duration: duration1,
-      });
+        return;
     } else if (value > 0 && value <= 1) {
       bassline.push({
         time: seconds,
         note: E,
         duration: duration2,
       });
-    } else if (value > 1 && value <= 2) {
+    } else if (value > 2 && value <= 3) {
       bassline.push({
         time: seconds,
         note: F,
         duration: duration2,
       });
-    } else if (value > 2 && value <= 3) {
+    } else if (value > 3.5 && value <= 4) {
       bassline.push({
         time: seconds,
         note: D,
         duration: duration3,
       });
-    } else if (value > 4 && value <= 4) {
+    } else if (value > 4.5 && value <= 5) {
       bassline.push({
         time: seconds,
         note: F,
         duration: duration3,
       });
     } else {
-      bassline.push({
-        time: seconds,
-        note: E,
-        duration: duration1,
-      });
+      return;
     }
     return bassline;
   }

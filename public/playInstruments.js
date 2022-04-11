@@ -6,10 +6,10 @@
 
 https: function playInstruments() {
     initializeMelody1();
-    // initializeMelody2();
-    // initializeMelody3();
-  //  initializeHarmony();
-  // initializeBass();
-  // initializeDrums();
+   initializeMelody2();
+   initializeMelody3();
+   initializeHarmony();
+   initializeBass();
+    initializeDrums();
   // initializeVoice();
 }

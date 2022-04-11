@@ -9,8 +9,8 @@ const k = -90; // intersecion point
 const angle = -180;
 let c = 256;
 let newRed;
-const strokeOpacity = 0.6;
-const fillOpacity = 0.1;
+let strokeOpacity = 0.7;
+let fillOpacity = 0.09;
 let energy;
 const size = 1;
 const irregularities = 1;
@@ -24,7 +24,7 @@ function drawWaveform() {
   noFill();
   // beat = new p5.PeakDetect(2000, 20000, beatThreshold, 60 / (defaultBPM / 60));
 
-  frequency = parseInt(synthMelody.get().oscillator.frequency);
+  frequency = parseInt(synthMelody && synthMelody.get().oscillator.frequency);
   //spectrum = waveform.getValue().map((item) => Math.abs(item) * 100);
   spectrum = fft.getValue().map((item) => Math.abs(item)); // create Analyser
 
@@ -32,19 +32,21 @@ function drawWaveform() {
   if (frequency !== oldHighPick) {
     // c = map(b++, 0, 15, 0, 360);
     oldHighPick = frequency;
-    rotateAngle = map(b++, 0, 15, 0, 360);
+    if (frequency > 300) {
+      rotateAngle = map(b++, 0, 15, 0, 360);
+    }
  }
 
  if (frequency < 100) {
    brightness = 100;
   strokeWeight(0.5)
-} else if (frequency > 100 && frequency < 200) {
+} else if (frequency >= 100 && frequency <= 200) {
    brightness = 60;
   strokeWeight(0.3)
-} else if (frequency > 200 && frequency < 300) {
+} else if (frequency >= 200 && frequency <= 300) {
    brightness = 40;
   strokeWeight(0.8)
-} else if (frequency > 300) {
+} else if (frequency >= 300) {
   brightness = 10;
   strokeWeight(1)
 }
@@ -56,9 +58,9 @@ function drawWaveform() {
   //energy = noise(100, 0);
 
   // Draw vertex
-  var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6,12));
+  var scaledSpectrum = splitOctaves(spectrum, map(energy, 0, 255, 6,10));
   var len = scaledSpectrum.length;
-  var N = len - 20;
+  var N = len - 30;
   var volume = max(scaledSpectrum);
 
   defineSaturation();
@@ -68,6 +70,14 @@ function drawWaveform() {
   translate(-width / 2, -height / 2);
 
   beginShape();
+
+  if (seconds[note] >= 103) {
+
+    fillOpacity = 0;
+    strokeOpacity=0;
+  }
+  console.log(seconds[note])
+
 
   fill(hue, saturation, 255, fillOpacity);
   stroke(hue, saturation, brightness, strokeOpacity);

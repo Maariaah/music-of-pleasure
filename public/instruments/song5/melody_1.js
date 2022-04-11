@@ -7,388 +7,111 @@ let prevSeconds = 0;
 let prevNumber;
 let melodyTimeoutID;
 let malodyNotesCount = 0;
-let melodySpeed = 180;
-let kicks = [];
-let snares = [];
 
 I = "A3";
 II = "A#3";
 III = "C4";
 IV = "D4";
 V = "D#4";
+VI = "E4";
+VII = "F4";
+VIII = "G#4";
 
 function initializeMelody1() {
+  // create effects
+  let effect1 = new Tone.FeedbackDelay({
+    delayTime: "8n",
+    feedback: 0.2,
+    wet: 0.5,
+  }).toMaster();
+
   // Use a simple Synth as the instrument
   synthMelody = new Tone.Synth({
-    volume: -5,
     oscillator: {
-      type: "triangle",
+      type: "fatcustom",
+      partials: [0.2, 1, 0, 0.5, 0.1],
+      spread: 40,
+      count: 3,
     },
-  }).toMaster();
+    volume: -5,
+    // envelope: {
+    //   attack: 0.001,
+    //   decay: 1.6,
+    //   sustain: 0,
+    //   release: 1.6,
+    // },
+  })
+    .connect(effect1)
+    .toMaster();
 
   constructMelodyChords();
 
   melodyPart = new Tone.Part(function (time, note) {
     // Prevent playing a note if it is same as previous one
-    window.note = window.note + 1;
-
-    if (
-      (malodyNotesCount < 2 && note.number === 0) ||
-      (malodyNotesCount < 3 && note.number === 1) ||
-      (malodyNotesCount < 4 && note.number === 2) ||
-      (malodyNotesCount < 4 && note.number === 3) ||
-      (malodyNotesCount < 4 && note.number === 4) ||
-      (malodyNotesCount < 4 && note.number === 5) ||
-      (malodyNotesCount < 3 && note.number === 6) ||
-      (malodyNotesCount < 7 && note.number === 8) ||
-      (malodyNotesCount < 5 && note.number === 9)
-    ) {
+    if (prevMelodyTone !== note.note) {
       synthMelody.triggerAttackRelease(note.note, note.duration, time);
-      malodyNotesCount++;
-    } else {
-      if (
-        (malodyNotesCount === 2 && note.number === 0) ||
-        (malodyNotesCount === 3 && note.number === 1) ||
-        (malodyNotesCount === 4 && note.number === 2) ||
-        (malodyNotesCount === 4 && note.number === 3) ||
-        (malodyNotesCount === 4 && note.number === 4) ||
-        (malodyNotesCount === 4 && note.number === 5) ||
-        (malodyNotesCount === 3 && note.number === 6) ||
-        (malodyNotesCount === 7 && note.number === 8) ||
-        (malodyNotesCount === 5 && note.number === 9)
-      ) {
-        malodyNotesCount = 0;
-      }
+      prevMelodyTone = note.note;
     }
+
+    window.note = window.note + 1;
   }, mainChords).start(0);
-
-  kickDrum = new Tone.MembraneSynth({
-    volume: -6,
-  }).toMaster();
-
-  kickPart = new Tone.Part(function (time, note) {
-    kickDrum.triggerAttackRelease("C1", "4n", time);
-  }, kicks).start(0);
-
-  const lowPass = new Tone.Filter({
-    frequency: 8000,
-  }).toMaster();
 
   function constructMelodyChords() {
     for (let i = 0; i < force.length; i++) {
-      defineMelodyChords(force[i]);
+      defineMelodyChords(force[i], seconds[i]);
     }
   }
 
-  const snareDrum = new Tone.NoiseSynth({
-    volume: -20,
-    noise: {
-      type: "white",
-      playbackRate: 3,
-    },
-    envelope: {
-      attack: 0.001,
-      decay: 0.2,
-      sustain: 0.15,
-      release: 0.03,
-    },
-  }).connect(lowPass);
+  function defineMelodyChords(value, seconds) {
+    let newVal = map(parseInt(value), 5, 40, 0, 12);
 
-  snarePart = new Tone.Part(function (time, note) {
-    snareDrum.triggerAttackRelease("4n", time);
-  }, snares).start(0);
-
-  function defineMelodyChords(value) {
-    // Set the rythm
-    let time = date.getSeconds();
-    let melodyNewVal = map(parseInt(value), 5, 40, 0, 5);
-    function mapTime(t) {
-      return map(t, 24, 443, 0, melodySpeed);
-    }
-
-    //  =================== SET THE RYTHM  ========================
-    // Refren je odredjen brojem nota ovde
-
-    if (melodyNewVal <= 0) {
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+    if (newVal < 1) {
       mainChords.push({
-        time: mapTime(melodyTimeoutID),
+        time: seconds,
         note: I,
+        duration: "4n",
+      });
+    } else if (newVal > 1.5 && newVal <= 2) {
+      mainChords.push({
+        time: seconds,
+        note: II,
+        duration: "4n",
+      });
+    } else if (newVal > 3 && newVal <= 4) {
+      mainChords.push({
+        time: seconds,
+        note: III,
+        duration: "4n",
+      });
+    } else if (newVal > 5 && newVal <= 6) {
+      mainChords.push({
+        time: seconds,
+        note: IV,
         duration: "2n",
-        number: 0,
       });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+    } else if (newVal > 7 && newVal <= 8) {
       mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: IV,
+        time: seconds,
+        note: V,
         duration: "4n",
-        number: 0,
       });
-    } else if (melodyNewVal > 0 && melodyNewVal <= 1) {
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+    } else if (newVal > 9 && newVal <= 10) {
       mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: I,
+        time: seconds,
+        note: VI,
         duration: "2n",
-        number: 1,
       });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
+    } else if (newVal > 11 && newVal <= 12) {
       mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: V,
-        duration: "8n",
-        number: 1,
+        time: seconds,
+        note: VII,
+        duration: "4n.",
       });
-    } else if (melodyNewVal > 1 && melodyNewVal <= 2) {
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
+    } else if (newVal > 12) {
       mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "6n",
-        number: 2,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: II,
-        duration: "4n",
-        number: 2,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "6n",
-        number: 2,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: I,
-        duration: "8n",
-        number: 2,
-      });
-    } else if (melodyNewVal > 2 && melodyNewVal <= 2.5) {
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "6n",
-        number: 3,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: V,
-        duration: "8n",
-        number: 3,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "6n",
-        number: 3,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: I,
-        duration: "4n",
-        number: 3,
-      });
-    } else if (melodyNewVal > 2.5 && melodyNewVal <= 3) {
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: IV,
-        duration: "4n",
-        number: 4,
-      });
-
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "8n",
-        number: 4,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: V,
-        duration: "6n",
-        number: 4,
-      });
-    } else if (melodyNewVal > 3 && melodyNewVal <= 3.5) {
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: I,
-        duration: "4n",
-        number: 5,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "4n",
-        number: 5,
-      });
-
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: IV,
-        duration: "4n",
-        number: 5,
-      });
-    } else if (melodyNewVal > 3.5 && melodyNewVal <= 4) {
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "6n",
-        number: 6,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: II,
-        duration: "8n",
-        number: 6,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "6n",
-        number: 6,
-      });
-    } else if (melodyNewVal > 4 && melodyNewVal <= 5) {
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: IV,
-        duration: "4n",
-        number: 6,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: V,
-        duration: "8n",
-        number: 8,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "4n",
-        number: 8,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: II,
-        duration: "4n",
-        number: 8,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: IV,
-        duration: "8n",
-        number: 8,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      snares.push(mapTime(melodyTimeoutID));
-
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: V,
-        duration: "16n",
-        number: 8,
-      });
-
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: IV,
-        duration: "8n",
-        number: 8,
-      });
-
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: I,
-        duration: "4n",
-        number: 8,
-      });
-    } else if (melodyNewVal > 5) {
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "4n",
-        number: 9,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: IV,
-        duration: "8n",
-        number: 9,
-      });
-
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      snares.push(mapTime(melodyTimeoutID));
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: V,
-        duration: "16n",
-        number: 9,
-      });
-
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      kicks.push(mapTime(melodyTimeoutID));
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: IV,
-        duration: "8n",
-        number: 9,
-      });
-      melodyTimeoutID = setTimeout(time, [song5Timeout]);
-      mainChords.push({
-        time: mapTime(melodyTimeoutID),
-        note: III,
-        duration: "4n",
-        number: 9,
+        time: seconds,
+        note: VIII,
+        duration: "4n.",
       });
     } else {
       return;

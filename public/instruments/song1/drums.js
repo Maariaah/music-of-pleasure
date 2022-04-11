@@ -13,16 +13,16 @@ let = prevKick = 0;
 function initializeDrums() {
   constructKicksAndSnares(gyroscopeY, seconds);
 
-  // ================== KICK 1 ==================
+// ================== KICK 1 ==================
 
   const kickDrum = new Tone.Sampler(
     {
-      A0: "./mp3/kick0.mp3",
-      A1: "./mp3/kick1.mp3",
-      A2: "./mp3/kick2.mp3",
-      A3: "./mp3/kick3.mp3",
-      A4: "./mp3/kick4.mp3",
-      A5: "./mp3/kick5.mp3",
+      A0: "./mp3/Song1/kick0.mp3",
+      A1: "./mp3/Song1/kick1.mp3",
+      A2: "./mp3/Song1/kick2.mp3",
+      A3: "./mp3/Song1/kick3.mp3",
+      A4: "./mp3/Song1/kick4.mp3",
+      A5: "./mp3/Song1/kick5.mp3",
     },
     {
       volume: 1,
@@ -31,8 +31,6 @@ function initializeDrums() {
 
   kickPart = new Tone.Part(function (time, note) {
     if (time > 26) {
-      console.log(note)
-      console.log(time);
       if (prevKick !== note.note) {
         kickDrum.triggerAttackRelease(note.note, note.duration, time);
         prevKick = note.note;
