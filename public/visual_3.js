@@ -11,8 +11,8 @@ const angle = 180;
 let energy;
 let size = 1.2;
 let yoff = 0.0;
-let strokeOpacity = 0.4;
-let fillOpacity = 0.01;
+let strokeOpacity = 0.6;
+let fillOpacity = 0.07;
 let prevRotateAngle = 0;
 let fqSmoothLevel = 7;
 
@@ -80,8 +80,8 @@ function drawWaveform() {
   beginShape();
   // define the shape opacity
   if (MIN_BREAK_POINT_HIT) {
-    fillOpacity = 0.03;
-    strokeOpacity = 0.05;
+    // fillOpacity = 0.03;
+    // strokeOpacity = 0.05;
     brightness = 80;
     size = 0.8
   } else if (AVG_BREAK_POINT_HIT) {
@@ -95,8 +95,8 @@ function drawWaveform() {
     size = 1
 
   } else if (HIGH_BREAK_POINT_HIT) {
-    fillOpacity = 0.08;
-    strokeOpacity = 0.7;
+    strokeOpacity = 0.4;
+    fillOpacity = 0.01;
     brightness = 10;
     size = 1.1
   }
